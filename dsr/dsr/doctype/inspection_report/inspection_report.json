@@ -1,4 +1,5 @@
 {
+ "autoname": "format:{shift}-{inspection_date}",
  "creation": "2019-09-08 13:41:42.191939",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -14,6 +15,7 @@
   "security_and_seals",
   "forecourt",
   "cleaning",
+  "column_break_11",
   "intersapter_and_draining_system",
   "tanks_and_underground_pipe_work",
   "dispensers",
@@ -21,11 +23,15 @@
   "cash_with_manager",
   "last_inspection_by",
   "last_inspection_date",
+  "section_break_18",
   "manager_name",
   "section_break_19",
   "inspection_report_tank",
   "section_break_21",
   "inspection_report_dispenser",
+  "section_break_25",
+  "comments",
+  "inspected_by",
   "amended_from"
  ],
  "fields": [
@@ -159,10 +165,32 @@
    "fieldtype": "Table",
    "label": "Inspection Report Dispenser",
    "options": "Inspection Report Dispenser"
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_25",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Text",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "inspected_by",
+   "fieldtype": "Signature",
+   "label": "Inspected By"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-08 13:59:13.287933",
+ "modified": "2019-09-08 14:10:22.563111",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report",
