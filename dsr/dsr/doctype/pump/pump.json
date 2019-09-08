@@ -1,0 +1,64 @@
+{
+ "autoname": "format:{pump_number}-{pump_type}",
+ "creation": "2019-09-07 17:06:08.309144",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pump_number",
+  "fuel_item",
+  "manufacturer",
+  "model_number",
+  "serial_number"
+ ],
+ "fields": [
+  {
+   "fieldname": "pump_number",
+   "fieldtype": "Data",
+   "label": "Pump Number"
+  },
+  {
+   "fieldname": "fuel_item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Fuel Item"
+  },
+  {
+   "fieldname": "manufacturer",
+   "fieldtype": "Data",
+   "label": "Manufacturer"
+  },
+  {
+   "fieldname": "model_number",
+   "fieldtype": "Data",
+   "label": "Model Number"
+  },
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Data",
+   "label": "Serial Number"
+  }
+ ],
+ "modified": "2019-09-08 13:55:09.884082",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Pump",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

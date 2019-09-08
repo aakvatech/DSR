@@ -1,0 +1,59 @@
+{
+ "creation": "2019-09-08 13:52:13.668316",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fuel_tank",
+  "tank_capacity",
+  "last_shift_dip_reading",
+  "current_dip_reading",
+  "difference"
+ ],
+ "fields": [
+  {
+   "fieldname": "fuel_tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Tank",
+   "options": "Fuel Tank"
+  },
+  {
+   "fetch_from": "fuel_tank.tank_capacity",
+   "fieldname": "tank_capacity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tank capacity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_shift_dip_reading",
+   "fieldtype": "Float",
+   "label": "Last Shift Dip Reading",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_dip_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Current Dip Reading"
+  },
+  {
+   "fieldname": "difference",
+   "fieldtype": "Float",
+   "label": "Difference",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-09-08 13:53:30.023851",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Inspection Report Tank",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

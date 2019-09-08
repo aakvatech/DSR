@@ -1,0 +1,58 @@
+{
+ "autoname": "field:fuel_item_name",
+ "creation": "2019-09-07 17:12:49.868389",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fuel_item_name",
+  "mera_wholesale_price",
+  "mera_retail_price",
+  "station_retail_price"
+ ],
+ "fields": [
+  {
+   "fieldname": "fuel_item_name",
+   "fieldtype": "Data",
+   "label": "Fuel Item Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "mera_wholesale_price",
+   "fieldtype": "Currency",
+   "label": "MERA Wholesale Price"
+  },
+  {
+   "fieldname": "mera_retail_price",
+   "fieldtype": "Currency",
+   "label": "MERA Retail Price"
+  },
+  {
+   "fieldname": "station_retail_price",
+   "fieldtype": "Currency",
+   "label": "Station Retail Price"
+  }
+ ],
+ "modified": "2019-09-07 17:30:22.749075",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Fuel Item",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

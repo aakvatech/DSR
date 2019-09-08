@@ -1,0 +1,187 @@
+{
+ "creation": "2019-09-08 13:41:42.191939",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "shift",
+  "inspection_date",
+  "audit_inspection_summary_section",
+  "reports",
+  "office",
+  "customer_service",
+  "signage",
+  "security_and_seals",
+  "forecourt",
+  "cleaning",
+  "intersapter_and_draining_system",
+  "tanks_and_underground_pipe_work",
+  "dispensers",
+  "cash_with_attendant",
+  "cash_with_manager",
+  "last_inspection_by",
+  "last_inspection_date",
+  "manager_name",
+  "section_break_19",
+  "inspection_report_tank",
+  "section_break_21",
+  "inspection_report_dispenser",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inspection Report",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "inspection_date",
+   "fieldtype": "Date",
+   "label": "Inspection Date"
+  },
+  {
+   "fieldname": "audit_inspection_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Inspection Summary"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "reports",
+   "fieldtype": "Data",
+   "label": "Reports"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "office",
+   "fieldtype": "Data",
+   "label": "Office"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "customer_service",
+   "fieldtype": "Data",
+   "label": "Customer Service"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "signage",
+   "fieldtype": "Data",
+   "label": "Signage"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "security_and_seals",
+   "fieldtype": "Data",
+   "label": "Security and Seals"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "forecourt",
+   "fieldtype": "Data",
+   "label": "Forecourt"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "cleaning",
+   "fieldtype": "Data",
+   "label": "Cleaning"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "intersapter_and_draining_system",
+   "fieldtype": "Data",
+   "label": "Intersapter and Draining System"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "tanks_and_underground_pipe_work",
+   "fieldtype": "Data",
+   "label": "Tanks and Underground Pipe Work"
+  },
+  {
+   "default": "Not OK",
+   "fieldname": "dispensers",
+   "fieldtype": "Data",
+   "label": "Dispensers"
+  },
+  {
+   "fieldname": "cash_with_attendant",
+   "fieldtype": "Currency",
+   "label": "Cash with attendant"
+  },
+  {
+   "fieldname": "cash_with_manager",
+   "fieldtype": "Currency",
+   "label": "Cash with manager"
+  },
+  {
+   "fieldname": "last_inspection_by",
+   "fieldtype": "Data",
+   "label": "Last Inspection By"
+  },
+  {
+   "fieldname": "last_inspection_date",
+   "fieldtype": "Date",
+   "label": "Last Inspection Date"
+  },
+  {
+   "fieldname": "manager_name",
+   "fieldtype": "Link",
+   "label": "Manager Name",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "inspection_report_tank",
+   "fieldtype": "Table",
+   "label": "Inspection Report Tank",
+   "options": "Inspection Report Tank"
+  },
+  {
+   "fieldname": "section_break_21",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "inspection_report_dispenser",
+   "fieldtype": "Table",
+   "label": "Inspection Report Dispenser",
+   "options": "Inspection Report Dispenser"
+  }
+ ],
+ "is_submittable": 1,
+ "modified": "2019-09-08 13:59:13.287933",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Inspection Report",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

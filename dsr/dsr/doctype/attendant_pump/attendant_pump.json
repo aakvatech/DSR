@@ -1,0 +1,66 @@
+{
+ "autoname": "format:{date}-{attendant}-{pump}",
+ "creation": "2019-09-07 17:11:04.632034",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "attendant",
+  "pump",
+  "cash_deposited",
+  "cash_to_be_deposited"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "attendant",
+   "fieldtype": "Link",
+   "label": "Attendant",
+   "options": "Attendant"
+  },
+  {
+   "fieldname": "pump",
+   "fieldtype": "Link",
+   "label": "Pump",
+   "options": "Pump"
+  },
+  {
+   "fieldname": "cash_deposited",
+   "fieldtype": "Currency",
+   "label": "Cash deposited"
+  },
+  {
+   "fieldname": "cash_to_be_deposited",
+   "fieldtype": "Currency",
+   "label": "Cash to be deposited"
+  }
+ ],
+ "modified": "2019-09-07 17:29:42.537305",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Attendant Pump",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

@@ -1,0 +1,90 @@
+{
+ "autoname": "format:{date}-{station_shift}-{truck_no}",
+ "creation": "2019-09-07 17:59:50.366429",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "shift",
+  "truck_no",
+  "delivery_note",
+  "fuel_item",
+  "quantity_as_per_dn",
+  "actual_quantity",
+  "fuel_shortage",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "truck_no",
+   "fieldtype": "Data",
+   "label": "Truck No"
+  },
+  {
+   "fieldname": "delivery_note",
+   "fieldtype": "Data",
+   "label": "Delivery Note"
+  },
+  {
+   "fieldname": "fuel_item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Fuel Item"
+  },
+  {
+   "fieldname": "quantity_as_per_dn",
+   "fieldtype": "Float",
+   "label": "Quantity as per DN"
+  },
+  {
+   "fieldname": "actual_quantity",
+   "fieldtype": "Float",
+   "label": "Actual Quantity"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Fuel Stock Receipts",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "fuel_shortage",
+   "fieldtype": "Float",
+   "label": "Fuel Shortage",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift"
+  }
+ ],
+ "is_submittable": 1,
+ "modified": "2019-09-08 13:33:53.788225",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Fuel Stock Receipts",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

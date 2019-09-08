@@ -1,0 +1,82 @@
+{
+ "creation": "2019-09-08 13:55:56.120773",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pump",
+  "fuel_item",
+  "manufacturer",
+  "model_number",
+  "serial_number",
+  "last_reading",
+  "current_reading",
+  "difference"
+ ],
+ "fields": [
+  {
+   "fieldname": "pump",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Pump",
+   "options": "Pump"
+  },
+  {
+   "fetch_from": "pump.fuel_item",
+   "fieldname": "fuel_item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Fuel Item"
+  },
+  {
+   "fetch_from": "pump.manufacturer",
+   "fieldname": "manufacturer",
+   "fieldtype": "Data",
+   "label": "Manufacturer",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "pump.model_number",
+   "fieldname": "model_number",
+   "fieldtype": "Data",
+   "label": "Model Number",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "pump.serial_number",
+   "fieldname": "serial_number",
+   "fieldtype": "Data",
+   "label": "Serial Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_reading",
+   "fieldtype": "Float",
+   "label": "Last Reading",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Current Reading"
+  },
+  {
+   "fieldname": "difference",
+   "fieldtype": "Float",
+   "label": "Difference",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-09-08 14:03:26.783399",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Inspection Report Dispenser",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
