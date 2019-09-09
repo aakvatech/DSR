@@ -27,7 +27,7 @@
    "label": "Shift To"
   }
  ],
- "modified": "2019-09-07 17:16:02.362984",
+ "modified": "2019-09-09 09:40:09.602928",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Station Shift",
@@ -47,7 +47,7 @@
   }
  ],
  "quick_entry": 1,
- "sort_field": "modified",
+ "sort_field": "shift_name",
  "sort_order": "DESC",
  "track_changes": 1
 }

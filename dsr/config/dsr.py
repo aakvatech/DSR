@@ -55,6 +55,11 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Shift",
+					"onboard": 0,
+				},
+				{
+					"type": "doctype",
 					"name": "Inspection Report",
 					"onboard": 0,
 				},
