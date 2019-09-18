@@ -5,29 +5,49 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
   "tank_number",
   "fuel_item",
-  "tank_capacity"
+  "tank_capacity",
+  "fuel_tank_calibrations"
  ],
  "fields": [
   {
    "fieldname": "tank_number",
    "fieldtype": "Data",
-   "label": "Tank Number"
+   "label": "Tank Number",
+   "reqd": 1
   },
   {
    "fieldname": "fuel_item",
    "fieldtype": "Link",
    "label": "Fuel Item",
-   "options": "Fuel Item"
+   "options": "Fuel Item",
+   "reqd": 1
   },
   {
    "fieldname": "tank_capacity",
    "fieldtype": "Float",
-   "label": "Tank Capacity"
+   "label": "Tank Capacity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_tank_calibrations",
+   "fieldtype": "Table",
+   "label": "Fuel Tank Calibrations",
+   "options": "Fuel Tank Calibration",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Station",
+   "options": "Fuel Station",
+   "reqd": 1
   }
  ],
- "modified": "2019-09-08 13:51:57.998051",
+ "modified": "2019-09-14 13:50:31.669722",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",

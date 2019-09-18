@@ -5,6 +5,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
   "pump_number",
   "fuel_item",
   "manufacturer",
@@ -37,9 +38,15 @@
    "fieldname": "serial_number",
    "fieldtype": "Data",
    "label": "Serial Number"
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "label": "Fuel Station",
+   "options": "Fuel Station"
   }
  ],
- "modified": "2019-09-08 13:55:09.884082",
+ "modified": "2019-09-14 11:40:54.254533",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",

@@ -5,6 +5,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
+  "date",
   "shift",
   "credit_customer",
   "collection_type",
@@ -17,7 +19,8 @@
    "fieldname": "credit_customer",
    "fieldtype": "Link",
    "label": "Credit Customer",
-   "options": "Credit Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "fieldname": "collection_type",
@@ -50,11 +53,26 @@
    "fieldname": "shift",
    "fieldtype": "Link",
    "label": "Shift",
-   "options": "Shift"
+   "options": "Shift",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "label": "Fuel Station",
+   "options": "Fuel Station",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-08 13:34:09.257762",
+ "modified": "2019-09-14 16:07:41.334416",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales Collection",
@@ -73,7 +91,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

@@ -1,0 +1,37 @@
+{
+ "creation": "2019-09-13 18:52:45.309810",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "milimeters",
+  "litres"
+ ],
+ "fields": [
+  {
+   "fieldname": "milimeters",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Milimeters",
+   "reqd": 1
+  },
+  {
+   "fieldname": "litres",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Litres",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-09-13 18:53:04.390088",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Fuel Tank Calibration",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

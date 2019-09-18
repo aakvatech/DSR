@@ -5,6 +5,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
   "shift",
   "inspection_date",
   "audit_inspection_summary_section",
@@ -38,8 +39,10 @@
   {
    "fieldname": "shift",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Shift",
-   "options": "Shift"
+   "options": "Shift",
+   "reqd": 1
   },
   {
    "fieldname": "amended_from",
@@ -53,7 +56,9 @@
   {
    "fieldname": "inspection_date",
    "fieldtype": "Date",
-   "label": "Inspection Date"
+   "in_list_view": 1,
+   "label": "Inspection Date",
+   "reqd": 1
   },
   {
    "fieldname": "audit_inspection_summary_section",
@@ -64,87 +69,103 @@
    "default": "Not OK",
    "fieldname": "reports",
    "fieldtype": "Data",
-   "label": "Reports"
+   "in_list_view": 1,
+   "label": "Reports",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "office",
    "fieldtype": "Data",
-   "label": "Office"
+   "label": "Office",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "customer_service",
    "fieldtype": "Data",
-   "label": "Customer Service"
+   "label": "Customer Service",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "signage",
    "fieldtype": "Data",
-   "label": "Signage"
+   "label": "Signage",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "security_and_seals",
    "fieldtype": "Data",
-   "label": "Security and Seals"
+   "label": "Security and Seals",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "forecourt",
    "fieldtype": "Data",
-   "label": "Forecourt"
+   "label": "Forecourt",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "cleaning",
    "fieldtype": "Data",
-   "label": "Cleaning"
+   "label": "Cleaning",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "intersapter_and_draining_system",
    "fieldtype": "Data",
-   "label": "Intersapter and Draining System"
+   "label": "Intersapter and Draining System",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "tanks_and_underground_pipe_work",
    "fieldtype": "Data",
-   "label": "Tanks and Underground Pipe Work"
+   "label": "Tanks and Underground Pipe Work",
+   "reqd": 1
   },
   {
    "default": "Not OK",
    "fieldname": "dispensers",
    "fieldtype": "Data",
-   "label": "Dispensers"
+   "label": "Dispensers",
+   "reqd": 1
   },
   {
    "fieldname": "cash_with_attendant",
    "fieldtype": "Currency",
-   "label": "Cash with attendant"
+   "label": "Cash with attendant",
+   "reqd": 1
   },
   {
    "fieldname": "cash_with_manager",
    "fieldtype": "Currency",
-   "label": "Cash with manager"
+   "label": "Cash with manager",
+   "reqd": 1
   },
   {
    "fieldname": "last_inspection_by",
    "fieldtype": "Data",
-   "label": "Last Inspection By"
+   "label": "Last Inspection By",
+   "reqd": 1
   },
   {
    "fieldname": "last_inspection_date",
    "fieldtype": "Date",
-   "label": "Last Inspection Date"
+   "label": "Last Inspection Date",
+   "reqd": 1
   },
   {
    "fieldname": "manager_name",
    "fieldtype": "Link",
    "label": "Manager Name",
-   "options": "Contact"
+   "options": "Contact",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_19",
@@ -154,7 +175,8 @@
    "fieldname": "inspection_report_tank",
    "fieldtype": "Table",
    "label": "Inspection Report Tank",
-   "options": "Inspection Report Tank"
+   "options": "Inspection Report Tank",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_21",
@@ -164,7 +186,8 @@
    "fieldname": "inspection_report_dispenser",
    "fieldtype": "Table",
    "label": "Inspection Report Dispenser",
-   "options": "Inspection Report Dispenser"
+   "options": "Inspection Report Dispenser",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_18",
@@ -187,10 +210,18 @@
    "fieldname": "inspected_by",
    "fieldtype": "Signature",
    "label": "Inspected By"
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Station",
+   "options": "Fuel Station",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-08 14:10:22.563111",
+ "modified": "2019-09-14 12:02:23.580499",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report",

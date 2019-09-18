@@ -1,0 +1,70 @@
+{
+ "creation": "2019-09-14 13:39:38.523252",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "compartment_no",
+  "fuel_tank",
+  "before_mm",
+  "before_ltrs",
+  "after_mm",
+  "after_ltrs",
+  "difference_ltrs"
+ ],
+ "fields": [
+  {
+   "fieldname": "before_mm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Before mm"
+  },
+  {
+   "fieldname": "before_ltrs",
+   "fieldtype": "Float",
+   "label": "Before ltrs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "after_mm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "After mm"
+  },
+  {
+   "fieldname": "after_ltrs",
+   "fieldtype": "Float",
+   "label": "After ltrs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "difference_ltrs",
+   "fieldtype": "Float",
+   "label": "Difference ltrs"
+  },
+  {
+   "fieldname": "fuel_tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Tank",
+   "options": "Fuel Tank"
+  },
+  {
+   "fieldname": "compartment_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Compartment No"
+  }
+ ],
+ "istable": 1,
+ "modified": "2019-09-16 18:25:40.321657",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Fuel Stock Receipt Tanks",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

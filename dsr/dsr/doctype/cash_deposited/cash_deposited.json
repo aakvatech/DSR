@@ -5,8 +5,11 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
+  "date",
   "shift",
   "name_of_bank",
+  "credit_sales_reference",
   "amount",
   "amended_from"
  ],
@@ -41,10 +44,30 @@
    "label": "Shift",
    "options": "Shift",
    "reqd": 1
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "label": "Fuel Station",
+   "options": "Fuel Station",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "credit_sales_reference",
+   "fieldtype": "Link",
+   "label": "Credit Sales Reference",
+   "options": "Credit Sales"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-08 13:34:23.830086",
+ "modified": "2019-09-14 16:10:59.130722",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

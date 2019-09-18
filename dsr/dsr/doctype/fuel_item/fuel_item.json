@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "fuel_item_name",
+  "item",
   "mera_wholesale_price",
   "mera_retail_price",
   "station_retail_price"
@@ -15,25 +16,37 @@
    "fieldname": "fuel_item_name",
    "fieldtype": "Data",
    "label": "Fuel Item Name",
+   "reqd": 1,
    "unique": 1
   },
   {
    "fieldname": "mera_wholesale_price",
    "fieldtype": "Currency",
-   "label": "MERA Wholesale Price"
+   "label": "MERA Wholesale Price",
+   "reqd": 1
   },
   {
    "fieldname": "mera_retail_price",
    "fieldtype": "Currency",
-   "label": "MERA Retail Price"
+   "label": "MERA Retail Price",
+   "reqd": 1
   },
   {
    "fieldname": "station_retail_price",
    "fieldtype": "Currency",
-   "label": "Station Retail Price"
+   "label": "Station Retail Price",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
   }
  ],
- "modified": "2019-09-07 17:30:22.749075",
+ "modified": "2019-09-14 15:18:15.771169",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Item",

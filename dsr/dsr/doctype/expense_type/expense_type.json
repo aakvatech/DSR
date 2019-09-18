@@ -5,7 +5,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "expense_type"
+  "expense_type",
+  "expense_account"
  ],
  "fields": [
   {
@@ -13,9 +14,15 @@
    "fieldtype": "Data",
    "label": "Expense Type",
    "unique": 1
+  },
+  {
+   "fieldname": "expense_account",
+   "fieldtype": "Link",
+   "label": "Expense Account",
+   "options": "Account"
   }
  ],
- "modified": "2019-09-07 17:48:00.616099",
+ "modified": "2019-09-14 16:03:45.838631",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Type",

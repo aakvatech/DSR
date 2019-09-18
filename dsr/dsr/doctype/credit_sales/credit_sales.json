@@ -4,13 +4,16 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
   "date",
+  "shift",
   "credit_customer",
   "lpo",
   "vehicle_number",
   "pump",
   "fuel_item",
-  "quantity"
+  "quantity",
+  "amount"
  ],
  "fields": [
   {
@@ -26,7 +29,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Credit Customer",
-   "options": "Credit Customer",
+   "options": "Customer",
    "reqd": 1
   },
   {
@@ -63,9 +66,28 @@
    "fieldtype": "Float",
    "label": "Quantity",
    "reqd": 1
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "label": "Fuel Station",
+   "options": "Fuel Station",
+   "reqd": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount"
   }
  ],
- "modified": "2019-09-08 13:39:58.646183",
+ "modified": "2019-09-14 16:05:26.756670",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",
@@ -84,7 +106,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

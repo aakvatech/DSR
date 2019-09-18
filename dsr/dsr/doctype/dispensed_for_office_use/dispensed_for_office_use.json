@@ -5,20 +5,26 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
   "date",
   "description",
   "lpo",
+  "other_station_credit",
   "vehicle_number",
-  "fuel_item",
   "pump",
+  "fuel_item",
   "quantity",
+  "amount",
   "amended_from"
  ],
  "fields": [
   {
+   "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
-   "label": "Date"
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
   },
   {
    "fieldname": "description",
@@ -33,24 +39,31 @@
   {
    "fieldname": "vehicle_number",
    "fieldtype": "Data",
-   "label": "Vehicle Number"
+   "in_list_view": 1,
+   "label": "Vehicle Number",
+   "reqd": 1
   },
   {
+   "fetch_from": "pump.fuel_item",
    "fieldname": "fuel_item",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Fuel Item",
-   "options": "Fuel Item"
+   "options": "Fuel Item",
+   "reqd": 1
   },
   {
    "fieldname": "pump",
    "fieldtype": "Link",
    "label": "Pump",
-   "options": "Pump"
+   "options": "Pump",
+   "reqd": 1
   },
   {
    "fieldname": "quantity",
    "fieldtype": "Float",
-   "label": "Quantity"
+   "label": "Quantity",
+   "reqd": 1
   },
   {
    "fieldname": "amended_from",
@@ -60,10 +73,31 @@
    "options": "Dispensed for Office Use",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel Station",
+   "options": "Fuel Station",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "other_station_credit",
+   "fieldtype": "Link",
+   "label": "Other Station Credit",
+   "options": "Other Station Credit"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-07 17:29:21.138157",
+ "modified": "2019-09-14 15:16:35.203424",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dispensed for Office Use",
@@ -82,7 +116,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

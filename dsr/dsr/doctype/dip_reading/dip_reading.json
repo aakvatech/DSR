@@ -5,7 +5,6 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "shift",
   "fuel_tank",
   "opening_mm",
   "opening_liters",
@@ -23,57 +22,40 @@
   },
   {
    "fieldname": "opening_mm",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Opening mm",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "opening_liters",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "hidden": 1,
-   "label": "Opening liters"
+   "in_list_view": 1,
+   "label": "Opening liters",
+   "read_only": 1
   },
   {
    "fieldname": "closing_mm",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Closing mm"
   },
   {
    "fieldname": "closing_liters",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "hidden": 1,
-   "label": "Closing liters"
-  },
-  {
-   "fieldname": "shift",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Shift",
-   "options": "Shift",
-   "reqd": 1
+   "label": "Closing liters",
+   "read_only": 1
   }
  ],
- "modified": "2019-09-08 13:35:13.507530",
+ "istable": 1,
+ "modified": "2019-09-14 12:15:35.861268",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dip Reading",
  "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
- "quick_entry": 1,
+ "permissions": [],
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1

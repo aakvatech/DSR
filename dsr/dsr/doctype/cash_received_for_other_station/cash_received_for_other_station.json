@@ -1,0 +1,107 @@
+{
+ "creation": "2019-09-14 11:48:21.025074",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fuel_station",
+  "date",
+  "customer",
+  "for_fuel_station",
+  "total_quantity",
+  "total_amount",
+  "attendant",
+  "section_break_6",
+  "other_station_credit",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "label": "Fuel Station",
+   "options": "Fuel Station"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "for_fuel_station",
+   "fieldtype": "Link",
+   "label": "For Fuel Station",
+   "options": "Fuel Station"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Cash Received For Other Station",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "attendant",
+   "fieldtype": "Link",
+   "label": "Attendant",
+   "options": "Attendant"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "other_station_credit",
+   "fieldtype": "Table",
+   "label": "Other Station Credit",
+   "options": "Other Station Credit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "label": "Total Quantity",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "modified": "2019-09-14 16:05:09.873676",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Cash Received For Other Station",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
