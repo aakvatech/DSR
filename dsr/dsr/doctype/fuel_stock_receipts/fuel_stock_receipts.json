@@ -1,5 +1,5 @@
 {
- "autoname": "format:{shift}-{truck_no}",
+ "autoname": "format:FSR-{shift}-{###}",
  "creation": "2019-09-07 17:59:50.366429",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -90,7 +90,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-09 00:14:42.913840",
+ "modified": "2019-10-09 00:24:32.738926",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

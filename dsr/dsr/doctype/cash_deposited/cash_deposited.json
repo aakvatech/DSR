@@ -1,5 +1,5 @@
 {
- "autoname": "format:{date}-{shift}-{###}",
+ "autoname": "format:CD-{shift}-{###}",
  "creation": "2019-09-07 17:55:51.683139",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -67,7 +67,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-09 00:18:14.477393",
+ "modified": "2019-10-09 00:23:13.069746",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

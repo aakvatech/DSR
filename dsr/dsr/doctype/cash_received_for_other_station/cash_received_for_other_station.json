@@ -1,11 +1,13 @@
 {
+ "autoname": "format:CRO-{shift}-{###}",
  "creation": "2019-09-14 11:48:21.025074",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "fuel_station",
   "date",
+  "shift",
+  "fuel_station",
   "customer",
   "for_fuel_station",
   "total_quantity",
@@ -79,10 +81,16 @@
    "fieldtype": "Float",
    "label": "Total Quantity",
    "read_only": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-14 16:05:09.873676",
+ "modified": "2019-10-09 00:28:00.679437",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Received For Other Station",
