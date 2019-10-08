@@ -150,8 +150,9 @@
   },
   {
    "fieldname": "last_inspection_by",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Last Inspection By",
+   "options": "User",
    "reqd": 1
   },
   {
@@ -161,10 +162,11 @@
    "reqd": 1
   },
   {
+   "fetch_from": "fuel_station.station_manager",
    "fieldname": "manager_name",
    "fieldtype": "Link",
    "label": "Manager Name",
-   "options": "Contact",
+   "options": "User",
    "reqd": 1
   },
   {
@@ -221,7 +223,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-14 12:02:23.580499",
+ "modified": "2019-10-07 12:24:11.553279",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report",

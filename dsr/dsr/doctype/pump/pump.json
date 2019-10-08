@@ -1,5 +1,5 @@
 {
- "autoname": "format:{pump_number}-{pump_type}",
+ "autoname": "format:{pump_number}-{fuel_item}-{fuel_station}",
  "creation": "2019-09-07 17:06:08.309144",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -46,7 +46,7 @@
    "options": "Fuel Station"
   }
  ],
- "modified": "2019-09-14 11:40:54.254533",
+ "modified": "2019-10-07 12:02:00.622531",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",
