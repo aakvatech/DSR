@@ -1,5 +1,5 @@
 {
- "autoname": "format:{date}-{station_shift}-{expense_type}",
+ "autoname": "format:{date}-{shift}-{expense_type}-{###}",
  "creation": "2019-09-07 17:49:31.343177",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -72,7 +72,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-14 16:02:46.155234",
+ "modified": "2019-10-09 00:18:54.457407",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",

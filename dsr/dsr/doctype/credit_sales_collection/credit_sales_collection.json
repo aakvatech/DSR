@@ -1,5 +1,5 @@
 {
- "autoname": "format:{date}-{station_shift}-{credit_customer}-{#####}",
+ "autoname": "format:{date}-{shift}-{credit_customer}-{#####}",
  "creation": "2019-09-07 18:02:48.308498",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -72,7 +72,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-09-14 16:07:41.334416",
+ "modified": "2019-10-09 00:18:24.818830",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales Collection",
