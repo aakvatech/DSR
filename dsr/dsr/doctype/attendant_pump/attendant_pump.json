@@ -8,7 +8,8 @@
   "attendant",
   "pump",
   "cash_deposited",
-  "cash_to_be_deposited"
+  "cash_to_be_deposited",
+  "cash_shortage"
  ],
  "fields": [
   {
@@ -39,10 +40,16 @@
    "in_list_view": 1,
    "label": "Cash to be deposited",
    "read_only": 1
+  },
+  {
+   "fieldname": "cash_shortage",
+   "fieldtype": "Currency",
+   "label": "Cash Shortage",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2019-09-14 12:20:50.174752",
+ "modified": "2019-10-08 18:09:30.947600",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Attendant Pump",

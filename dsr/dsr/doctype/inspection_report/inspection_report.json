@@ -214,16 +214,18 @@
    "label": "Inspected By"
   },
   {
+   "fetch_from": "shift.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
+   "read_only": 1,
    "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-07 12:24:11.553279",
+ "modified": "2019-10-08 23:56:57.405092",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report",

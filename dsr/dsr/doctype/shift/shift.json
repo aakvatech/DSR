@@ -1,5 +1,5 @@
 {
- "autoname": "format:{date}-{station_shift}",
+ "autoname": "format:{date}-{shift_name}-{fuel_station}",
  "creation": "2019-09-08 13:28:51.522901",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -112,7 +112,7 @@
    "reqd": 1
   }
  ],
- "modified": "2019-09-14 16:50:35.285204",
+ "modified": "2019-10-08 12:09:35.269907",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",
