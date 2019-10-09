@@ -6,7 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "attendant_name",
-  "employee"
+  "employee",
+  "fuel_station"
  ],
  "fields": [
   {
@@ -18,9 +19,15 @@
    "fieldname": "employee",
    "fieldtype": "Data",
    "label": "Employee"
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "label": "Fuel Station",
+   "options": "Fuel Station"
   }
  ],
- "modified": "2019-09-07 17:10:04.335088",
+ "modified": "2019-10-09 19:56:05.689753",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Attendant",
