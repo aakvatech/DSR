@@ -1,5 +1,5 @@
 {
- "autoname": "format:{fuel_item}-{tank_number}",
+ "autoname": "format:{fuel_item}-{tank_number}-{fuel_station}",
  "creation": "2019-09-07 17:52:20.559334",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -47,7 +47,7 @@
    "reqd": 1
   }
  ],
- "modified": "2019-09-14 13:50:31.669722",
+ "modified": "2019-10-09 07:12:14.578304",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",

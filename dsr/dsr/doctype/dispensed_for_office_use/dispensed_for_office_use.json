@@ -87,8 +87,7 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "label": "Amount",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "other_station_credit",
@@ -104,7 +103,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-09 00:28:24.068142",
+ "modified": "2019-10-09 00:33:54.218377",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dispensed for Office Use",
