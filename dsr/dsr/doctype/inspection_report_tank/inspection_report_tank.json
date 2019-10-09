@@ -8,6 +8,7 @@
   "tank_capacity",
   "last_shift_dip_reading",
   "current_dip_reading",
+  "current_ltrs",
   "difference"
  ],
  "fields": [
@@ -43,10 +44,16 @@
    "fieldtype": "Float",
    "label": "Difference",
    "read_only": 1
+  },
+  {
+   "fieldname": "current_ltrs",
+   "fieldtype": "Float",
+   "label": "Current ltrs",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2019-09-08 13:53:30.023851",
+ "modified": "2019-10-09 12:59:11.202584",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report Tank",

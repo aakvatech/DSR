@@ -6,7 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "account",
-  "ledger"
+  "ledger",
+  "subledger"
  ],
  "fields": [
   {
@@ -23,9 +24,16 @@
    "in_list_view": 1,
    "label": "Ledger",
    "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "subledger",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Subledger"
   }
  ],
- "modified": "2019-10-09 08:03:51.281870",
+ "modified": "2019-10-09 10:39:55.532835",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Tally Integration",
