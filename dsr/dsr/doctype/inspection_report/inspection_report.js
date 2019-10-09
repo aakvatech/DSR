@@ -80,10 +80,7 @@ frappe.ui.form.on('Inspection Report', {
 	    }
 	},
 	shift:function(frm,cdt,cdn){
-		frappe.model.set_value(cdt,cdn,"fuel_station",'');
-		frm.clear_table("inspection_report_tank");
-		frm.clear_table("inspection_report_dispenser");
-
+			frappe.model.set_value(cdt,cdn,"fuel_station",'');
 
 	}
 });

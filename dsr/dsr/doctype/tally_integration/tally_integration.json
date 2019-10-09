@@ -12,6 +12,7 @@
   {
    "fieldname": "account",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Account",
    "options": "Account"
   },
@@ -19,11 +20,12 @@
    "description": "Tally Ledger",
    "fieldname": "ledger",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Ledger",
    "unique": 1
   }
  ],
- "modified": "2019-10-09 08:01:45.651033",
+ "modified": "2019-10-09 08:03:51.281870",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Tally Integration",
