@@ -93,7 +93,13 @@ def get_data():
 					"name": "Fuel Station",
 					"onboard": 1,
 				},
+				{
+					"type": "doctype",
+					"name": "Tally Integration",
+					"onboard": 1,
+				},
 			]
+			
 		},
 		{
 			"label": _("Reports"),

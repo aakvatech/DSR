@@ -1,0 +1,46 @@
+{
+ "creation": "2019-10-09 07:53:02.555595",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "account",
+  "ledger"
+ ],
+ "fields": [
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "label": "Account",
+   "options": "Account"
+  },
+  {
+   "description": "Tally Ledger",
+   "fieldname": "ledger",
+   "fieldtype": "Data",
+   "label": "Ledger"
+  }
+ ],
+ "modified": "2019-10-09 07:53:02.555595",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Tally Integration",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
