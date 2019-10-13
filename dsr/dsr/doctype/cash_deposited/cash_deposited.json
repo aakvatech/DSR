@@ -5,12 +5,16 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "fuel_station",
-  "date",
   "shift",
+  "fuel_station",
+  "column_break_3",
+  "date",
+  "section_break_5",
   "name_of_bank",
   "credit_sales_reference",
+  "column_break_8",
   "amount",
+  "section_break_10",
   "amended_from"
  ],
  "fields": [
@@ -64,10 +68,26 @@
    "fieldtype": "Link",
    "label": "Credit Sales Reference",
    "options": "Credit Sales"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-09 00:23:13.069746",
+ "modified": "2019-10-13 14:57:51.118412",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

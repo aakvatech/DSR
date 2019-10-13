@@ -7,8 +7,10 @@
  "field_order": [
   "fuel_station",
   "tank_number",
+  "column_break_3",
   "fuel_item",
   "tank_capacity",
+  "section_break_6",
   "fuel_tank_calibrations"
  ],
  "fields": [
@@ -45,9 +47,17 @@
    "label": "Fuel Station",
    "options": "Fuel Station",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
   }
  ],
- "modified": "2019-10-09 07:12:14.578304",
+ "modified": "2019-10-13 14:56:07.199448",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",
