@@ -1,12 +1,10 @@
 [
  {
   "add_total_row": 0,
-  "color": null,
   "disable_prepared_report": 0,
   "disabled": 0,
   "docstatus": 0,
   "doctype": "Report",
-  "icon": null,
   "is_standard": "No",
   "javascript": null,
   "json": "{\"filters\":[],\"fields\":[[\"name\",\"Pump\"],[\"fuel_station\",\"Pump\"],[\"pump_number\",\"Pump\"],[\"fuel_item\",\"Pump\"],[\"docstatus\",\"Pump\"],[\"manufacturer\",\"Pump\"],[\"serial_number\",\"Pump\"],[\"model_number\",\"Pump\"]],\"order_by\":\"`tabPump`.`name` asc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"fuel_station\":120,\"pump_number\":120,\"fuel_item\":120,\"manufacturer\":120,\"serial_number\":120,\"model_number\":120},\"group_by\":null}",
@@ -22,6 +20,7 @@
   "ref_doctype": "Pump",
   "reference_report": null,
   "report_name": "Update Manufacturer and Model",
+  "report_script": null,
   "report_type": "Report Builder",
   "roles": [
    {
@@ -46,12 +45,10 @@
  },
  {
   "add_total_row": 1,
-  "color": null,
   "disable_prepared_report": 0,
   "disabled": 0,
   "docstatus": 0,
   "doctype": "Report",
-  "icon": null,
   "is_standard": "No",
   "javascript": null,
   "json": "{\"filters\":[],\"fields\":[[\"name\",\"Credit Sales\"],[\"date\",\"Credit Sales\"],[\"credit_customer\",\"Credit Sales\"],[\"lpo\",\"Credit Sales\"],[\"other_station_cash_record\",\"Credit Sales\"],[\"docstatus\",\"Credit Sales\"],[\"pump\",\"Credit Sales\"],[\"fuel_item\",\"Credit Sales\"],[\"quantity\",\"Credit Sales\"],[\"amount\",\"Credit Sales\"],[\"fuel_station\",\"Credit Sales\"]],\"order_by\":\"`tabCredit Sales`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"date\":120,\"credit_customer\":120,\"lpo\":120,\"other_station_cash_record\":120,\"pump\":120,\"fuel_item\":120,\"quantity\":120,\"amount\":120,\"fuel_station\":120},\"group_by\":null}",
@@ -67,6 +64,7 @@
   "ref_doctype": "Credit Sales",
   "reference_report": null,
   "report_name": "Invoice Breakdown",
+  "report_script": null,
   "report_type": "Report Builder",
   "roles": [
    {
