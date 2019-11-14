@@ -1,26 +1,30 @@
 {
+ "autoname": "format:{truck_number}-{fuel_item}-{quantity}-{#####}",
  "creation": "2019-09-14 13:08:23.178265",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "truck_number",
+  "fuel_item",
   "quantity",
   "rate",
   "amount",
-  "description"
+  "description",
+  "balance_qty"
  ],
  "fields": [
   {
    "fieldname": "truck_number",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Truck Number",
+   "options": "Vehicle",
    "reqd": 1
   },
   {
    "fieldname": "quantity",
-   "fieldtype": "Data",
+   "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Quantity",
    "reqd": 1
@@ -44,10 +48,23 @@
    "fieldname": "description",
    "fieldtype": "Data",
    "label": "Description"
+  },
+  {
+   "fieldname": "fuel_item",
+   "fieldtype": "Link",
+   "label": "Fuel Item",
+   "options": "Fuel Item"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "balance_qty",
+   "fieldtype": "Float",
+   "label": "Balance Qty",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2019-10-09 00:26:29.990668",
+ "modified": "2019-11-07 22:20:36.052134",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Other Station Credit",

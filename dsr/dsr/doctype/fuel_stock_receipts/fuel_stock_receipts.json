@@ -74,6 +74,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "shift.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -120,7 +121,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-13 14:52:32.405247",
+ "modified": "2019-11-09 22:27:00.337421",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",
@@ -136,6 +137,31 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

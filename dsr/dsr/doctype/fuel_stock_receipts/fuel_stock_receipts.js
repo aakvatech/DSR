@@ -4,66 +4,17 @@
 frappe.ui.form.on('Fuel Stock Receipts', {
 	onload: function(frm,cdt,cdn) {
         if(frm.doc.__islocal){
-    		frappe.call({
-    			method: "frappe.client.get_list",
-    			args: {
-    				doctype: "Shift",
-    				fields: ["name","fuel_station"],
-    				order_by: "creation desc",
-    				limit_page_length: 1
-					},
-				async: false,
-    			callback: function (r) {
-    			    if(r.message){
-						console.log(r.message)
-    				    frappe.model.set_value(cdt,cdn,"shift",r.message[0].name)
-    				    frappe.model.set_value(cdt,cdn,"fuel_station",r.message[0].fuel_station)
-
-    				}
-    			}
-			});  
+			auto_shift_selection(frm,cdt,cdn)
         }
 	},
 	fuel_station:function(frm,cdt,cdn){
-		var doc = locals[cdt][cdn];
-	    if(doc.fuel_station){
-	        frappe.call({
-	            method:"frappe.client.get_list",
-	            args:{
-	                doctype:'Fuel Tank',
-	                filters:{'fuel_station':doc.fuel_station,'fuel_item':doc.fuel_item},
-	                fields:["name"]
-				},
-				async: false,
-	            callback:function(r){
-					frm.clear_table("fuel_stock_receipt_tanks");
-	                r.message.forEach(d => {
-                        var child = frm.add_child("fuel_stock_receipt_tanks")
-                        frappe.model.set_value(child.doctype,child.name,"fuel_tank",d.name);	                })
-	                refresh_field("fuel_stock_receipt_tanks");
-	            }
-			})
+	    if(frm.doc.fuel_station){
+			get_fuel_tank(frm,cdt,cdn)
 		}
 	},
 	fuel_item:function(frm,cdt,cdn){
-		var doc = locals[cdt][cdn];
-	    if(doc.fuel_item){
-	        frappe.call({
-	            method:"frappe.client.get_list",
-	            args:{
-	                doctype:'Fuel Tank',
-	                filters:{'fuel_station':doc.fuel_station,'fuel_item':doc.fuel_item},
-	                fields:["name"]
-				},
-				async: false,
-	            callback:function(r){
-					frm.clear_table("fuel_stock_receipt_tanks");
-	                r.message.forEach(d => {
-                        var child = frm.add_child("fuel_stock_receipt_tanks")
-                        frappe.model.set_value(child.doctype,child.name,"fuel_tank",d.name);	                })
-	                refresh_field("fuel_stock_receipt_tanks");
-	            }
-			})
+	    if(frm.doc.fuel_item){
+			get_fuel_tank(frm,cdt,cdn)
 		}
 		
 	},
@@ -80,6 +31,51 @@ frappe.ui.form.on('Fuel Stock Receipts', {
 
 });
 
+//get fuel tank item and fuel station
+function get_fuel_tank(frm,cdt,cdn){
+	var doc = locals[cdt][cdn]
+	if(doc.fuel_station && doc.fuel_item){
+		frappe.call({
+			method:"frappe.client.get_list",
+			args:{
+				doctype:'Fuel Tank',
+				filters:{'fuel_station':doc.fuel_station,'fuel_item':doc.fuel_item},
+				fields:["name"]
+			},
+			async: false,
+			callback:function(r){
+				frm.clear_table("fuel_stock_receipt_tanks");
+				r.message.forEach(d => {
+					var child = frm.add_child("fuel_stock_receipt_tanks")
+					frappe.model.set_value(child.doctype,child.name,"fuel_tank",d.name);	                })
+				refresh_field("fuel_stock_receipt_tanks");
+			}
+		})
+	}
+}
+
+//onload shift auto selection
+function auto_shift_selection(frm,cdt,cdn){
+	frappe.call({
+		method: "frappe.client.get_list",
+		args: {
+			doctype: "Shift",
+			fields: ["name","fuel_station"],
+			order_by: "creation desc",
+			limit_page_length: 1
+			},
+		async: false,
+		callback: function (r) {
+			if(r.message){
+				console.log(r.message)
+				frappe.model.set_value(cdt,cdn,"shift",r.message[0].name)
+				frappe.model.set_value(cdt,cdn,"fuel_station",r.message[0].fuel_station)
+
+			}
+		}
+	});  
+
+}
 
 frappe.ui.form.on('Fuel Stock Receipt Tanks', {
 	before_mm: function(frm,cdt,cdn) {
@@ -152,10 +148,11 @@ frappe.ui.form.on('Fuel Stock Receipt Tanks', {
 	},
 	difference_ltrs:function(frm,cdt,cdn){
 		var tank_doc = locals[cdt][cdn];
-
-		cur_frm.set_value("actual_quantity",tank_doc.difference_ltrs)
-	
+		frappe.model.set_value(cur_frm.doc.doctype,cur_frm.doc.name,"actual_quantity",parseFloat(tank_doc.difference_ltrs));
+		cur_frm.refresh_fields()
 	}
 
 
 })
+
+

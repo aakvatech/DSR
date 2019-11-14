@@ -5,19 +5,30 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "main_info_section",
   "fuel_station",
+  "get_last_shift_details",
   "shift_name",
   "shift_from",
   "column_break_3",
   "date",
   "shift_status",
   "shift_to",
+  "close_date_and_time",
   "section_break_4",
   "pump_meter_reading",
+  "recalculate_sales_total",
   "section_break_6",
   "attendant_pump",
+  "section_break_16",
+  "total_deposited",
+  "total_cash_shortage",
+  "column_break_15",
+  "total_sales",
   "section_break_8",
   "dip_reading",
+  "section_break_23",
+  "shift_fuel_item_totals",
   "amended_from"
  ],
  "fields": [
@@ -47,8 +58,10 @@
    "reqd": 1
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_4",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Pump Meter Reading"
   },
   {
    "fieldname": "pump_meter_reading",
@@ -59,7 +72,8 @@
   },
   {
    "fieldname": "section_break_6",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Attendant Details"
   },
   {
    "fieldname": "attendant_pump",
@@ -83,8 +97,7 @@
    "fieldname": "shift_status",
    "fieldtype": "Select",
    "label": "Shift Status",
-   "options": "Open\nClosed",
-   "read_only": 1
+   "options": "Open\nClosed"
   },
   {
    "fieldname": "column_break_3",
@@ -94,6 +107,7 @@
    "fieldname": "shift_name",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Shift Name",
    "reqd": 1
   },
@@ -101,18 +115,78 @@
    "default": "Today",
    "fieldname": "shift_from",
    "fieldtype": "Datetime",
-   "label": "Shift From",
-   "reqd": 1
+   "hidden": 1,
+   "label": "Shift From"
   },
   {
    "default": "Today",
    "fieldname": "shift_to",
    "fieldtype": "Datetime",
-   "label": "Shift To",
-   "reqd": 1
+   "hidden": 1,
+   "label": "Shift To"
+  },
+  {
+   "fieldname": "close_date_and_time",
+   "fieldtype": "Datetime",
+   "label": "Close Date And Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "get_last_shift_details",
+   "fieldtype": "Button",
+   "label": "Get Last Shift Details"
+  },
+  {
+   "fieldname": "recalculate_sales_total",
+   "fieldtype": "Button",
+   "label": "Recalculate Sales Total"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_sales",
+   "fieldtype": "Currency",
+   "label": "Total Sales",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval: !doc.name",
+   "fieldname": "main_info_section",
+   "fieldtype": "Section Break",
+   "label": "Main Info"
+  },
+  {
+   "fieldname": "section_break_16",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_deposited",
+   "fieldtype": "Currency",
+   "label": "Total Deposited",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_cash_shortage",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Cash Shortage"
+  },
+  {
+   "fieldname": "section_break_23",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "shift_fuel_item_totals",
+   "fieldtype": "Table",
+   "label": "Shift Fuel Item Totals",
+   "options": "Shift Fuel Item Total",
+   "read_only": 1
   }
  ],
- "modified": "2019-10-08 12:09:35.269907",
+ "modified": "2019-11-13 18:18:57.096890",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",
@@ -127,6 +201,28 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
    "share": 1,
    "write": 1
   }

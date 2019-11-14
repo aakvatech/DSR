@@ -6,16 +6,17 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
-  "shift",
   "fuel_station",
-  "description",
-  "lpo",
-  "other_station_credit",
+  "column_break_3",
+  "shift",
+  "section_break_5",
   "vehicle_number",
-  "pump",
-  "fuel_item",
   "quantity",
   "amount",
+  "column_break_9",
+  "pump",
+  "fuel_item",
+  "section_break_12",
   "amended_from"
  ],
  "fields": [
@@ -26,16 +27,6 @@
    "in_list_view": 1,
    "label": "Date",
    "reqd": 1
-  },
-  {
-   "fieldname": "description",
-   "fieldtype": "Small Text",
-   "label": "Description"
-  },
-  {
-   "fieldname": "lpo",
-   "fieldtype": "Data",
-   "label": "LPO"
   },
   {
    "fieldname": "vehicle_number",
@@ -90,20 +81,30 @@
    "read_only": 1
   },
   {
-   "fieldname": "other_station_credit",
-   "fieldtype": "Link",
-   "label": "Other Station Credit",
-   "options": "Other Station Credit"
-  },
-  {
    "fieldname": "shift",
    "fieldtype": "Link",
    "label": "Shift",
    "options": "Shift"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-09 00:33:54.218377",
+ "modified": "2019-11-12 20:24:21.084233",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dispensed for Office Use",
@@ -119,6 +120,32 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

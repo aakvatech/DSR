@@ -7,9 +7,11 @@
   "pump",
   "opening_mechanical",
   "closing_mechanical",
+  "mechanical_difference",
   "opening_electrical",
   "closing_electrical",
-  "calculated_sales"
+  "calculated_sales",
+  "calculated_sales_price"
  ],
  "fields": [
   {
@@ -37,8 +39,7 @@
    "fieldname": "opening_electrical",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Opening Electrical",
-   "read_only": 1
+   "label": "Opening Electrical"
   },
   {
    "fieldname": "closing_electrical",
@@ -49,12 +50,23 @@
   {
    "fieldname": "calculated_sales",
    "fieldtype": "Float",
-   "label": "Calculated Sales",
+   "label": "Calculated Sales"
+  },
+  {
+   "fieldname": "calculated_sales_price",
+   "fieldtype": "Currency",
+   "label": "Calculated Sales Price",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mechanical_difference",
+   "fieldtype": "Float",
+   "label": "Mechanical Difference",
    "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2019-10-09 00:05:02.279486",
+ "modified": "2019-11-13 19:08:31.867936",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump Meter Reading",

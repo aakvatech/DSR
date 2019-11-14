@@ -1,12 +1,4 @@
-// Copyright (c) 2019, Aakvatech Limited and contributors
-// For license information, please see license.txt
-
-frappe.ui.form.on('Cash Deposited', {
-		onload: function(frm,cdt,cdn) {
-			auto_shift_selection(frm, cdt, cdn)
-	}
-});
-var auto_shift_selection = function (frm, cdt, cdn) {
+module.exports.auto_shift_selection = function(frm, cdt, cdn) {
 	if (frm.doc.__islocal) {
 		frappe.call({
 			method: "frappe.client.get_list",
@@ -19,9 +11,9 @@ var auto_shift_selection = function (frm, cdt, cdn) {
 			async: false,
 			callback: function (r) {
 				if (r.message) {
+					console.log(r.message)
 					frappe.model.set_value(cdt, cdn, "shift", r.message[0].name)
 					frappe.model.set_value(cdt, cdn, "fuel_station", r.message[0].fuel_station)
-
 				}
 			}
 		});

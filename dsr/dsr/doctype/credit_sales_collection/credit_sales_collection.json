@@ -5,13 +5,17 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "fuel_station",
   "date",
   "shift",
+  "column_break_3",
+  "fuel_station",
+  "section_break_5",
   "credit_customer",
   "collection_type",
+  "column_break_8",
   "name_of_bank",
   "amount",
+  "section_break_11",
   "amended_from"
  ],
  "fields": [
@@ -57,6 +61,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "shift.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
    "label": "Fuel Station",
@@ -69,10 +74,26 @@
    "fieldtype": "Date",
    "label": "Date",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_11",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-10-09 00:23:32.516785",
+ "modified": "2019-11-12 13:47:45.933353",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales Collection",
@@ -88,6 +109,31 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

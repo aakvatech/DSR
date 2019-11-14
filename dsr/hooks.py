@@ -81,13 +81,16 @@ app_license = "MIT"
 
 fixtures = [{"doctype":"Notification", "filters": [{"is_standard":0}]}, 'Auto Email Report', "Translation", {"doctype":"Print Format", "filters": [{"module":"DSR"}]}, {"doctype":"Report", "filters": [{"module":"DSR"}]} ]
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Expense Record": {
+		"on_submit": "dsr.custom_api.on_submit_expense_record",
+		"on_cancel":"dsr.custom_api.on_cancel_jv_cancel"
+	},
+	"Cash Deposited": {
+		"on_submit": "dsr.custom_api.on_submit_cash_deposited",
+		"on_cancel":"dsr.custom_api.on_cancel_jv_cancel"
+	}
+}
 
 # Scheduled Tasks
 # ---------------

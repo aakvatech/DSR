@@ -5,20 +5,23 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "attendant_name",
+  "fuel_station",
   "employee",
-  "fuel_station"
+  "attendant_name"
  ],
  "fields": [
   {
+   "fetch_from": "employee.employee_name",
    "fieldname": "attendant_name",
    "fieldtype": "Data",
-   "label": "Attendant Name"
+   "label": "Attendant Name",
+   "read_only": 1
   },
   {
    "fieldname": "employee",
-   "fieldtype": "Data",
-   "label": "Employee"
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
   },
   {
    "fieldname": "fuel_station",
@@ -27,8 +30,8 @@
    "options": "Fuel Station"
   }
  ],
- "modified": "2019-10-09 19:56:05.689753",
- "modified_by": "Administrator",
+ "modified": "2019-11-13 10:09:07.541309",
+ "modified_by": "neel@dsr.com",
  "module": "Dsr",
  "name": "Attendant",
  "owner": "Administrator",
@@ -44,10 +47,29 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
+   "share": 1
   }
  ],
  "quick_entry": 1,
- "sort_field": "modified",
- "sort_order": "DESC",
+ "search_fields": "fuel_station",
+ "sort_field": "attendant_name",
+ "sort_order": "ASC",
  "track_changes": 1
 }

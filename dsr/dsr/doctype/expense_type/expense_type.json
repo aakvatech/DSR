@@ -22,7 +22,7 @@
    "options": "Account"
   }
  ],
- "modified": "2019-09-14 16:03:45.838631",
+ "modified": "2019-11-03 21:15:50.535883",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Type",
@@ -39,6 +39,24 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
+   "share": 1
   }
  ],
  "quick_entry": 1,
