@@ -1,5 +1,5 @@
 {
- "autoname": "format:{fuel_item}-{tank_number}-{fuel_station}",
+ "autoname": "format:{fuel_item}-{tank_number}",
  "creation": "2019-09-07 17:52:20.559334",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -41,11 +41,13 @@
    "reqd": 1
   },
   {
+   "fetch_from": "fuel_item.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -57,7 +59,7 @@
    "fieldtype": "Section Break"
   }
  ],
- "modified": "2019-11-03 20:48:51.845750",
+ "modified": "2019-11-18 00:56:29.733923",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",

@@ -8,6 +8,7 @@
   "oil_company",
   "company",
   "station_name",
+  "station_full_name",
   "address",
   "location",
   "column_break_5",
@@ -27,7 +28,7 @@
    "fieldname": "oil_company",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Oil Company",
+   "label": "Petroleum Products Company",
    "reqd": 1
   },
   {
@@ -103,6 +104,7 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Company",
    "reqd": 1
@@ -116,6 +118,8 @@
   {
    "fieldname": "cluster_manager",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Cluster Manager",
    "options": "User"
   },
@@ -124,9 +128,15 @@
    "fieldtype": "Select",
    "label": "Fuel Station Type",
    "options": "CODO\nCOCO"
+  },
+  {
+   "fieldname": "station_full_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Station Full Name"
   }
  ],
- "modified": "2019-11-17 23:04:43.469270",
+ "modified": "2019-11-18 01:03:15.258382",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
@@ -171,6 +181,7 @@
    "write": 1
   }
  ],
+ "search_fields": "company,station_full_name",
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1
