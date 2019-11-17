@@ -1,4 +1,5 @@
 {
+ "allow_rename": 1,
  "autoname": "format:{attendant_name}",
  "creation": "2019-09-07 17:09:52.898427",
  "doctype": "DocType",
@@ -30,8 +31,8 @@
    "options": "Fuel Station"
   }
  ],
- "modified": "2019-11-13 10:09:07.541309",
- "modified_by": "neel@dsr.com",
+ "modified": "2019-11-17 22:47:44.218214",
+ "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Attendant",
  "owner": "Administrator",

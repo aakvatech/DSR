@@ -189,17 +189,17 @@ function validate_meter_leading(frm) {
 }
 
 function validate_attendant_pump(frm) {
-	total_deposited = 0
+	var total_deposited = 0
 	frm.doc.attendant_pump.forEach((d, index) => {
 		if (!d.cash_deposited || d.cash_deposited == 0) {
 			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table", [d.idx]))
 		}
 		if (d.cash_deposited < d.cash_to_be_deposited) {
-			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table", [d.idx]))
+			frappe.throw(__("Row {0}:Cash Deposited is lower than expected In Attendant Pump Table", [d.idx]))
 		}
 		total_deposited = total_deposited + d.cash_deposited
 	});
-	frappe.model.set_value(d.doctype, d.name, "total_deposited", total_deposited)
+	frappe.model.set_value(frm.doctype, frm.name, "total_deposited", total_deposited)
 }
 
 function validate_deep_reading(frm) {

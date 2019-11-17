@@ -10,22 +10,12 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
-					"name": "Cash Deposited",
-					"onboard": 0,
-				},
-				{
-					"type": "doctype",
-					"name": "Cash Received For Other Station",
+					"name": "Shift",
 					"onboard": 0,
 				},
 				{
 					"type": "doctype",
 					"name": "Credit Sales",
-					"onboard": 0,
-				},
-				{
-					"type": "doctype",
-					"name": "Credit Sales Collection",
 					"onboard": 0,
 				},
 				{
@@ -45,12 +35,22 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Inspection Report",
+					"name": "Credit Sales Collection",
 					"onboard": 0,
 				},
 				{
 					"type": "doctype",
-					"name": "Shift",
+					"name": "Cash Received For Other Station",
+					"onboard": 0,
+				},
+				{
+					"type": "doctype",
+					"name": "Cash Deposited",
+					"onboard": 0,
+				},
+				{
+					"type": "doctype",
+					"name": "Inspection Report",
 					"onboard": 0,
 				},
 			]
@@ -75,12 +75,12 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Fuel Tank",
+					"name": "Pump",
 					"onboard": 1,
 				},
 				{
 					"type": "doctype",
-					"name": "Pump",
+					"name": "Fuel Tank",
 					"onboard": 1,
 				},
 			]
@@ -96,6 +96,11 @@ def get_data():
 				{
 					"type": "doctype",
 					"name": "Tally Integration",
+					"onboard": 1,
+				},
+				{
+					"type": "doctype",
+					"name": "Tally Subledger Integration",
 					"onboard": 1,
 				},
 			]

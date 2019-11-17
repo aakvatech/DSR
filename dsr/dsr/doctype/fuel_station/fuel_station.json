@@ -15,8 +15,10 @@
   "mbs_due_date",
   "business_license_due_date",
   "workplace_license_expiry",
+  "cluster_manager",
   "station_manager",
   "dealer",
+  "fuel_station_type",
   "cost_center",
   "default_cash_account"
  ],
@@ -110,9 +112,21 @@
    "fieldtype": "Date",
    "label": "Workplace License Expiry",
    "reqd": 1
+  },
+  {
+   "fieldname": "cluster_manager",
+   "fieldtype": "Link",
+   "label": "Cluster Manager",
+   "options": "User"
+  },
+  {
+   "fieldname": "fuel_station_type",
+   "fieldtype": "Select",
+   "label": "Fuel Station Type",
+   "options": "CODO\nCOCO"
   }
  ],
- "modified": "2019-11-13 15:57:22.872020",
+ "modified": "2019-11-17 23:04:43.469270",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",

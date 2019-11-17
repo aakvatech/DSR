@@ -64,3 +64,47 @@ def on_submit_cash_deposited(self,method):
 	res = make_journal_entry(account_details,self.date,self.credit_sales_reference)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
+@frappe.whitelist()
+def list_journal():
+	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` ORDER BY name DESC LIMIT 3", as_dict=1)
+	return journal_doclist
+
+@frappe.whitelist()
+def list_payments():
+	payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` ORDER BY name DESC LIMIT 3", as_dict=1)
+	return payment_doclist
+
+@frappe.whitelist()
+def list_sales():
+	sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` ORDER BY name DESC LIMIT 3", as_dict=1)
+	return sales_doclist
+
+@frappe.whitelist()
+def list_purchase():
+	purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` ORDER BY name DESC LIMIT 3", as_dict=1)
+	return purchase_doclist
+
+@frappe.whitelist()
+def list_stockentry():
+	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` ORDER BY name DESC LIMIT 3", as_dict=1)
+	return stockentry_doclist
+
+@frappe.whitelist()
+def update_journal(data):
+	return {"message":"Journal updated"}
+
+@frappe.whitelist()
+def update_payments(data):
+	return {"message":"Payment updated"}
+
+@frappe.whitelist()
+def update_sales(data):
+	return {"message":"Sales Invoice updated"}
+
+@frappe.whitelist()
+def update_purchase(data):
+	return {"message":"Purchase Invoice updated"}
+
+@frappe.whitelist()
+def update_stockentry(data):
+	return {"message":"Stock Entry updated"}
