@@ -1,10 +1,11 @@
 {
- "autoname": "field:fuel_item_name",
+ "autoname": "format:{fuel_station}-{fuel_item_name}",
  "creation": "2019-09-07 17:12:49.868389",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "fuel_station",
   "fuel_item_name",
   "item",
   "mera_wholesale_price",
@@ -13,11 +14,14 @@
  ],
  "fields": [
   {
+   "fetch_from": "item.item_name",
    "fieldname": "fuel_item_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Fuel Item Name",
-   "reqd": 1,
-   "unique": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "mera_wholesale_price",
@@ -44,9 +48,17 @@
    "label": "Item",
    "options": "Item",
    "reqd": 1
+  },
+  {
+   "fieldname": "fuel_station",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Fuel Station",
+   "options": "Fuel Station"
   }
  ],
- "modified": "2019-11-03 21:15:22.419194",
+ "modified": "2019-11-18 00:21:01.830354",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Item",
