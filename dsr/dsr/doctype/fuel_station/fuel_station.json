@@ -26,9 +26,10 @@
  "fields": [
   {
    "fieldname": "oil_company",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Petroleum Products Company",
+   "options": "Customer",
    "reqd": 1
   },
   {
@@ -136,7 +137,7 @@
    "label": "Station Full Name"
   }
  ],
- "modified": "2019-11-18 01:03:15.258382",
+ "modified": "2019-11-18 01:14:02.175517",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
