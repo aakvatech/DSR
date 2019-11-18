@@ -6,8 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "fuel_station",
-  "fuel_item_name",
   "item",
+  "fuel_item_name",
   "mera_wholesale_price",
   "mera_retail_price",
   "station_retail_price"
@@ -55,10 +55,11 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Fuel Station",
-   "options": "Fuel Station"
+   "options": "Fuel Station",
+   "reqd": 1
   }
  ],
- "modified": "2019-11-18 00:21:01.830354",
+ "modified": "2019-11-18 10:11:24.300926",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Item",

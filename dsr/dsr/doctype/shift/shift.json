@@ -29,6 +29,8 @@
   "dip_reading",
   "section_break_23",
   "shift_fuel_item_totals",
+  "section_break_25",
+  "generator_hours",
   "amended_from"
  ],
  "fields": [
@@ -184,10 +186,20 @@
    "label": "Shift Fuel Item Totals",
    "options": "Shift Fuel Item Total",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_25",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "generator_hours",
+   "fieldtype": "Float",
+   "label": "Generator Hours",
+   "precision": "1"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-17 23:45:54.998216",
+ "modified": "2019-11-18 16:49:12.636720",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

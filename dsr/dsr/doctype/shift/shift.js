@@ -17,6 +17,7 @@ frappe.ui.form.on('Shift', {
 			frm.set_df_property("pump_meter_reading", "read_only", true);
 			frm.set_df_property("attendant_pump", "read_only", true);
 			frm.set_df_property("dip_reading", "read_only", true);
+			frm.set_df_property("generator_reading", "read_only", true);
 			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 1;
 			frappe.meta.get_docfield("Pump Meter Reading", "closing_mechanical", frm.doc.name).read_only = 1;
 			frappe.meta.get_docfield("Pump Meter Reading", "closing_electrical", frm.doc.name).read_only = 1;

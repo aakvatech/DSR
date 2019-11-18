@@ -8,7 +8,8 @@
   "opening_mm",
   "opening_liters",
   "closing_mm",
-  "closing_liters"
+  "closing_liters",
+  "difference_in_liters"
  ],
  "fields": [
   {
@@ -46,10 +47,16 @@
    "hidden": 1,
    "label": "Closing liters",
    "read_only": 1
+  },
+  {
+   "fieldname": "difference_in_liters",
+   "fieldtype": "Float",
+   "label": "Difference in Liters",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2019-10-08 12:13:59.850098",
+ "modified": "2019-11-18 16:51:01.023759",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dip Reading",

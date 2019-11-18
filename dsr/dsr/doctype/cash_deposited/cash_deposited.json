@@ -15,6 +15,7 @@
   "column_break_8",
   "amount",
   "section_break_10",
+  "cash_deposit_slip",
   "amended_from",
   "journal_entry"
  ],
@@ -94,10 +95,16 @@
    "label": "Journal Entry",
    "options": "Journal Entry",
    "read_only": 1
+  },
+  {
+   "fieldname": "cash_deposit_slip",
+   "fieldtype": "Attach Image",
+   "label": "Cash Deposit Slip",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-10 15:04:22.153687",
+ "modified": "2019-11-18 16:48:16.624934",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",
