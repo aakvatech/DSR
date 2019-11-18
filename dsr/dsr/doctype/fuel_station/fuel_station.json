@@ -10,16 +10,15 @@
   "station_name",
   "station_full_name",
   "address",
-  "location",
+  "cluster_manager",
+  "station_manager",
+  "fuel_station_type",
+  "dealer",
   "column_break_5",
   "mera_due_date",
   "mbs_due_date",
   "business_license_due_date",
   "workplace_license_expiry",
-  "cluster_manager",
-  "station_manager",
-  "dealer",
-  "fuel_station_type",
   "cost_center",
   "default_cash_account"
  ],
@@ -48,11 +47,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "location",
-   "fieldtype": "Geolocation",
-   "label": "Location"
-  },
-  {
    "fieldname": "column_break_5",
    "fieldtype": "Column Break"
   },
@@ -76,11 +70,11 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval: doc.fuel_station_type == \"DOCO\"",
    "fieldname": "dealer",
    "fieldtype": "Link",
    "label": "Dealer",
-   "options": "Contact",
-   "reqd": 1
+   "options": "Contact"
   },
   {
    "fieldname": "cost_center",
@@ -128,7 +122,8 @@
    "fieldname": "fuel_station_type",
    "fieldtype": "Select",
    "label": "Fuel Station Type",
-   "options": "CODO\nCOCO"
+   "options": "DOCO\nCOCO",
+   "reqd": 1
   },
   {
    "fieldname": "station_full_name",
@@ -137,7 +132,7 @@
    "label": "Station Full Name"
   }
  ],
- "modified": "2019-11-18 01:14:02.175517",
+ "modified": "2019-11-18 09:30:07.195670",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
