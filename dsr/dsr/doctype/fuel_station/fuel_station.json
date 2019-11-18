@@ -5,22 +5,33 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "oil_company",
-  "company",
   "station_name",
+  "company",
+  "column_break_3",
   "station_full_name",
-  "address",
+  "oil_company",
+  "section_break_6",
   "cluster_manager",
   "station_manager",
+  "column_break_9",
   "fuel_station_type",
   "dealer",
   "column_break_5",
   "mera_due_date",
   "mbs_due_date",
+  "column_break_15",
   "business_license_due_date",
   "workplace_license_expiry",
+  "section_break_18",
   "cost_center",
-  "default_cash_account"
+  "column_break_20",
+  "default_cash_account",
+  "section_break_21",
+  "generator_make",
+  "generator_model",
+  "column_break_24",
+  "generator_capacity_in_kva",
+  "average_generator_fuel_consumption_per_hour"
  ],
  "fields": [
   {
@@ -40,15 +51,8 @@
    "unique": 1
   },
   {
-   "fieldname": "address",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Address",
-   "reqd": 1
-  },
-  {
    "fieldname": "column_break_5",
-   "fieldtype": "Column Break"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "mera_due_date",
@@ -130,9 +134,63 @@
    "fieldtype": "Data",
    "in_standard_filter": 1,
    "label": "Station Full Name"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_21",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "generator_make",
+   "fieldtype": "Data",
+   "label": "Generator Make"
+  },
+  {
+   "fieldname": "generator_model",
+   "fieldtype": "Data",
+   "label": "Generator Model"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "generator_capacity_in_kva",
+   "fieldtype": "Float",
+   "label": "Generator Capacity in KVA",
+   "precision": "1"
+  },
+  {
+   "fieldname": "average_generator_fuel_consumption_per_hour",
+   "fieldtype": "Float",
+   "label": "Average Generator Fuel Consumption per hour",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-18 09:30:07.195670",
+ "modified": "2019-11-18 20:16:54.432957",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",

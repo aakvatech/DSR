@@ -14,6 +14,8 @@
   "credit_sales_reference",
   "column_break_8",
   "amount",
+  "amount_to_be_deposited",
+  "pending_amount_after_deposit",
   "section_break_10",
   "cash_deposit_slip",
   "amended_from",
@@ -101,10 +103,22 @@
    "fieldtype": "Attach Image",
    "label": "Cash Deposit Slip",
    "reqd": 1
+  },
+  {
+   "fieldname": "amount_to_be_deposited",
+   "fieldtype": "Currency",
+   "label": "Amount to be deposited",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pending_amount_after_deposit",
+   "fieldtype": "Currency",
+   "label": "Pending amount after deposit",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-18 16:48:16.624934",
+ "modified": "2019-11-18 19:16:35.200031",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

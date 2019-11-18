@@ -10,7 +10,8 @@
   "fuel_item",
   "manufacturer",
   "model_number",
-  "serial_number"
+  "serial_number",
+  "seal_numbers"
  ],
  "fields": [
   {
@@ -31,17 +32,20 @@
   {
    "fieldname": "manufacturer",
    "fieldtype": "Data",
-   "label": "Manufacturer"
+   "label": "Manufacturer",
+   "reqd": 1
   },
   {
    "fieldname": "model_number",
    "fieldtype": "Data",
-   "label": "Model Number"
+   "label": "Model Number",
+   "reqd": 1
   },
   {
    "fieldname": "serial_number",
    "fieldtype": "Data",
-   "label": "Serial Number"
+   "label": "Serial Number",
+   "reqd": 1
   },
   {
    "fieldname": "fuel_station",
@@ -50,9 +54,15 @@
    "label": "Fuel Station",
    "options": "Fuel Station",
    "reqd": 1
+  },
+  {
+   "fieldname": "seal_numbers",
+   "fieldtype": "Data",
+   "label": "Seal Numbers",
+   "reqd": 1
   }
  ],
- "modified": "2019-11-18 00:17:49.642353",
+ "modified": "2019-11-18 20:09:17.016089",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",

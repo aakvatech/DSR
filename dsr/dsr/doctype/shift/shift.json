@@ -21,10 +21,13 @@
   "section_break_6",
   "attendant_pump",
   "section_break_16",
+  "opening_balance",
   "total_deposited",
   "total_cash_shortage",
   "column_break_15",
   "total_sales",
+  "total_expenses",
+  "cash_in_hand",
   "section_break_8",
   "dip_reading",
   "section_break_23",
@@ -196,10 +199,28 @@
    "fieldtype": "Float",
    "label": "Generator Hours",
    "precision": "1"
+  },
+  {
+   "fieldname": "opening_balance",
+   "fieldtype": "Currency",
+   "label": "Opening Balance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_expenses",
+   "fieldtype": "Currency",
+   "label": "Total Expenses",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cash_in_hand",
+   "fieldtype": "Currency",
+   "label": "Cash in Hand",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-18 16:49:12.636720",
+ "modified": "2019-11-18 20:07:37.840020",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

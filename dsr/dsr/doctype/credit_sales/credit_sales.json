@@ -28,6 +28,8 @@
   "fuel_item",
   "amount",
   "section_break_21",
+  "full_paid",
+  "section_break_25",
   "amended_from"
  ],
  "fields": [
@@ -177,28 +179,37 @@
    "fieldname": "section_break_1",
    "fieldtype": "Section Break",
    "label": "Main info"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "full_paid",
+   "fieldtype": "Check",
+   "label": "Full Paid",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "section_break_25",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-13 12:39:27.717358",
+ "modified": "2019-11-18 20:21:40.569260",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",
  "owner": "Administrator",
  "permissions": [
   {
-   "amend": 1,
-   "cancel": 1,
-   "create": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
+   "permlevel": 2,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   },
   {
@@ -222,6 +233,20 @@
    "read": 1,
    "report": 1,
    "role": "Cluster Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
    "share": 1,
    "submit": 1,
    "write": 1
