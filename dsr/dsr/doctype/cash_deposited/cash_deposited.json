@@ -5,10 +5,11 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "shift",
-  "fuel_station",
-  "column_break_3",
+  "main_info_section",
   "date",
+  "shift",
+  "column_break_3",
+  "fuel_station",
   "section_break_5",
   "name_of_bank",
   "credit_sales_reference",
@@ -115,10 +116,16 @@
    "fieldtype": "Currency",
    "label": "Pending amount after deposit",
    "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "main_info_section",
+   "fieldtype": "Section Break",
+   "label": "Main Info"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-18 19:16:35.200031",
+ "modified": "2019-11-19 19:44:08.215635",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

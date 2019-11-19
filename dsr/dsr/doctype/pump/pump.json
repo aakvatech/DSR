@@ -7,10 +7,13 @@
  "field_order": [
   "fuel_station",
   "pump_number",
+  "column_break_3",
   "fuel_item",
+  "section_break_5",
   "manufacturer",
-  "model_number",
   "serial_number",
+  "column_break_8",
+  "model_number",
   "seal_numbers"
  ],
  "fields": [
@@ -63,9 +66,21 @@
    "fieldtype": "Data",
    "label": "Seal Numbers",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-19 19:24:18.187837",
+ "modified": "2019-11-19 23:29:05.663169",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",

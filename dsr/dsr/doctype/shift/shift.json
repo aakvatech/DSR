@@ -25,8 +25,8 @@
   "total_deposited",
   "total_cash_shortage",
   "column_break_15",
-  "total_sales",
   "total_expenses",
+  "total_bank_deposit",
   "cash_in_hand",
   "section_break_8",
   "dip_reading",
@@ -157,12 +157,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "total_sales",
-   "fieldtype": "Currency",
-   "label": "Total Sales",
-   "read_only": 1
-  },
-  {
    "collapsible": 1,
    "collapsible_depends_on": "eval: !doc.name",
    "fieldname": "main_info_section",
@@ -182,8 +176,8 @@
   {
    "fieldname": "total_cash_shortage",
    "fieldtype": "Currency",
-   "hidden": 1,
-   "label": "Total Cash Shortage"
+   "label": "Total Cash Shortage",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_23",
@@ -193,8 +187,7 @@
    "fieldname": "shift_fuel_item_totals",
    "fieldtype": "Table",
    "label": "Shift Fuel Item Totals",
-   "options": "Shift Fuel Item Total",
-   "read_only": 1
+   "options": "Shift Fuel Item Total"
   },
   {
    "fieldname": "section_break_25",
@@ -244,10 +237,16 @@
    "fieldname": "estimated_generator_expense",
    "fieldtype": "Currency",
    "label": "Estimated Generator Expense"
+  },
+  {
+   "fieldname": "total_bank_deposit",
+   "fieldtype": "Currency",
+   "label": "Total Bank Deposit",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 12:09:14.484058",
+ "modified": "2019-11-19 23:08:59.812292",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",
