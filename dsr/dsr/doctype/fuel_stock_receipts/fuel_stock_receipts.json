@@ -5,16 +5,18 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "shift",
-  "fuel_station",
-  "column_break_3",
+  "main_info_section",
   "date",
+  "shift",
+  "column_break_3",
+  "fuel_station",
   "section_break_5",
   "delivery_note",
   "truck_no",
   "column_break_8",
   "fuel_item",
   "quantity_as_per_dn",
+  "seal_numbers",
   "section_break_11",
   "actual_quantity",
   "column_break_13",
@@ -32,7 +34,7 @@
   {
    "fieldname": "delivery_note",
    "fieldtype": "Data",
-   "label": "Delivery Note"
+   "label": "Delivery Note Number"
   },
   {
    "fieldname": "fuel_item",
@@ -118,10 +120,21 @@
   {
    "fieldname": "section_break_15",
    "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "main_info_section",
+   "fieldtype": "Section Break",
+   "label": "Main Info"
+  },
+  {
+   "fieldname": "seal_numbers",
+   "fieldtype": "Data",
+   "label": "Seal Numbers"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-09 22:27:00.337421",
+ "modified": "2019-11-19 19:12:24.985308",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

@@ -15,7 +15,6 @@
   "station_manager",
   "column_break_9",
   "fuel_station_type",
-  "dealer",
   "column_break_5",
   "mera_due_date",
   "mbs_due_date",
@@ -74,17 +73,11 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval: doc.fuel_station_type == \"DOCO\"",
-   "fieldname": "dealer",
-   "fieldtype": "Link",
-   "label": "Dealer",
-   "options": "Contact"
-  },
-  {
    "fieldname": "cost_center",
    "fieldtype": "Link",
    "label": "Cost Center",
    "options": "Cost Center",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -98,6 +91,7 @@
    "fieldtype": "Link",
    "label": "Default Cash Account",
    "options": "Account",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -106,6 +100,7 @@
    "in_standard_filter": 1,
    "label": "Company",
    "options": "Company",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -120,13 +115,15 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Cluster Manager",
-   "options": "User"
+   "options": "User",
+   "permlevel": 1
   },
   {
    "fieldname": "fuel_station_type",
    "fieldtype": "Select",
    "label": "Fuel Station Type",
    "options": "CODO\nCOCO",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -190,22 +187,12 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-19 09:41:09.363013",
+ "modified": "2019-11-19 16:11:56.993583",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
  "owner": "Administrator",
  "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "print": 1,
-   "read": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
   {
    "email": 1,
    "export": 1,
@@ -231,6 +218,30 @@
    "read": 1,
    "report": 1,
    "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
    "share": 1,
    "write": 1
   }

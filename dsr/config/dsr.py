@@ -25,12 +25,17 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Fuel Stock Receipts",
+					"onboard": 0,
+				},
+				{
+					"type": "doctype",
 					"name": "Expense Record",
 					"onboard": 0,
 				},
 				{
 					"type": "doctype",
-					"name": "Fuel Stock Receipts",
+					"name": "Cash Deposited",
 					"onboard": 0,
 				},
 				{
@@ -45,7 +50,7 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Cash Deposited",
+					"name": "Customer Generated LPO",
 					"onboard": 0,
 				},
 				{
@@ -60,12 +65,12 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
-					"name": "Attendant",
+					"name": "Expense Type",
 					"onboard": 1,
 				},
 				{
 					"type": "doctype",
-					"name": "Expense Type",
+					"name": "Attendant",
 					"onboard": 1,
 				},
 				{
@@ -75,12 +80,17 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Fuel Tank",
+					"onboard": 1,
+				},
+				{
+					"type": "doctype",
 					"name": "Pump",
 					"onboard": 1,
 				},
 				{
 					"type": "doctype",
-					"name": "Fuel Tank",
+					"name": "Fuel Origin",
 					"onboard": 1,
 				},
 			]

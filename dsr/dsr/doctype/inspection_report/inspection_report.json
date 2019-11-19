@@ -5,27 +5,33 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "fuel_station",
-  "shift",
+  "main_info_section",
   "inspection_date",
+  "shift",
+  "column_break_4",
+  "fuel_station",
   "audit_inspection_summary_section",
+  "section_break_7",
   "reports",
   "office",
   "customer_service",
   "signage",
   "security_and_seals",
-  "forecourt",
-  "cleaning",
   "column_break_11",
+  "forecourt",
   "intersapter_and_draining_system",
   "tanks_and_underground_pipe_work",
+  "cleaning",
   "dispensers",
-  "cash_with_attendant",
-  "cash_with_manager",
+  "section_break_20",
   "last_inspection_by",
+  "column_break_21",
   "last_inspection_date",
   "section_break_18",
   "manager_name",
+  "cash_with_manager",
+  "column_break_24",
+  "cash_with_attendant",
   "section_break_19",
   "inspection_report_tank",
   "section_break_21",
@@ -54,6 +60,7 @@
    "read_only": 1
   },
   {
+   "default": "Today",
    "fieldname": "inspection_date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -119,7 +126,7 @@
    "default": "Not OK",
    "fieldname": "intersapter_and_draining_system",
    "fieldtype": "Data",
-   "label": "Intersapter and Draining System",
+   "label": "Interceptor and Draining System",
    "reqd": 1
   },
   {
@@ -223,10 +230,36 @@
    "options": "Fuel Station",
    "read_only": 1,
    "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "main_info_section",
+   "fieldtype": "Section Break",
+   "label": "Main info"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 14:04:45.070597",
+ "modified": "2019-11-19 18:48:41.702966",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report",
