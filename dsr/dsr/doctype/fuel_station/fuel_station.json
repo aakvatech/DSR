@@ -126,7 +126,7 @@
    "fieldname": "fuel_station_type",
    "fieldtype": "Select",
    "label": "Fuel Station Type",
-   "options": "DOCO\nCOCO",
+   "options": "CODO\nCOCO",
    "reqd": 1
   },
   {
@@ -190,7 +190,7 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-18 20:16:54.432957",
+ "modified": "2019-11-19 09:41:09.363013",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",

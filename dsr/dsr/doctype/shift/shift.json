@@ -34,6 +34,10 @@
   "shift_fuel_item_totals",
   "section_break_25",
   "generator_hours",
+  "generator_operation_hours",
+  "column_break_31",
+  "closing_generator_hours",
+  "estimated_generator_expense",
   "amended_from"
  ],
  "fields": [
@@ -197,7 +201,7 @@
   {
    "fieldname": "generator_hours",
    "fieldtype": "Float",
-   "label": "Generator Hours",
+   "label": "Opening Generator Hours",
    "precision": "1"
   },
   {
@@ -217,10 +221,31 @@
    "fieldtype": "Currency",
    "label": "Cash in Hand",
    "read_only": 1
+  },
+  {
+   "fieldname": "generator_operation_hours",
+   "fieldtype": "Float",
+   "label": "Generator Operation Hours",
+   "precision": "1"
+  },
+  {
+   "fieldname": "column_break_31",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closing_generator_hours",
+   "fieldtype": "Float",
+   "label": "Closing Generator Hours",
+   "precision": "1"
+  },
+  {
+   "fieldname": "estimated_generator_expense",
+   "fieldtype": "Currency",
+   "label": "Estimated Generator Expense"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-18 20:07:37.840020",
+ "modified": "2019-11-18 20:31:57.834910",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

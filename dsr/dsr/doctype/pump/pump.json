@@ -19,6 +19,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Pump Number",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -27,6 +28,7 @@
    "in_list_view": 1,
    "label": "Fuel Item",
    "options": "Fuel Item",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -53,6 +55,7 @@
    "in_list_view": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
+   "permlevel": 1,
    "reqd": 1
   },
   {
@@ -62,7 +65,7 @@
    "reqd": 1
   }
  ],
- "modified": "2019-11-18 20:09:17.016089",
+ "modified": "2019-11-19 10:20:15.212540",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",
@@ -96,7 +99,20 @@
    "read": 1,
    "report": 1,
    "role": "Cluster Manager",
-   "share": 1
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
   }
  ],
  "sort_field": "name",

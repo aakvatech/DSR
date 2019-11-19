@@ -107,7 +107,7 @@ function validate_close_shift(frm){
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("{0} Is Not Close Yet",[r.message[0].name]))
+				frappe.throw(__("{0} is not yet closed",[r.message[0].name]))
 			}
 		}
 	});
@@ -277,6 +277,7 @@ function calculate_total_sales(frm, cdt, cdn) {
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
 			args: { 'shift': cur_frm.doc.name, 'pump': child.pump, 'total_qty': child.calculated_sales },
+			async: false,
 			callback: function (r) {
 				if (r.message) {
 					frappe.model.set_value(cdt, cdn, "calculated_sales_price", r.message[0])
@@ -290,6 +291,11 @@ function calculate_total_sales(frm, cdt, cdn) {
 					});
 				}
 				frappe.model.set_value(frm.doctype, frm.name, "total_sales", total_sales)
+				frappe.model.set_value(frm.doctype, frm.name, "total_cash_shortage", total_cash_shortage)
+				total_cash_deposited = 
+				total_expenses = frm.doc.opening_balance + frm.doc.total_sales - frm.doc.total_cash_shortage - frm.doc.total_expenses
+				cash_in_hand = frm.doc.opening_balance + frm.doc.total_sales - frm.doc.total_cash_shortage - frm.doc.total_expenses - total_cash_deposited
+				frappe.model.set_value(frm.doctype, frm.name, "total_cash_shortage", total_cash_shortage)
 			}
 		});
 	}
