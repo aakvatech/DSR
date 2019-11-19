@@ -211,7 +211,8 @@
   {
    "fieldname": "inspected_by",
    "fieldtype": "Data",
-   "label": "Inspected By"
+   "label": "Inspected By",
+   "read_only": 1
   },
   {
    "fetch_from": "shift.fuel_station",
@@ -225,7 +226,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-09 22:27:36.643489",
+ "modified": "2019-11-19 14:04:45.070597",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Inspection Report",

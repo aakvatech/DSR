@@ -12,6 +12,7 @@
   "section_break_5",
   "credit_customer",
   "collection_type",
+  "attach_deposit_slip",
   "column_break_8",
   "name_of_bank",
   "amount",
@@ -90,10 +91,16 @@
   {
    "fieldname": "section_break_11",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attach_deposit_slip",
+   "fieldtype": "Attach Image",
+   "label": "Attach Deposit Slip",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-12 13:47:45.933353",
+ "modified": "2019-11-19 14:00:31.532514",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales Collection",

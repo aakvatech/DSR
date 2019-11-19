@@ -1,0 +1,31 @@
+{
+ "add_total_row": 1,
+ "creation": "2019-11-19 12:49:22.662282",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "idx": 0,
+ "is_standard": "Yes",
+ "modified": "2019-11-19 12:51:45.273282",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Customer Statement",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT date, fuel_station, customer, total_amount FROM `tabCash Received For Other Station`\r\nUNION ALL\r\nSELECT date, fuel_station, credit_customer, amount * -1 FROM `tabCredit Sales`",
+ "ref_doctype": "Credit Sales",
+ "report_name": "Customer Statement",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Station Manager"
+  },
+  {
+   "role": "Cluster Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ]
+}

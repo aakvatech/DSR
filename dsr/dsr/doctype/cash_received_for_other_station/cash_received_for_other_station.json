@@ -7,11 +7,16 @@
  "field_order": [
   "date",
   "shift",
+  "column_break_3",
   "fuel_station",
+  "section_break_5",
   "customer",
   "for_fuel_station",
+  "column_break_8",
   "fuel_item",
+  "section_break_10",
   "total_quantity",
+  "column_break_12",
   "total_amount",
   "attendant",
   "section_break_6",
@@ -95,10 +100,30 @@
    "fieldtype": "Link",
    "label": "Default Fuel Item",
    "options": "Fuel Item"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_12",
+   "fieldtype": "Column Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-09 22:23:51.504324",
+ "modified": "2019-11-19 12:37:16.084925",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Received For Other Station",

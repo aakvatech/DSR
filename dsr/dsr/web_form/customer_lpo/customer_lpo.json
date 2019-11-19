@@ -19,7 +19,7 @@
  "is_standard": 1,
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2019-11-13 20:45:44.876883",
+ "modified": "2019-11-19 15:32:59.335481",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "customer-lpo",
@@ -104,7 +104,19 @@
    "max_length": 0,
    "max_value": 0,
    "options": "Not fullfiled\nPartially Fulfilled\nCompletely Fulfilled",
-   "read_only": 0,
+   "read_only": 1,
+   "reqd": 0,
+   "show_in_filter": 0
+  },
+  {
+   "allow_read_on_all_link_options": 0,
+   "fieldname": "outstanding_payments",
+   "fieldtype": "Data",
+   "hidden": 0,
+   "label": "Outstanding Payments",
+   "max_length": 0,
+   "max_value": 0,
+   "read_only": 1,
    "reqd": 0,
    "show_in_filter": 0
   }
