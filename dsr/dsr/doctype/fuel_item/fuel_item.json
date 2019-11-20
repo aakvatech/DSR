@@ -63,7 +63,7 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-20 12:00:16.070888",
+ "modified": "2019-11-20 17:38:53.570322",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Item",
@@ -97,6 +97,15 @@
    "read": 1,
    "report": 1,
    "role": "Cluster Manager",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Customer",
    "share": 1
   }
  ],

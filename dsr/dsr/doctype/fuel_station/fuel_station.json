@@ -187,7 +187,7 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-20 17:34:21.816493",
+ "modified": "2019-11-20 17:39:03.818232",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
@@ -244,6 +244,15 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Customer",
+   "share": 1
   }
  ],
  "search_fields": "company,station_full_name",
