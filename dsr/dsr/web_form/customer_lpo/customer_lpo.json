@@ -21,7 +21,7 @@
  "is_standard": 1,
  "login_required": 1,
  "max_attachment_size": 5,
- "modified": "2019-11-20 23:44:54.512484",
+ "modified": "2019-11-21 00:12:13.800787",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "customer-lpo",
@@ -49,7 +49,7 @@
    "options": "Fuel Station",
    "read_only": 0,
    "reqd": 1,
-   "show_in_filter": 0
+   "show_in_filter": 1
   },
   {
    "allow_read_on_all_link_options": 0,
@@ -74,7 +74,7 @@
    "options": "Fuel Item",
    "read_only": 0,
    "reqd": 1,
-   "show_in_filter": 0
+   "show_in_filter": 1
   },
   {
    "allow_read_on_all_link_options": 0,
@@ -124,7 +124,7 @@
    "options": "Not fullfiled\nPartially Fulfilled\nCompletely Fulfilled",
    "read_only": 1,
    "reqd": 0,
-   "show_in_filter": 0
+   "show_in_filter": 1
   },
   {
    "allow_read_on_all_link_options": 0,

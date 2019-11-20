@@ -26,6 +26,15 @@ frappe.ui.form.on('Credit Sales', {
 				}
 			}
 		});
+		frm.set_query('lpo', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station,
+					'docstatus': 1,
+					"fulfilled": ["!=", "Completely Fulfilled"]
+				}
+			}
+		});
 	},
 	onload: function (frm, cdt, cdn) {
 		auto_shift_selection(frm, cdt, cdn)

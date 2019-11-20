@@ -91,8 +91,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Fulfillment Status",
-   "options": "Not fullfiled\nPartially Fulfilled\nCompletely Fulfilled",
-   "read_only": 1
+   "options": "Not fullfiled\nPartially Fulfilled\nCompletely Fulfilled"
   },
   {
    "fieldname": "amended_from",
@@ -123,7 +122,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-20 23:42:25.319620",
+ "modified": "2019-11-21 00:12:28.143288",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Customer Generated LPO",
@@ -159,7 +158,7 @@
  ],
  "quick_entry": 1,
  "route": "customer-lpo",
- "search_fields": "fuel_station, fuel_item",
+ "search_fields": "fuel_station, fuel_item, vehicle_number",
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1
