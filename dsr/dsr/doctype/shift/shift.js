@@ -64,7 +64,30 @@ frappe.ui.form.on('Shift', {
 			frappe.model.set_value(d.doctype, d.name, "calculated_sales", d.closing_electrical - d.opening_electrical)
 		});
 		refresh_field("attendance_pump");
-	}
+	},
+	setup: function(frm) {
+		frm.set_query('pump', 'pump_meter_reading', function(doc, cdt, cdn) {
+			return {
+				filters: {
+					'fuel_station': doc.fuel_station
+				}
+			}
+		});
+		frm.set_query('pump', 'attendant_pump', function(doc, cdt, cdn) {
+			return {
+				filters: {
+					'fuel_station': doc.fuel_station
+				}
+			}
+		});
+		frm.set_query('fuel_tank', 'dip_reading', function(doc, cdt, cdn) {
+			return {
+				filters: {
+					'fuel_station': doc.fuel_station
+				}
+			}
+		});
+	},
 });
 
 function get_last_shift_data(frm){
@@ -238,6 +261,10 @@ frappe.ui.form.on('Dip Reading', {
 				}
 			});
 		}
+	},
+	closing_liters:function(frm,cdt,cdn){
+		var doc = locals[cdt][cdn]
+		frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters)-parseFloat(doc.opening_liters))
 	}
 });
 

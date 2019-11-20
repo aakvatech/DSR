@@ -13,6 +13,7 @@
   "section_break_5",
   "delivery_note",
   "truck_no",
+  "fuel_origin",
   "column_break_8",
   "fuel_item",
   "quantity_as_per_dn",
@@ -31,25 +32,29 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Truck No"
+   "label": "Truck No",
+   "reqd": 1
   },
   {
    "fieldname": "delivery_note",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Delivery Note Number"
+   "label": "Delivery Note Number",
+   "reqd": 1
   },
   {
    "fieldname": "fuel_item",
    "fieldtype": "Link",
    "label": "Fuel Item",
-   "options": "Fuel Item"
+   "options": "Fuel Item",
+   "reqd": 1
   },
   {
    "fieldname": "quantity_as_per_dn",
    "fieldtype": "Float",
-   "label": "Quantity as per DN"
+   "label": "Quantity as per DN",
+   "reqd": 1
   },
   {
    "fieldname": "actual_quantity",
@@ -137,11 +142,19 @@
   {
    "fieldname": "seal_numbers",
    "fieldtype": "Data",
-   "label": "Seal Numbers"
+   "label": "Seal Numbers",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_origin",
+   "fieldtype": "Link",
+   "label": "Fuel Origin",
+   "options": "Fuel Origin",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-20 12:12:22.562447",
+ "modified": "2019-11-20 13:41:18.341558",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

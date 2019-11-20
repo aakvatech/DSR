@@ -77,6 +77,7 @@
    "fieldtype": "Table",
    "label": "Pump Meter Reading",
    "options": "Pump Meter Reading",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -89,6 +90,7 @@
    "fieldtype": "Table",
    "label": "Attendant Pump",
    "options": "Attendant Pump",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -100,6 +102,7 @@
    "fieldtype": "Table",
    "label": "Dip Reading",
    "options": "Dip Reading",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -187,7 +190,8 @@
    "fieldname": "shift_fuel_item_totals",
    "fieldtype": "Table",
    "label": "Shift Fuel Item Totals",
-   "options": "Shift Fuel Item Total"
+   "options": "Shift Fuel Item Total",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_25",
@@ -246,7 +250,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 23:08:59.812292",
+ "modified": "2019-11-20 14:59:20.456321",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

@@ -157,7 +157,13 @@ frappe.ui.form.on('Fuel Stock Receipt Tanks', {
 	},
 	difference_ltrs:function(frm,cdt,cdn){
 		var tank_doc = locals[cdt][cdn];
-		frappe.model.set_value(cur_frm.doc.doctype,cur_frm.doc.name,"actual_quantity",parseFloat(tank_doc.difference_ltrs));
+		var total = 0
+		cur_frm.doc.fuel_stock_receipt_tanks.forEach((d, index) => {
+			if(d.difference_ltrs){
+			total += d.difference_ltrs
+			}
+		});
+		frappe.model.set_value(cur_frm.doc.doctype,cur_frm.doc.name,"actual_quantity",parseFloat(total));
 		cur_frm.refresh_fields()
 	}
 

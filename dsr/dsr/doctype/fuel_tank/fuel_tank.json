@@ -61,7 +61,7 @@
    "fieldtype": "Section Break"
   }
  ],
- "modified": "2019-11-20 11:04:22.601563",
+ "modified": "2019-11-20 14:43:18.796326",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",
@@ -100,6 +100,7 @@
   }
  ],
  "quick_entry": 1,
+ "search_fields": "fuel_station, fuel_item",
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1
