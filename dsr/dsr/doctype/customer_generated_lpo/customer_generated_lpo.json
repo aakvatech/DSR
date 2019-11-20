@@ -32,6 +32,7 @@
    "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Date",
    "read_only": 1
   },
@@ -42,7 +43,7 @@
   {
    "fieldname": "fuel_station",
    "fieldtype": "Link",
-   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
    "reqd": 1
@@ -54,7 +55,7 @@
   {
    "fieldname": "fuel_item",
    "fieldtype": "Link",
-   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Fuel Item",
    "options": "Fuel Item",
    "reqd": 1
@@ -66,6 +67,7 @@
   {
    "fieldname": "vehicle_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Vehicle Number",
    "reqd": 1
   },
@@ -85,6 +87,8 @@
    "depends_on": "eval: doc.docstatus==1",
    "fieldname": "fulfilled",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Fulfillment Status",
    "options": "Not fullfiled\nPartially Fulfilled\nCompletely Fulfilled",
    "read_only": 1
@@ -111,7 +115,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-20 18:49:07.959736",
+ "modified": "2019-11-20 20:02:29.929574",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Customer Generated LPO",
