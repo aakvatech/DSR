@@ -29,11 +29,15 @@
   {
    "fieldname": "truck_no",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Truck No"
   },
   {
    "fieldname": "delivery_note",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Delivery Note Number"
   },
   {
@@ -50,6 +54,7 @@
   {
    "fieldname": "actual_quantity",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Actual Quantity",
    "read_only": 1
   },
@@ -80,8 +85,10 @@
    "fieldname": "fuel_station",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -134,7 +141,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 19:12:24.985308",
+ "modified": "2019-11-20 12:12:22.562447",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Dispensed for Office Use', {
+	setup: function(frm) {
+		frm.set_query('pump', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station
+				}
+			}
+		});
+	},
 	onload: function(frm,cdt,cdn) {
 		auto_shift_selection(frm, cdt, cdn)
 }

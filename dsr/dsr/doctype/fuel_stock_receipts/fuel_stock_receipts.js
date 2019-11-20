@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Fuel Stock Receipts', {
+	setup: function(frm) {
+		frm.set_query('fuel_item', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station
+				}
+			}
+		});
+	},
 	onload: function(frm,cdt,cdn) {
         if(frm.doc.__islocal){
 			auto_shift_selection(frm,cdt,cdn)

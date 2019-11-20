@@ -19,11 +19,24 @@ class Shift(Document):
 			for total_row in doc.shift_fuel_item_totals:
 				if fuel_item == total_row.fuel_item:
 					frappe.msgprint(str(total_row.tank_usage_quantity))	
-					set_usage_quantity(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.closing_liters))
+					set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.closing_liters))
 					item_available = True
 			if item_available == False:
 				frappe.msgprint(str(dip_read.fuel_tank))
 				add_total_row(fuel_item,doc.name,'tank_usage_quantity',dip_read.closing_liters)
+
+		for meter_read in self.pump_meter_reading:
+			fuel_item = frappe.db.get_value("Pump",meter_read.pump,"fuel_item")
+			item_available = False
+			doc = frappe.get_doc(self.doctype,self.name)			
+			for total_row in doc.shift_fuel_item_totals:
+				if fuel_item == total_row.fuel_item:
+					frappe.msgprint(str(total_row.tank_usage_quantity))	
+					set_total(total_row.name,total_row.doctype,'total_sales_quantity',flt(total_row.total_sales_quantity) + flt(meter_read.calculated_sales))
+					item_available = True
+			if item_available == False:
+				frappe.msgprint(str(dip_read.fuel_tank))
+				add_total_row(fuel_item,doc.name,'total_sales_quantity',meter_read.calculated_sales)
 	# def validate(self):
 	# 	doc = frappe.get_all("Shift",filters={'shift_status': 'Open','fuel_station':self.fuel_station},fields=["name"])
 	# 	if len(doc) >= 1:
@@ -41,13 +54,13 @@ def add_total_row(item,parent,field_name,field_value):
 		fuel_item = item,
 		field_name = field_value
 	)).insert()
-	frappe.errprint('t'+str(doc.tank_usage_quantity))
+	frappe.db.set_value(doc.doctype,doc.name,str(field_name),field_value)
 	return doc
 
 def delete_item_total_table(doc_name):
 	frappe.db.sql("""delete from `tabShift Fuel Item Total` where parent=%s""",doc_name)
 
-def set_usage_quantity(doc_name,doctype,field_name,field_value):
+def set_total(doc_name,doctype,field_name,field_value):
 	frappe.db.set_value(doctype,doc_name,str(field_name),field_value)
 
 @frappe.whitelist()

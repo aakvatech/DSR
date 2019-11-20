@@ -2,6 +2,31 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Credit Sales', {
+	setup: function(frm) {
+		frm.set_query('credit_customer', function() {
+			return {
+				filters: {
+					'disabled': 0,
+					'is_frozen': 0
+				}
+			}
+		});
+		frm.set_query('fuel_item', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station
+				}
+			}
+		});
+		frm.set_query('pump', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station,
+					'fuel_item': frm.doc.fuel_item
+				}
+			}
+		});
+	},
 	onload: function (frm, cdt, cdn) {
 		auto_shift_selection(frm, cdt, cdn)
 	},
@@ -10,6 +35,24 @@ frappe.ui.form.on('Credit Sales', {
 			calculate_total(frm)
 		}
 
+	},
+	lpo: function (frm) {
+		if (frm.doc.lpo) {
+			frm.set_df_property("vehicle_number", "read_only", true);
+			frm.set_df_property("credit_customer", "read_only", true);
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "is_cash_received_at_other_station", false);
+			frm.set_df_property("is_cash_received_at_other_station", "read_only", true);
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", false);
+			frm.set_df_property("discounted_cash_customer", "read_only", true);
+			frm.set_df_property("fuel_item", "read_only", true);
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "manual_lpo_no", "");
+		} else {
+			frm.set_df_property("vehicle_number", "read_only", false);
+			frm.set_df_property("credit_customer", "read_only", false);
+			frm.set_df_property("is_cash_received_at_other_station", "read_only", false);
+			frm.set_df_property("discounted_cash_customer", "read_only", false);
+			frm.set_df_property("fuel_item", "read_only", false);
+		}
 	},
 	fuel_item: function (frm) {
 		if (frm.doc.quantity && frm.doc.fuel_item) {

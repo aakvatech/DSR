@@ -23,6 +23,7 @@
   {
    "fieldname": "fuel_item",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Fuel Item",
    "options": "Fuel Item",
    "reqd": 1
@@ -45,6 +46,7 @@
    "fieldname": "fuel_station",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
    "read_only": 1,
@@ -59,7 +61,7 @@
    "fieldtype": "Section Break"
   }
  ],
- "modified": "2019-11-18 00:56:29.733923",
+ "modified": "2019-11-20 11:04:22.601563",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",
