@@ -19,7 +19,7 @@
  "is_standard": 1,
  "login_required": 1,
  "max_attachment_size": 0,
- "modified": "2019-11-19 15:32:59.335481",
+ "modified": "2019-11-20 17:01:42.923371",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "customer-lpo",
@@ -30,7 +30,7 @@
  "route_to_success_link": 1,
  "show_attachments": 0,
  "show_in_grid": 1,
- "show_sidebar": 1,
+ "show_sidebar": 0,
  "sidebar_items": [
   {
    "enabled": 1,
@@ -92,6 +92,18 @@
    "max_value": 0,
    "read_only": 0,
    "reqd": 1,
+   "show_in_filter": 0
+  },
+  {
+   "allow_read_on_all_link_options": 0,
+   "fieldname": "trip_reference_number",
+   "fieldtype": "Data",
+   "hidden": 0,
+   "label": "Trip Reference Number",
+   "max_length": 0,
+   "max_value": 0,
+   "read_only": 0,
+   "reqd": 0,
    "show_in_filter": 0
   },
   {

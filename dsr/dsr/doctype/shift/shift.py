@@ -53,7 +53,6 @@ def add_total_for_dip_reading(self):
 		doc = frappe.get_doc(self.doctype,self.name)			
 		for total_row in doc.shift_fuel_item_totals:
 			if fuel_item == total_row.fuel_item:
-				frappe.msgprint(str(total_row.tank_usage_quantity))	
 				set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.closing_liters))
 				item_available = True
 		if item_available == False:
@@ -66,7 +65,6 @@ def add_total_for_meter_reading(self):
 		doc = frappe.get_doc(self.doctype,self.name)			
 		for total_row in doc.shift_fuel_item_totals:
 			if fuel_item == total_row.fuel_item:
-				frappe.msgprint(str(total_row.tank_usage_quantity))	
 				set_total(total_row.name,total_row.doctype,'total_sales_quantity',flt(total_row.total_sales_quantity) + flt(meter_read.calculated_sales))
 				item_available = True
 		if item_available == False:

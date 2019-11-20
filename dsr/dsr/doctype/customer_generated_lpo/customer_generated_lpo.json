@@ -11,6 +11,7 @@
   "fuel_station",
   "section_break_5",
   "fuel_item",
+  "trip_reference_number",
   "column_break_6",
   "vehicle_number",
   "quantity",
@@ -102,10 +103,15 @@
    "fieldtype": "Currency",
    "label": "Outstanding Payments",
    "read_only": 1
+  },
+  {
+   "fieldname": "trip_reference_number",
+   "fieldtype": "Data",
+   "label": "Trip Reference Number"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 19:41:31.773200",
+ "modified": "2019-11-20 16:58:38.138646",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Customer Generated LPO",

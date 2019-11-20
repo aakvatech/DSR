@@ -187,7 +187,7 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-19 16:11:56.993583",
+ "modified": "2019-11-20 17:34:21.816493",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
@@ -229,7 +229,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Station Manager",
+   "role": "System Manager",
    "share": 1,
    "write": 1
   },
@@ -241,7 +241,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Station Manager",
+   "role": "System Manager",
    "share": 1,
    "write": 1
   }
