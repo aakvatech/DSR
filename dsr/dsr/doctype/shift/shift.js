@@ -54,6 +54,7 @@ frappe.ui.form.on('Shift', {
 			}
 			get_dip_reading(frm)
 			get_pump_meter_reading(frm)
+			get_last_shift_data(frm)
 			get_attendant_pump(frm)
 		}
 	},
