@@ -201,7 +201,8 @@
    "fieldname": "generator_hours",
    "fieldtype": "Float",
    "label": "Opening Generator Hours",
-   "precision": "1"
+   "precision": "1",
+   "read_only": 1
   },
   {
    "fieldname": "opening_balance",
@@ -235,12 +236,14 @@
    "fieldname": "closing_generator_hours",
    "fieldtype": "Float",
    "label": "Closing Generator Hours",
-   "precision": "1"
+   "precision": "1",
+   "read_only": 1
   },
   {
    "fieldname": "estimated_generator_expense",
    "fieldtype": "Currency",
-   "label": "Estimated Generator Expense"
+   "label": "Estimated Generator Expense",
+   "read_only": 1
   },
   {
    "fieldname": "total_bank_deposit",
@@ -250,7 +253,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-20 14:59:20.456321",
+ "modified": "2019-11-23 12:42:32.200615",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

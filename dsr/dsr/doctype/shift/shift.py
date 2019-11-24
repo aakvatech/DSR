@@ -141,7 +141,7 @@ def close_shift(name,status=None):
 
 @frappe.whitelist()
 def get_last_shift_data(fuel_station):
-	shift_list = frappe.get_all("Shift",filters={'shift_status': 'Closed','fuel_station':fuel_station},fields=["name"],order_by="creation")
+	shift_list = frappe.get_all("Shift",filters={'shift_status': 'Closed','fuel_station':fuel_station},fields=["name"],order_by="creation desc")
 	if len(shift_list) >= 1:
 		return frappe.get_doc("Shift",shift_list[0].name)
 	else:

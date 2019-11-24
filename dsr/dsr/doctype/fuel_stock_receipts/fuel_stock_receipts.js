@@ -16,28 +16,27 @@ frappe.ui.form.on('Fuel Stock Receipts', {
 			auto_shift_selection(frm,cdt,cdn)
         }
 	},
-	fuel_station:function(frm,cdt,cdn){
+	fuel_station:function(frm,cdt,cdn) {
 	    if(frm.doc.fuel_station){
 			get_fuel_tank(frm,cdt,cdn)
 		}
 	},
-	fuel_item:function(frm,cdt,cdn){
-	    if(frm.doc.fuel_item){
+	fuel_item:function(frm,cdt,cdn) {
+	    if(frm.doc.fuel_item) {
 			get_fuel_tank(frm,cdt,cdn)
 		}
 		
 	},
-	actual_quantity:function(frm,cdt,cdn){
+	actual_quantity:function(frm,cdt,cdn) {
 		if(frm.doc.quantity_as_per_dn){
 			frappe.model.set_value(cdt,cdn,"fuel_shortage",parseFloat(frm.doc.quantity_as_per_dn)-parseFloat(frm.doc.actual_quantity))
 		}
 	},
-	quantity_as_per_dn:function(frm,cdt,cdn){
-		if(frm.doc.actual_quantity && frm.doc.quantity_as_per_dn){
-		frappe.model.set_value(cdt,cdn,"fuel_shortage",parseFloat(frm.doc.quantity_as_per_dn)-parseFloat(frm.doc.actual_quantity))
+	quantity_as_per_dn:function(frm,cdt,cdn) {
+		if(frm.doc.actual_quantity && frm.doc.quantity_as_per_dn) {
+			frappe.model.set_value(cdt,cdn,"fuel_shortage",parseFloat(frm.doc.quantity_as_per_dn)-parseFloat(frm.doc.actual_quantity))
+		}
 	}
-}
-
 });
 
 //get fuel tank item and fuel station
@@ -79,11 +78,9 @@ function auto_shift_selection(frm,cdt,cdn){
 				console.log(r.message)
 				frappe.model.set_value(cdt,cdn,"shift",r.message[0].name)
 				frappe.model.set_value(cdt,cdn,"fuel_station",r.message[0].fuel_station)
-
 			}
 		}
 	});  
-
 }
 
 frappe.ui.form.on('Fuel Stock Receipt Tanks', {
@@ -113,7 +110,6 @@ frappe.ui.form.on('Fuel Stock Receipt Tanks', {
 				}
 			})
 		}
-
 	},
 	after_mm: function(frm,cdt,cdn) {
 		var tank_doc = locals[cdt][cdn];
@@ -141,7 +137,6 @@ frappe.ui.form.on('Fuel Stock Receipt Tanks', {
 				}
 			})
 		}
-
 	},
 	after_ltrs:function(frm,cdt,cdn){
 		var tank_doc = locals[cdt][cdn];
@@ -166,8 +161,4 @@ frappe.ui.form.on('Fuel Stock Receipt Tanks', {
 		frappe.model.set_value(cur_frm.doc.doctype,cur_frm.doc.name,"actual_quantity",parseFloat(total));
 		cur_frm.refresh_fields()
 	}
-
-
 })
-
-

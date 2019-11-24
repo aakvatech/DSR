@@ -66,6 +66,18 @@ frappe.ui.form.on('Shift', {
 		});
 		refresh_field("attendance_pump");
 	},
+	generator_hours: function(frm) {
+		if (generator_operation_hours) {
+			frappe.model.set_value(d.doctype, d.name, "closing_generator_hours", frm.doc.generator_hours - frm.doc.generator_operation_hours)
+			calculate_generator_expense(frm)
+		}
+	},
+	generator_operation_hours: function(frm) {
+		if (generator_hours) {
+			frappe.model.set_value(d.doctype, d.name, "closing_generator_hours", frm.doc.generator_hours - frm.doc.generator_operation_hours)
+			calculate_generator_expense(frm)
+		}
+	},
 	setup: function(frm) {
 		frm.set_query('pump', 'pump_meter_reading', function(doc, cdt, cdn) {
 			return {
@@ -119,6 +131,8 @@ function get_last_shift_data(frm){
 				refresh_field("dip_reading");
 				frappe.model.set_value(frm.doc.doctype, frm.doc.name, "opening_balance", r.message.cash_in_hand)
 				refresh_field("opening_balance")
+				frappe.model.set_value(frm.doc.doctype, frm.doc.name, "generator_hours", r.message.generator_operation_hours)
+				refresh_field("generator_hours")
 			}
 		}
 	});
@@ -322,6 +336,11 @@ function calculate_total_sales(frm, cdt, cdn) {
 		refresh_field("attendant_pump")
 		calculate_other_sales_totals(frm, cdt, cdn)
 	}
+}
+
+// Calculate number of hours 
+function calculate_generator_expense(frm) {
+	//frappe.model.set_value(cdt, cdn, "calculated_sales", child.closing_electrical - child.opening_electrical)
 }
 
 frappe.ui.form.on('Attendant Pump', {
