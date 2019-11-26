@@ -31,6 +31,7 @@
   "section_break_21",
   "full_paid",
   "section_break_25",
+  "sales_invoice",
   "amended_from"
  ],
  "fields": [
@@ -200,10 +201,16 @@
    "fieldtype": "Data",
    "label": "Credit Customer Type",
    "read_only": 1
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Data",
+   "label": "Sales Invoice",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-20 13:05:17.206426",
+ "modified": "2019-11-26 11:42:29.105670",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",

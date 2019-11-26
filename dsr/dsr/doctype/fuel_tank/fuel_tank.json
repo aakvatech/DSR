@@ -11,6 +11,8 @@
   "fuel_item",
   "tank_capacity",
   "section_break_6",
+  "warehouse",
+  "section_break_8",
   "fuel_tank_calibrations"
  ],
  "fields": [
@@ -59,9 +61,20 @@
   {
    "fieldname": "section_break_6",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
   }
  ],
- "modified": "2019-11-20 14:43:18.796326",
+ "modified": "2019-11-26 11:20:29.529462",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",
