@@ -64,6 +64,7 @@ def on_submit_cash_deposited(self,method):
 	res = make_journal_entry(account_details,self.date,self.credit_sales_reference)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
+
 @frappe.whitelist()
 def list_journal():
 	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` ORDER BY name DESC LIMIT 3", as_dict=1)

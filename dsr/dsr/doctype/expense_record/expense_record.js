@@ -6,17 +6,10 @@ frappe.ui.form.on('Expense Record', {
 		auto_shift_selection(frm, cdt, cdn)
 	},
 	setup: function(frm) {
-		frm.set_query('fuel_station', function() {
+		frm.set_query('expense_type', function() {
 			return {
 				filters: {
-					'fuel_station': doc.fuel_station
-				}
-			}
-		});
-		frm.set_query('expense_account', function() {
-			return {
-				filters: {
-					'company': doc.company
+					'fuel_station': frm.doc.fuel_station
 				}
 			}
 		});

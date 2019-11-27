@@ -17,6 +17,7 @@ class CreditSales(Document):
 				if balance_qty < self.quantity:
 					frappe.throw(_("Balance Qty is {0} not sufficient and Applied Qty is {1}").format(balance_qty,self.quantity))
 				frappe.db.set_value("Other Station Credit",self.other_station_cash_record,"balance_qty",balance_qty-self.quantity)
+		on_submit_credit_sales(self)
 
 	def validate(self):
 		item = frappe.db.get_value("Fuel Item",self.fuel_item,"item")
@@ -135,3 +136,88 @@ def get_price(item_code, qty=1,customer=None,fuel_station=None):
 					price_obj["formatted_price"] = ""
 
 			return price_obj
+
+@frappe.whitelist()
+def on_submit_credit_sales(self):
+	item_obj = []
+	item_dict = dict(
+		item_code = get_item_from_fuel_item(self.fuel_item),
+		qty = self.quantity,
+		rate = self.rate,
+		warehouse = get_pump_warehouse(self.pump)
+	)
+	item_obj.append(item_dict)
+	company = get_company_from_fuel_station(self.fuel_station)
+	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name)
+	make_journal_entry(invoice_doc)
+
+def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1):
+	invoice_doc = frappe.get_doc(dict(
+		doctype = "Sales Invoice",
+		customer = customer,
+		company = company,
+		posting_date = date,
+		ignore_pricing_rule = ignore_pricing_rule,
+		items = items,
+		update_stock = 1,
+		fuel_station = fuel_station,
+		shift = shift,
+		pump = pump,
+		credit_sales = credit_id
+	)).insert(ignore_permissions=True)
+	invoice_doc.submit()
+	frappe.db.set_value("Credit Sales",credit_id,"sales_invoice",invoice_doc.name)
+	return invoice_doc
+
+def get_item_from_fuel_item(fuel_item):
+	item = frappe.db.get_value("Fuel Item",fuel_item,"item")
+	if item:
+		return item
+	else:
+		frappe.throw(_("Item Not Define In Fuel Item"))
+
+def get_pump_warehouse(pump):
+	warehouse = frappe.db.get_value("Pump",pump,"warehouse")
+	if warehouse: 
+		return warehouse
+	else:
+		frappe.throw(_("Warehouse Not Define In Pump"))
+
+def get_company_from_fuel_station(fuel_station):
+	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
+	if company:
+		return company
+	else:
+		frappe.throw(_("Company Not Define In Fuel Station"))
+
+def get_customer_from_fuel_station(fuel_station):
+	customer = frappe.db.get_value("Fuel Station",fuel_station,"oil_company")
+	if customer:
+		return customer
+	else:
+		frappe.throw(_("Customer Not Define In Fuel Station"))
+
+def make_journal_entry(invoice_doc):
+	accounts = []
+	debit_row = dict(
+		account = "Debtors - D",
+		debit_in_account_currency = invoice_doc.grand_total,
+		party_type = "Customer",
+		party = get_customer_from_fuel_station(invoice_doc.fuel_station)
+	)
+	accounts.append(debit_row)
+	credit_row = dict(
+		account = "Debtors - D",
+		credit_in_account_currency = invoice_doc.grand_total,
+		party_type = "Customer",
+		party = invoice_doc.customer,
+		reference_type = invoice_doc.doctype,
+		reference_name = invoice_doc.name
+	)
+	accounts.append(credit_row)
+	jv_doc = frappe.get_doc(dict(
+		doctype = "Journal Entry",
+		company = invoice_doc.company,
+		posting_date = invoice_doc.posting_date,
+		accounts = accounts
+	)).insert(ignore_permissions = True)
