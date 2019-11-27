@@ -226,7 +226,8 @@
    "fieldname": "generator_operation_hours",
    "fieldtype": "Float",
    "label": "Generator Operation Hours",
-   "precision": "1"
+   "precision": "1",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_31",
@@ -236,8 +237,7 @@
    "fieldname": "closing_generator_hours",
    "fieldtype": "Float",
    "label": "Closing Generator Hours",
-   "precision": "1",
-   "read_only": 1
+   "precision": "1"
   },
   {
    "fieldname": "estimated_generator_expense",
@@ -253,7 +253,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-23 12:42:32.200615",
+ "modified": "2019-11-27 10:24:55.731180",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

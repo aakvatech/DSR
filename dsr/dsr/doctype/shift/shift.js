@@ -35,9 +35,10 @@ frappe.ui.form.on('Shift', {
 		get_last_shift_data(frm)
 	},
 	close_shift: (frm) => {
+		validate_cash_discounted_pending(frm)
 		validate_meter_reading(frm)
 		validate_attendant_pump(frm)
-		validate_deep_reading(frm)
+		validate_dip_reading(frm)
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.close_shift",
 			args: { 'name': frm.doc.name, 'status': 'Closed' },
@@ -67,14 +68,14 @@ frappe.ui.form.on('Shift', {
 		refresh_field("attendance_pump");
 	},
 	generator_hours: function(frm) {
-		if (generator_operation_hours) {
-			frappe.model.set_value(d.doctype, d.name, "closing_generator_hours", frm.doc.generator_hours - frm.doc.generator_operation_hours)
+		if (frm.doc.closing_generator_hours) {
+			frm.set_value("generator_operation_hours", frm.doc.closing_generator_hours - frm.doc.generator_hours)
 			calculate_generator_expense(frm)
 		}
 	},
-	generator_operation_hours: function(frm) {
-		if (generator_hours) {
-			frappe.model.set_value(d.doctype, d.name, "closing_generator_hours", frm.doc.generator_hours - frm.doc.generator_operation_hours)
+	closing_generator_hours: function(frm) {
+		if (frm.doc.generator_hours || frm.doc.generator_hours == 0) {
+			frm.set_value("generator_operation_hours", frm.doc.closing_generator_hours - frm.doc.generator_hours)
 			calculate_generator_expense(frm)
 		}
 	},
@@ -129,9 +130,9 @@ function get_last_shift_data(frm){
 					frappe.model.set_value(child.doctype, child.name, "opening_liters", d.closing_liters)
 				});
 				refresh_field("dip_reading");
-				frappe.model.set_value(frm.doc.doctype, frm.doc.name, "opening_balance", r.message.cash_in_hand)
+				frm.set_value("opening_balance", r.message.cash_in_hand)
 				refresh_field("opening_balance")
-				frappe.model.set_value(frm.doc.doctype, frm.doc.name, "generator_hours", r.message.generator_operation_hours)
+				frm.set_value("generator_hours", r.message.generator_operation_hours)
 				refresh_field("generator_hours")
 			}
 		}
@@ -242,12 +243,87 @@ function validate_attendant_pump(frm) {
 	});
 }
 
-function validate_deep_reading(frm) {
+function validate_dip_reading(frm) {
 	frm.doc.dip_reading.forEach((d, index) => {
 		if (!d.closing_mm || d.closing_mm == 0) {
-			frappe.throw(__("Row {0}:Closing MM Mandatory In Deep Reading Table", [d.idx]))
+			frappe.throw(__("Row {0}:Closing MM Mandatory In Dip Reading Table", [d.idx]))
 		}
 	});
+}
+
+function validate_cash_discounted_pending(frm) {
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Credit Sales',
+			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not submitted yet! Please submit all Credit Sales documents",[r.message[0].name]))
+			}
+		}
+	});
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Credit Sales',
+			filters: {'shift': frm.doc.shift,'discounted_cash_customer':1,'full_paid':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not fully paid yet! Please confirm that the monies are fully paid by going to the document.",[r.message[0].name]))
+			}
+		}
+	});
+}
+
+// Calculate number of hours 
+function calculate_generator_expense(frm) {
+	var avg_consump = 0;
+	frappe.call({
+		method:"frappe.client.get_value",
+		args:{
+			'doctype':"Fuel Station",
+			'filters':{'name': frm.doc.fuel_station},
+			'fieldname':[
+				'average_generator_fuel_consumption_per_hour'
+			]
+		},
+		async: false,
+		callback: function (data) {
+			console.log(data);
+			if(data.message) {
+				avg_consump = data.message.average_generator_fuel_consumption_per_hour;
+			}
+		}
+	});
+	var item_rate = 0;
+	frappe.call({
+		method:"frappe.client.get_value",
+		args:{
+			'doctype':"Fuel Item",
+			'filters':{'name': frm.doc.fuel_station + "-Diesel"},
+			'fieldname':[
+				'mera_wholesale_price'
+			]
+		},
+		async: false,
+		callback: function (data) {
+			if(data.message) {
+				item_rate = data.message.mera_wholesale_price;
+			}
+		}
+	});
+	frm.set_value("estimated_generator_expense", avg_consump * item_rate);
+
+	//frappe.model.set_value(cdt, cdn, "calculated_sales", child.closing_electrical - child.opening_electrical)
 }
 
 frappe.ui.form.on('Dip Reading', {
@@ -326,8 +402,8 @@ function calculate_total_sales(frm, cdt, cdn) {
 					frappe.model.set_value(cdt, cdn, "calculated_sales_price", Number((r.message[0]).toFixed(2)))
 					frm.doc.attendant_pump.forEach((d, index) => {
 						if (d.pump == child.pump) {
-							frappe.model.set_value(d.doctype, d.name, "cash_to_be_deposited", Number((r.message[2]).toFixed(2)))
-							frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
+							frm.set_value("cash_to_be_deposited", Number((r.message[2]).toFixed(2)))
+							frm.set_value("cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
 						}
 					});
 				}
@@ -336,11 +412,6 @@ function calculate_total_sales(frm, cdt, cdn) {
 		refresh_field("attendant_pump")
 		calculate_other_sales_totals(frm, cdt, cdn)
 	}
-}
-
-// Calculate number of hours 
-function calculate_generator_expense(frm) {
-	//frappe.model.set_value(cdt, cdn, "calculated_sales", child.closing_electrical - child.opening_electrical)
 }
 
 frappe.ui.form.on('Attendant Pump', {
@@ -365,21 +436,21 @@ function calculate_other_sales_totals(frm, cdt, cdn) {
 	var total_deposited = 0;
 	var total_cash_shortage = 0;
 	frm.doc.attendant_pump.forEach((d, index) => {
-		frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
+		frm.set_value("cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
 		total_deposited = total_deposited + d.cash_deposited;
 		total_sales = total_sales + d.cash_to_be_deposited;
 		total_cash_shortage = total_cash_shortage + d.cash_to_be_deposited - d.cash_deposited;
 	});
 	refresh_field("attendant_pump")
-	frappe.model.set_value(frm.doc.doctype, frm.name, "total_sales", total_sales)
+	frm.set_value("total_sales", total_sales)
 	refresh_field("total_sales")
-	frappe.model.set_value(frm.doc.doctype, frm.doc.name, "total_deposited", total_deposited)
+	frm.set_value("total_deposited", total_deposited)
 	refresh_field("total_deposited")
-	frappe.model.set_value(frm.doc.doctype, frm.doc.name, "total_cash_shortage", total_cash_shortage)
+	frm.set_value("total_cash_shortage", total_cash_shortage)
 	refresh_field("total_cash_shortage")
 	var total_bank_deposits = 0;
 	var cash_in_hand = total_deposited - total_cash_shortage;
 	// var cash_in_hand = frm.doc.opening_balance + total_deposited - total_cash_shortage - frm.doc.total_bank_deposits - frm.doc.total_expenses;
-	frappe.model.set_value(frm.doc.doctype, frm.doc.name, "cash_in_hand", cash_in_hand)
+	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }

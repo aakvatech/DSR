@@ -162,7 +162,7 @@ def calculate_total_sales(shift,pump,total_qty):
 	return (total_sales,credit_sales_total,retail_total_sales)
 
 def get_credit_sales_details(shift,pump):
-	return frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s limit 1""",(shift,pump),as_dict=1)
+	return frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
 
 def get_rate(pump):
 	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")
