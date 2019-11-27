@@ -40,6 +40,7 @@ frappe.ui.form.on('Shift', {
 		validate_meter_reading(frm)
 		validate_attendant_pump(frm)
 		validate_dip_reading(frm)
+		calculate_other_sales_totals(frm, cdt, cdn);
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.close_shift",
 			args: { 'name': frm.doc.name, 'status': 'Closed' },
@@ -67,6 +68,7 @@ frappe.ui.form.on('Shift', {
 			frappe.model.set_value(d.doctype, d.name, "calculated_sales", d.closing_electrical - d.opening_electrical)
 		});
 		refresh_field("attendance_pump");
+		calculate_other_sales_totals(frm);
 	},
 	generator_hours: function(frm) {
 		if (frm.doc.closing_generator_hours) {
@@ -333,6 +335,21 @@ function validate_unsubmitted_documents(frm) {
 			}
 		}
 	});
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Expense Record',
+			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Expense%20Record/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+			}
+		}
+	});
 }
 
 // Calculate number of hours 
@@ -453,16 +470,16 @@ function calculate_total_sales(frm, cdt, cdn) {
 					frappe.model.set_value(cdt, cdn, "calculated_sales_price", Number((r.message[0]).toFixed(2)))
 					frm.doc.attendant_pump.forEach((d, index) => {
 						if (d.pump == child.pump) {
-							frm.set_value("cash_to_be_deposited", Number((r.message[2]).toFixed(2)))
-							frm.set_value("cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
+							frappe.model.set_value(d.doctype, d.name, "cash_to_be_deposited", Number((r.message[2]).toFixed(2)))
+							frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
 						}
 					});
 				}
 			}
 		});
 		refresh_field("attendant_pump")
-		calculate_other_sales_totals(frm, cdt, cdn)
 	}
+	calculate_other_sales_totals(frm, cdt, cdn)
 }
 
 frappe.ui.form.on('Attendant Pump', {
@@ -483,25 +500,53 @@ frappe.ui.form.on('Attendant Pump', {
 });
 
 function calculate_other_sales_totals(frm, cdt, cdn) {
-	var total_sales = 0;
+	var total_cash_sales_to_be_deposited = 0;
 	var total_deposited = 0;
 	var total_cash_shortage = 0;
 	var total_bank_deposits = 0;
 	var total_expenses = 0;
 	frm.doc.attendant_pump.forEach((d, index) => {
-		frm.set_value("cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
+		frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
 		total_deposited = total_deposited + d.cash_deposited;
-		total_sales = total_sales + d.cash_to_be_deposited;
+		total_cash_sales_to_be_deposited = total_cash_sales_to_be_deposited + d.cash_to_be_deposited;
 		total_cash_shortage = total_cash_shortage + d.cash_to_be_deposited - d.cash_deposited;
 	});
 	refresh_field("attendant_pump")
-	frm.set_value("total_sales", total_sales)
-	refresh_field("total_sales")
+	frm.set_value("total_cash_sales_to_be_deposited", total_cash_sales_to_be_deposited)
+	refresh_field("total_cash_sales_to_be_deposited")
 	frm.set_value("total_deposited", total_deposited)
 	refresh_field("total_deposited")
 	frm.set_value("total_cash_shortage", total_cash_shortage)
 	refresh_field("total_cash_shortage")
-	var total_bank_deposits = 0;
+
+	frappe.call({
+		method: "dsr.dsr.doctype.shift.shift.get_total_banking",
+		args: { 'shift': frm.doc.name },
+		async: false,
+		callback: function (r) {
+			if (r.message) {
+				console.log(r.message)
+				frm.set_value("total_bank_deposit", Number(r.message))
+				total_bank_deposits = r.message[0]
+			}
+		}
+	});
+	refresh_field("total_bank_deposit")
+
+	frappe.call({
+		method: "dsr.dsr.doctype.shift.shift.get_total_expenses",
+		args: { 'shift': frm.doc.name },
+		async: false,
+		callback: function (r) {
+			if (r.message) {
+				console.log(r.message)
+				frm.set_value("total_expenses", Number(r.message))
+				total_expenses = r.message[0];
+			}
+		}
+	});
+	refresh_field("total_expenses")
+
 	var cash_in_hand = frm.doc.opening_balance + total_deposited - total_cash_shortage - total_bank_deposits - total_expenses;
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")

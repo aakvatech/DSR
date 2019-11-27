@@ -120,7 +120,21 @@ def get_total_credit_sales(shift,item):
 	else:
 		return 0
 
+@frappe.whitelist()
+def get_total_banking(shift):
+	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and docstatus=1""",(shift))
+	if len(banking) >= 1:
+		return banking[0][0]
+	else:
+		return 0
 
+@frappe.whitelist()
+def get_total_expenses(shift):
+	expenses = frappe.db.sql("""select sum(amount) from `tabExpense Record` where shift=%s and docstatus=1""",(shift))
+	if len(expenses) >= 1:
+		return expenses[0][0]
+	else:
+		return 0
 
 @frappe.whitelist()
 def add_total_row(item,parent,field_name,field_value):

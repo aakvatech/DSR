@@ -17,11 +17,12 @@
   "close_date_and_time",
   "section_break_4",
   "pump_meter_reading",
-  "recalculate_sales_total",
   "section_break_6",
+  "recalculate_sales_total",
   "attendant_pump",
   "section_break_16",
   "opening_balance",
+  "total_cash_sales_to_be_deposited",
   "total_deposited",
   "total_cash_shortage",
   "column_break_15",
@@ -250,10 +251,16 @@
    "fieldtype": "Currency",
    "label": "Total Bank Deposit",
    "read_only": 1
+  },
+  {
+   "fieldname": "total_cash_sales_to_be_deposited",
+   "fieldtype": "Currency",
+   "label": "Total Cash Sales to be Deposited",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-27 10:24:55.731180",
+ "modified": "2019-11-27 16:22:14.274297",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",
