@@ -251,22 +251,8 @@ function validate_dip_reading(frm) {
 	});
 }
 
+// Check if there are any credit sales pending to be posted or with cash_discounted not full paid
 function validate_cash_discounted_pending(frm) {
-	frappe.call({
-		method:"frappe.client.get_list",
-		args:{
-			doctype: 'Credit Sales',
-			filters: {'shift': frm.doc.shift, 'docstatus':0},
-			fields:["name"]
-		},
-		async: false,
-		callback:function(r)
-		{
-			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not submitted yet! Please submit all Credit Sales documents",[r.message[0].name]))
-			}
-		}
-	});
 	frappe.call({
 		method:"frappe.client.get_list",
 		args:{
@@ -279,6 +265,70 @@ function validate_cash_discounted_pending(frm) {
 		{
 			if(r.message.length >= 1){
 				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not fully paid yet! Please confirm that the monies are fully paid by going to the document.",[r.message[0].name]))
+			}
+		}
+	});
+}
+
+// Check if the Disbursed for Office use or Fuel Stock receipts are pending submission
+function validate_unsubmitted_documents(frm) {
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Credit Sales',
+			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+			}
+		}
+	});
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Disbursed for Office Use',
+			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Disbursed%20for%20Office%20Use/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+			}
+		}
+	});
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Fuel Stock Receipts',
+			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Fuel%20Stock%20Receipts/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+			}
+		}
+	});
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Cash Deposited',
+			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("<a href=#Form/Cash%20Deposited/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
