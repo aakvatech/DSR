@@ -4,7 +4,16 @@
 frappe.ui.form.on('Expense Record', {
 	onload: function(frm,cdt,cdn) {
 		auto_shift_selection(frm, cdt, cdn)
-}
+	},
+	setup: function(frm) {
+		frm.set_query('fuel_station', function() {
+			return {
+				filters: {
+					'fuel_station': doc.fuel_station
+				}
+			}
+		});
+	}
 });
 var auto_shift_selection = function (frm, cdt, cdn) {
 if (frm.doc.__islocal) {

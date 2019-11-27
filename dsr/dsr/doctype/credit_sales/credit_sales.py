@@ -22,8 +22,8 @@ class CreditSales(Document):
 		item = frappe.db.get_value("Fuel Item",self.fuel_item,"item")
 		if not item:
 			frappe.throw(_("Fuel Item {0} Not Assigned To Item").format(self.fuel_item))
-		price_rate_details = get_price(item,self.quantity,self.credit_customer)
-		frappe.errprint(flt(self.quantity) * flt(price_rate_details.price_list_rate))
+		price_rate_details = get_price(item,self.quantity,self.credit_customer,self.fuel_station)
+		#frappe.errprint(flt(self.quantity) * flt(price_rate_details.price_list_rate))
 		self.amount = flt(self.quantity) * flt(price_rate_details.price_list_rate)
 
 
@@ -73,9 +73,12 @@ where
 		frappe.throw(_("No Any Cash Receive At Station {0} For Vehicle {1}").format(station,vehicle))
 
 @frappe.whitelist()
-def get_price(item_code, qty=1,customer=None):
+def get_price(item_code, qty=1,customer=None,fuel_station=None):
+	customer_doc = frappe.get_doc("Customer",customer)
 	template_item_code = frappe.db.get_value("Item", item_code, "variant_of")
-	price_list, customer_group,company = "Standard Selling","All Customer Groups","DSR"
+	price_list = customer_doc.default_price_list or "Standard Selling"
+	customer_group = customer_doc.customer_group or "All Customer Groups"
+	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
 	if price_list:
 		price = frappe.get_all("Item Price", fields=["price_list_rate", "currency"],
 			filters={"price_list": price_list, "item_code": item_code})

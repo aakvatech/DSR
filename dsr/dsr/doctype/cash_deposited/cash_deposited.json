@@ -28,7 +28,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Name of Bank",
-   "options": "Bank",
+   "options": "Bank Account",
    "reqd": 1
   },
   {
@@ -125,7 +125,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-27 17:20:16.428884",
+ "modified": "2019-11-27 19:39:55.451641",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",
