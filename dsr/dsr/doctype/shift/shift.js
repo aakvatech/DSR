@@ -234,7 +234,7 @@ function validate_meter_reading(frm) {
 
 function validate_attendant_pump(frm) {
 	frm.doc.attendant_pump.forEach((d, index) => {
-		if (!d.cash_deposited || d.cash_deposited == 0) {
+		if (!d.cash_deposited || d.cash_deposited != 0) {
 			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table", [d.idx]))
 		}
 		if (d.cash_deposited < d.cash_to_be_deposited) {
@@ -435,6 +435,8 @@ function calculate_other_sales_totals(frm, cdt, cdn) {
 	var total_sales = 0;
 	var total_deposited = 0;
 	var total_cash_shortage = 0;
+	var total_bank_deposits = 0;
+	var total_expenses = 0;
 	frm.doc.attendant_pump.forEach((d, index) => {
 		frm.set_value("cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
 		total_deposited = total_deposited + d.cash_deposited;
@@ -449,8 +451,7 @@ function calculate_other_sales_totals(frm, cdt, cdn) {
 	frm.set_value("total_cash_shortage", total_cash_shortage)
 	refresh_field("total_cash_shortage")
 	var total_bank_deposits = 0;
-	var cash_in_hand = total_deposited - total_cash_shortage;
-	// var cash_in_hand = frm.doc.opening_balance + total_deposited - total_cash_shortage - frm.doc.total_bank_deposits - frm.doc.total_expenses;
+	var cash_in_hand = frm.doc.opening_balance + total_deposited - total_cash_shortage - total_bank_deposits - total_expenses;
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }
