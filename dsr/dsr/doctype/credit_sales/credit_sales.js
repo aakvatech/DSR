@@ -40,9 +40,9 @@ frappe.ui.form.on('Credit Sales', {
 		auto_shift_selection(frm, cdt, cdn)
 	},
 	quantity: function (frm) {
-		if (frm.doc.quantity && frm.doc.fuel_item) {
-			calculate_total(frm)
-		}
+		// if (frm.doc.quantity && frm.doc.fuel_item) {
+		// 	calculate_total(frm)
+		// }
 
 	},
 	lpo: function (frm) {
