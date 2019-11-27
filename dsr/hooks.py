@@ -79,7 +79,7 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-fixtures = [{"doctype":"Custom Field", "filters": [["_user_tags", "like", ("%DSR%")]]}, {"doctype":"Notification", "filters": [{"is_standard":0}]}, 'Auto Email Report', "Translation", {"doctype":"Print Format", "filters": [{"module":"DSR"}]}, {"doctype":"Report", "filters": [{"module":"DSR"}]} ]
+fixtures = [{"doctype":"Custom Field", "filters": [["_user_tags", "like", ("%DSR%")]]}, {"doctype":"Property Setter", "filters": [["_user_tags", "like", ("%DSR%")]]}, {"doctype":"Notification", "filters": [{"is_standard":0}]}, 'Auto Email Report', "Translation", {"doctype":"Print Format", "filters": [{"module":"DSR"}]}, {"doctype":"Report", "filters": [{"module":"DSR"}]} ]
 
 doc_events = {
 	"Expense Record": {

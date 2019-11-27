@@ -13,6 +13,13 @@ frappe.ui.form.on('Expense Record', {
 				}
 			}
 		});
+		frm.set_query('expense_account', function() {
+			return {
+				filters: {
+					'company': doc.company
+				}
+			}
+		});
 	}
 });
 var auto_shift_selection = function (frm, cdt, cdn) {
