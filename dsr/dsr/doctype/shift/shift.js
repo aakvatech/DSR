@@ -457,9 +457,6 @@ function calculate_mechanical_difference(frm, cdt, cdn) {
 
 function calculate_total_sales(frm, cdt, cdn) {
 	var child = locals[cdt][cdn]
-	var total_sales = 0;
-	var total_deposited = 0;
-	var total_cash_shortage = 0;
 	if (child.pump) {
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
@@ -479,7 +476,26 @@ function calculate_total_sales(frm, cdt, cdn) {
 		});
 		refresh_field("attendant_pump")
 	}
-	calculate_other_sales_totals(frm, cdt, cdn)
+	calculate_attendant_deposit_totals(frm, cdt, cdn)
+}
+
+function calculate_attendant_deposit_totals(frm, cdt, cdn) {
+	var total_cash_sales_to_be_deposited = 0;
+	var total_deposited = 0;
+	var total_cash_shortage = 0;
+	frm.doc.attendant_pump.forEach((d, index) => {
+		frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
+		total_deposited = total_deposited + d.cash_deposited;
+		total_cash_sales_to_be_deposited = total_cash_sales_to_be_deposited + d.cash_to_be_deposited;
+		total_cash_shortage = total_cash_shortage + d.cash_to_be_deposited - d.cash_deposited;
+	});
+	refresh_field("attendant_pump")
+	frm.set_value("total_cash_sales_to_be_deposited", total_cash_sales_to_be_deposited)
+	refresh_field("total_cash_sales_to_be_deposited")
+	frm.set_value("total_deposited", total_deposited)
+	refresh_field("total_deposited")
+	frm.set_value("total_cash_shortage", total_cash_shortage)
+	refresh_field("total_cash_shortage")
 }
 
 frappe.ui.form.on('Attendant Pump', {
@@ -495,30 +511,15 @@ frappe.ui.form.on('Attendant Pump', {
 		}
 	},
 	cash_deposited: function (frm, cdt, cdn) {
-		calculate_other_sales_totals(frm, cdt, cdn)
+		calculate_attendant_deposit_totals(frm, cdt, cdn)
 	}
 });
 
 function calculate_other_sales_totals(frm, cdt, cdn) {
-	var total_cash_sales_to_be_deposited = 0;
-	var total_deposited = 0;
-	var total_cash_shortage = 0;
+	calculate_attendant_deposit_totals(frm, cdt, cdn)
+
 	var total_bank_deposits = 0;
 	var total_expenses = 0;
-	frm.doc.attendant_pump.forEach((d, index) => {
-		frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
-		total_deposited = total_deposited + d.cash_deposited;
-		total_cash_sales_to_be_deposited = total_cash_sales_to_be_deposited + d.cash_to_be_deposited;
-		total_cash_shortage = total_cash_shortage + d.cash_to_be_deposited - d.cash_deposited;
-	});
-	refresh_field("attendant_pump")
-	frm.set_value("total_cash_sales_to_be_deposited", total_cash_sales_to_be_deposited)
-	refresh_field("total_cash_sales_to_be_deposited")
-	frm.set_value("total_deposited", total_deposited)
-	refresh_field("total_deposited")
-	frm.set_value("total_cash_shortage", total_cash_shortage)
-	refresh_field("total_cash_shortage")
-
 	frappe.call({
 		method: "dsr.dsr.doctype.shift.shift.get_total_banking",
 		args: { 'shift': frm.doc.name },
@@ -547,7 +548,7 @@ function calculate_other_sales_totals(frm, cdt, cdn) {
 	});
 	refresh_field("total_expenses")
 
-	var cash_in_hand = frm.doc.opening_balance + total_deposited - total_cash_shortage - total_bank_deposits - total_expenses;
+	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - total_bank_deposits - total_expenses;
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }
