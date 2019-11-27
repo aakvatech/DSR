@@ -221,3 +221,4 @@ def make_journal_entry(invoice_doc):
 		posting_date = invoice_doc.posting_date,
 		accounts = accounts
 	)).insert(ignore_permissions = True)
+	jv_doc.submit()
