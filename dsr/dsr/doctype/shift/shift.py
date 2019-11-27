@@ -41,6 +41,13 @@ class Shift(Document):
 		# 	if item_available == False:
 		# 		frappe.msgprint(str(dip_read.fuel_tank))
 		# 		add_total_row(fuel_item,doc.name,'total_sales_quantity',meter_read.calculated_sales)
+	
+	def before_submit(self):
+		if (self.shift_status != "Closed"):
+			frappe.throw(_("Shift cannot be submitted unless it is closed"),
+				frappe.DocstatusTransitionError)
+
+
 	# def validate(self):
 	# 	doc = frappe.get_all("Shift",filters={'shift_status': 'Open','fuel_station':self.fuel_station},fields=["name"])
 	# 	if len(doc) >= 1:

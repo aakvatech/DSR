@@ -35,6 +35,7 @@ frappe.ui.form.on('Shift', {
 		get_last_shift_data(frm)
 	},
 	close_shift: (frm) => {
+		validate_unsubmitted_documents(frm)
 		validate_cash_discounted_pending(frm)
 		validate_meter_reading(frm)
 		validate_attendant_pump(frm)
@@ -290,7 +291,7 @@ function validate_unsubmitted_documents(frm) {
 	frappe.call({
 		method:"frappe.client.get_list",
 		args:{
-			doctype: 'Disbursed for Office Use',
+			doctype: 'Dispensed for Office Use',
 			filters: {'shift': frm.doc.shift, 'docstatus':0},
 			fields:["name"]
 		},
@@ -298,7 +299,7 @@ function validate_unsubmitted_documents(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Disbursed%20for%20Office%20Use/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+				frappe.throw(__("<a href=#Form/Dispensed%20for%20Office%20Use/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
