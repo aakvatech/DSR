@@ -18,5 +18,25 @@
   "property": "fetch_from",
   "property_type": "Small Text",
   "value": "fuel_station.company"
+ },
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": ",DSR",
+  "default_value": null,
+  "doc_type": "Bank Account",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "company",
+  "modified": "2019-11-28 17:05:33.173273",
+  "name": "Bank Account-company-read_only",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "read_only",
+  "property_type": "Check",
+  "value": "1"
  }
 ]

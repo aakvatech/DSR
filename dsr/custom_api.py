@@ -44,7 +44,7 @@ def make_journal_entry(accounts,date,bill_no=None):
 		bill_no = bill_no
 	))
 	jv_doc.flags.ignore_permissions = True
-	jv_doc.save()
+	jv_doc.save(ignore_permissions = True)
 	jv_doc.submit()
 	return jv_doc.name
 
