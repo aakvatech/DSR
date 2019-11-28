@@ -36,13 +36,15 @@ def make_account_row(debit_account,credit_account,amount):
 
 def make_journal_entry(accounts,date,bill_no=None):
 	if len(accounts) <= 0:
-		frappe.throw(_("Something Wrong for create journal entry"))
+		frappe.throw(_("Something went while creating journal entry"))
 	jv_doc = frappe.get_doc(dict(
 		doctype = "Journal Entry",
 		posting_date = date,
 		accounts = accounts,
 		bill_no = bill_no
-	)).insert(ignore_permissions=True)
+	))
+	jv_doc.flags.ignore_permissions = True
+	jv_doc.save()
 	jv_doc.submit()
 	return jv_doc.name
 
@@ -63,7 +65,6 @@ def on_submit_cash_deposited(self,method):
 	account_details = make_account_row(bank_account,cash_account,self.amount)
 	res = make_journal_entry(account_details,self.date,self.credit_sales_reference)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
-
 
 @frappe.whitelist()
 def list_journal():
