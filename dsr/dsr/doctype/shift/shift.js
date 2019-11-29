@@ -34,7 +34,7 @@ frappe.ui.form.on('Shift', {
 		}
 		get_last_shift_data(frm)
 	},
-	close_shift: (frm) => {
+	close_shift: (frm, cdt, cdn) => {
 		validate_unsubmitted_documents(frm)
 		validate_cash_discounted_pending(frm)
 		validate_meter_reading(frm)
@@ -68,7 +68,7 @@ frappe.ui.form.on('Shift', {
 			frappe.model.set_value(d.doctype, d.name, "calculated_sales", d.closing_electrical - d.opening_electrical)
 		});
 		refresh_field("attendance_pump");
-		calculate_other_sales_totals(frm);
+		calculate_other_sales_totals(frm, cdt, cdn);
 	},
 	generator_hours: function(frm) {
 		if (frm.doc.closing_generator_hours) {
