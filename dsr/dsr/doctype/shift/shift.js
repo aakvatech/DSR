@@ -237,11 +237,12 @@ function validate_meter_reading(frm) {
 
 function validate_attendant_pump(frm) {
 	frm.doc.attendant_pump.forEach((d, index) => {
+		console.log(d.cash_deposited, d.cash_to_be_deposited, d.cash_shortage)
 		if (!d.cash_deposited && d.cash_deposited != 0) {
-			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table", [d.idx]))
+			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table. The amount is recorded is {1}.", [d.idx, d.cash_deposited]))
 		}
-		if (d.cash_deposited < d.cash_to_be_deposited) {
-			frappe.throw(__("Row {0}:Cash Deposited is lower than expected In Attendant Pump Table", [d.idx]))
+		if (d.cash_shortage > 0) {
+			frappe.throw(__("Row {0}:Cash Deposited is lower than expected In Attendant Pump Table. The shortage is {1}", [d.idx, d.cash_shortage]))
 		}
 	});
 }
