@@ -7,7 +7,8 @@ frappe.ui.form.on('Expense Type', {
 			return {
 				filters: {
 					'company': frm.doc.company,
-					"root_type": "Expense"
+					"root_type": "Expense",
+					'is_group': 0
 				}
 			}
 		});

@@ -19,7 +19,8 @@ def on_submit_expense_record(self,method):
 		frappe.throw(_("Cash account not specified in fuel station {0}").format(self.fuel_station))
 	account_details = make_account_row(expense_account,cash_account,self.amount)
 	company = get_company_from_fuel_station(self.fuel_station)
-	res = make_journal_entry(account_details,self.date,self.bill_no,company)
+	user_remark = self.name + " " + self.doctype + " was created at " + self.fuel_station + " for " + self.expense_type + " bill no " + self.bill_no + " during shift " + self.shift
+	res = make_journal_entry(account_details,self.date,self.bill_no,company, user_remark)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
 def make_account_row(debit_account,credit_account,amount):
@@ -36,7 +37,7 @@ def make_account_row(debit_account,credit_account,amount):
 	accounts.append(credit_row)
 	return accounts
 
-def make_journal_entry(accounts,date,bill_no=None,company=None):
+def make_journal_entry(accounts,date,bill_no=None,company=None,user_remark=None):
 	if len(accounts) <= 0:
 		frappe.throw(_("Something went while creating journal entry"))
 	jv_doc = frappe.get_doc(dict(
@@ -44,7 +45,8 @@ def make_journal_entry(accounts,date,bill_no=None,company=None):
 		posting_date = date,
 		accounts = accounts,
 		bill_no = bill_no,
-		company = company
+		company = company,
+		user_remark = user_remark
 	))
 	jv_doc.flags.ignore_permissions = True
 	frappe.flags.ignore_account_permission = True
