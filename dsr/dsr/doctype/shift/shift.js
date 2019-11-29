@@ -287,7 +287,7 @@ function validate_unsubmitted_documents(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+				frappe.throw(__("Credit Sales <a href=#Form/Credit%20Sales/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
@@ -302,7 +302,7 @@ function validate_unsubmitted_documents(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Dispensed%20for%20Office%20Use/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+				frappe.throw(__("Dispensed for Office Use <a href=#Form/Dispensed%20for%20Office%20Use/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
@@ -317,7 +317,7 @@ function validate_unsubmitted_documents(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Fuel%20Stock%20Receipts/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+				frappe.throw(__("Fuel Stock Receipts <a href=#Form/Fuel%20Stock%20Receipts/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
@@ -332,7 +332,7 @@ function validate_unsubmitted_documents(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Cash%20Deposited/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+				frappe.throw(__("Cash Deposited <a href=#Form/Cash%20Deposited/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
@@ -347,7 +347,22 @@ function validate_unsubmitted_documents(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Expense%20Record/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+				frappe.throw(__("Expense Record <a href=#Form/Expense%20Record/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
+			}
+		}
+	});
+	frappe.call({
+		method:"frappe.client.get_list",
+		args:{
+			doctype: 'Inspection Report',
+			filters: {'shift': frm.doc.name, 'docstatus':0},
+			fields:["name"]
+		},
+		async: false,
+		callback:function(r)
+		{
+			if(r.message.length >= 1){
+				frappe.throw(__("Inspection Report <a href=#Form/Inspection%20Report/{0}>{0}</a> is not submitted yet! Please submit the document",[r.message[0].name]))
 			}
 		}
 	});
