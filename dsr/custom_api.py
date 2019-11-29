@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe.utils import cint,flt
+from frappe.sessions import Session, clear_sessions, delete_session
 from frappe import _
 
 @frappe.whitelist()
@@ -46,7 +47,8 @@ def make_journal_entry(accounts,date,bill_no=None,company=None):
 		company = company
 	))
 	jv_doc.flags.ignore_permissions = True
-	jv_doc.save(ignore_permissions = True)
+	frappe.flags.ignore_account_permission = True
+	jv_doc.save()
 	jv_doc.submit()
 	return jv_doc.name
 
@@ -72,7 +74,7 @@ def on_submit_cash_deposited(self,method):
 def get_company_from_fuel_station(fuel_station):
 	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
 	if not company:
-		frappe.throw(_("Company not defined in Fuel Station! Please define the company there."))
+		frappe.throw(_("Compant Not Define In Fuel Station"))
 
 @frappe.whitelist()
 def list_journal():
@@ -118,3 +120,13 @@ def update_purchase(data):
 @frappe.whitelist()
 def update_stockentry(data):
 	return {"message":"Stock Entry updated"}
+
+def internal_login_logout_for_transaction(login=True):
+	from frappe.auth import LoginManager
+	login_manager = LoginManager()
+	if login == True:
+		login_manager.authenticate("Administrator","dsr-BM$123")
+		login_manager.post_login()
+	else:
+		delete_session(frappe.session.sid, user='Administrator', reason="Internal Logout")
+

@@ -122,7 +122,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-21 00:12:28.143288",
+ "modified": "2019-11-29 16:58:44.191473",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Customer Generated LPO",
@@ -156,7 +156,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "route": "customer-lpo",
  "search_fields": "fuel_station, fuel_item, vehicle_number",
  "sort_field": "modified",

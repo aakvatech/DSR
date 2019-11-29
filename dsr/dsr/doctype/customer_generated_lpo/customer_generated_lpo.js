@@ -13,7 +13,8 @@ frappe.ui.form.on('Customer Generated LPO', {
 	},
 	fuel_station: function(frm) {
 		frm.set_value("fuel_item", "")
-	}
+		frm.set_value("station_full_name", "")
+	},
 	// refresh: function(frm) {
 
 	// }
