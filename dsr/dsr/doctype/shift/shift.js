@@ -5,7 +5,7 @@ frappe.ui.form.on('Shift', {
 	refresh: function (frm) {
 		if (!frm.doc.__islocal && frm.doc.shift_status == "Open") {
 			frm.add_custom_button(__('Close Shift'), function () {
-				frm.events.close_shift(frm);
+				frm.events.close_shift(frm, cdt, cdn);
 			}).addClass("btn-primary");
 		}
 		if (frm.doc.shift_status == "Closed") {
