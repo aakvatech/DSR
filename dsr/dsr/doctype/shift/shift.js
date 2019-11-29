@@ -2,10 +2,10 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Shift', {
-	refresh: function (frm) {
+	refresh: function (frm, cdt, cdn) {
 		if (!frm.doc.__islocal && frm.doc.shift_status == "Open") {
 			frm.add_custom_button(__('Close Shift'), function () {
-				frm.events.close_shift(frm, cdt, cdn);
+				frm.events.close_shift(frm);
 			}).addClass("btn-primary");
 		}
 		if (frm.doc.shift_status == "Closed") {
@@ -34,13 +34,13 @@ frappe.ui.form.on('Shift', {
 		}
 		get_last_shift_data(frm)
 	},
-	close_shift: (frm, cdt, cdn) => {
+	close_shift: (frm) => {
 		validate_unsubmitted_documents(frm)
 		validate_cash_discounted_pending(frm)
 		validate_meter_reading(frm)
 		validate_attendant_pump(frm)
 		validate_dip_reading(frm)
-		calculate_other_sales_totals(frm, cdt, cdn);
+		calculate_other_sales_totals(frm);
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.close_shift",
 			args: { 'name': frm.doc.name, 'status': 'Closed' },
@@ -68,7 +68,7 @@ frappe.ui.form.on('Shift', {
 			frappe.model.set_value(d.doctype, d.name, "calculated_sales", d.closing_electrical - d.opening_electrical)
 		});
 		refresh_field("attendance_pump");
-		calculate_other_sales_totals(frm, cdt, cdn);
+		calculate_other_sales_totals(frm);
 	},
 	generator_hours: function(frm) {
 		if (frm.doc.closing_generator_hours) {
@@ -477,10 +477,10 @@ function calculate_total_sales(frm, cdt, cdn) {
 		});
 		refresh_field("attendant_pump")
 	}
-	calculate_attendant_deposit_totals(frm, cdt, cdn)
+	calculate_attendant_deposit_totals(frm)
 }
 
-function calculate_attendant_deposit_totals(frm, cdt, cdn) {
+function calculate_attendant_deposit_totals(frm) {
 	var total_cash_sales_to_be_deposited = 0;
 	var total_deposited = 0;
 	var total_cash_shortage = 0;
@@ -511,13 +511,13 @@ frappe.ui.form.on('Attendant Pump', {
 			});
 		}
 	},
-	cash_deposited: function (frm, cdt, cdn) {
-		calculate_attendant_deposit_totals(frm, cdt, cdn)
+	cash_deposited: function (frm) {
+		calculate_attendant_deposit_totals(frm)
 	}
 });
 
-function calculate_other_sales_totals(frm, cdt, cdn) {
-	calculate_attendant_deposit_totals(frm, cdt, cdn)
+function calculate_other_sales_totals(frm) {
+	calculate_attendant_deposit_totals(frm)
 
 	var total_bank_deposits = 0;
 	var total_expenses = 0;
