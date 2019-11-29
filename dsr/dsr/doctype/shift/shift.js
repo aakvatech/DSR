@@ -280,7 +280,7 @@ function validate_unsubmitted_documents(frm) {
 		method:"frappe.client.get_list",
 		args:{
 			doctype: 'Credit Sales',
-			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			filters: {'shift': frm.doc.name, 'docstatus':0},
 			fields:["name"]
 		},
 		async: false,
@@ -295,7 +295,7 @@ function validate_unsubmitted_documents(frm) {
 		method:"frappe.client.get_list",
 		args:{
 			doctype: 'Dispensed for Office Use',
-			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			filters: {'shift': frm.doc.name, 'docstatus':0},
 			fields:["name"]
 		},
 		async: false,
@@ -310,7 +310,7 @@ function validate_unsubmitted_documents(frm) {
 		method:"frappe.client.get_list",
 		args:{
 			doctype: 'Fuel Stock Receipts',
-			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			filters: {'shift': frm.doc.name, 'docstatus':0},
 			fields:["name"]
 		},
 		async: false,
@@ -325,7 +325,7 @@ function validate_unsubmitted_documents(frm) {
 		method:"frappe.client.get_list",
 		args:{
 			doctype: 'Cash Deposited',
-			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			filters: {'shift': frm.doc.name, 'docstatus':0},
 			fields:["name"]
 		},
 		async: false,
@@ -340,7 +340,7 @@ function validate_unsubmitted_documents(frm) {
 		method:"frappe.client.get_list",
 		args:{
 			doctype: 'Expense Record',
-			filters: {'shift': frm.doc.shift, 'docstatus':0},
+			filters: {'shift': frm.doc.name, 'docstatus':0},
 			fields:["name"]
 		},
 		async: false,
