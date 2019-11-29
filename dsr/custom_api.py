@@ -75,6 +75,7 @@ def get_company_from_fuel_station(fuel_station):
 	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
 	if not company:
 		frappe.throw(_("Compant Not Define In Fuel Station"))
+	return company
 
 @frappe.whitelist()
 def list_journal():

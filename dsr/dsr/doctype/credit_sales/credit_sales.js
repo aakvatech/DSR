@@ -66,6 +66,7 @@ frappe.ui.form.on('Credit Sales', {
 	fuel_item: function (frm) {
 		if (frm.doc.quantity && frm.doc.fuel_item) {
 			calculate_total(frm)
+			frm.set_value("pump", "")
 		}
 	},
 	is_cash_received_at_other_station: function (frm, cdt, cdn) {
