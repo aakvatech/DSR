@@ -237,7 +237,7 @@ function validate_meter_reading(frm) {
 
 function validate_attendant_pump(frm) {
 	frm.doc.attendant_pump.forEach((d, index) => {
-		if (!d.cash_deposited) {
+		if (!d.cash_deposited && d.cash_deposited != 0) {
 			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table", [d.idx]))
 		}
 		if (d.cash_deposited < d.cash_to_be_deposited) {

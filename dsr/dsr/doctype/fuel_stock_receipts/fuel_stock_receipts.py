@@ -46,10 +46,12 @@ def on_submit_fuel_stock_Receipt(self):
 
 def make_purchase_invoice(supplier,date,company,item_object):
 	pinv_doc = frappe.get_doc(dict(
+		doctype = "Purchase Invoice",
 		supplier = supplier,
 		posting_date = date,
 		company = company,
-		items = item_object
+		items = item_object,
+		update_stock = 1
 	)).insert(ignore_permissions = True)
 	pinv_doc.submit()
 
