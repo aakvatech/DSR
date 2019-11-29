@@ -24,9 +24,10 @@ class CreditSales(Document):
 		if not item:
 			frappe.throw(_("Fuel Item {0} Not Assigned To Item").format(self.fuel_item))
 		price_rate_details = get_price(item,self.quantity,self.credit_customer,self.fuel_station)
-		self.rate = price_rate_details.price_list_rate
-		#frappe.errprint(flt(self.quantity) * flt(price_rate_details.price_list_rate))
-		self.amount = flt(self.quantity) * flt(price_rate_details.price_list_rate)
+		if (price_rate_details):
+			self.rate = price_rate_details.price_list_rate
+			#frappe.errprint(flt(self.quantity) * flt(price_rate_details.price_list_rate))
+			self.amount = flt(self.quantity) * flt(price_rate_details.price_list_rate)
 
 
 @frappe.whitelist()
