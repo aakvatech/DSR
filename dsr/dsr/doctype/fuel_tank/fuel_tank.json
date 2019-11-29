@@ -7,6 +7,7 @@
  "field_order": [
   "fuel_station",
   "tank_number",
+  "company",
   "column_break_3",
   "fuel_item",
   "tank_capacity",
@@ -72,9 +73,17 @@
    "label": "Warehouse",
    "options": "Warehouse",
    "reqd": 1
+  },
+  {
+   "fetch_from": "fuel_station.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company",
+   "options": "Company"
   }
  ],
- "modified": "2019-11-26 11:20:29.529462",
+ "modified": "2019-11-29 14:42:01.894760",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",

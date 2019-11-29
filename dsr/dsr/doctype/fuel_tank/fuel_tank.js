@@ -4,8 +4,24 @@
 frappe.ui.form.on('Fuel Tank', {
 	refresh(frm) {
 		// your code here
-	}
-})
+	},
+	setup: function(frm){
+		frm.set_query('fuel_item', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station,
+				}
+			}
+		});
+		frm.set_query('warehouse', function() {
+			return {
+				filters: {
+					'company': frm.doc.company,
+				}
+			}
+		});
+	},
+});
 
 frappe.ui.form.on('Fuel Tank Calibration', {
 	litres:function(frm,cdt,cdn) {

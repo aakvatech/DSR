@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Shift', {
-	refresh: function (frm, cdt, cdn) {
+	refresh: function (frm) {
 		if (!frm.doc.__islocal && frm.doc.shift_status == "Open") {
 			frm.add_custom_button(__('Close Shift'), function () {
 				frm.events.close_shift(frm);
@@ -407,7 +407,6 @@ function calculate_generator_expense(frm) {
 	});
 	frm.set_value("estimated_generator_expense", avg_consump * item_rate);
 
-	//frappe.model.set_value(cdt, cdn, "calculated_sales", child.closing_electrical - child.opening_electrical)
 }
 
 frappe.ui.form.on('Dip Reading', {
