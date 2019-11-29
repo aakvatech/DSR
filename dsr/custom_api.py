@@ -17,7 +17,8 @@ def on_submit_expense_record(self,method):
 	if not cash_account:
 		frappe.throw(_("Cash account not specified in fuel station {0}").format(self.fuel_station))
 	account_details = make_account_row(expense_account,cash_account,self.amount)
-	res = make_journal_entry(account_details,self.date,self.bill_no)
+	company = get_company_from_fuel_station(self.fuel_station)
+	res = make_journal_entry(account_details,self.date,self.bill_no,company)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
 def make_account_row(debit_account,credit_account,amount):
@@ -34,14 +35,15 @@ def make_account_row(debit_account,credit_account,amount):
 	accounts.append(credit_row)
 	return accounts
 
-def make_journal_entry(accounts,date,bill_no=None):
+def make_journal_entry(accounts,date,bill_no=None,company=None):
 	if len(accounts) <= 0:
 		frappe.throw(_("Something went while creating journal entry"))
 	jv_doc = frappe.get_doc(dict(
 		doctype = "Journal Entry",
 		posting_date = date,
 		accounts = accounts,
-		bill_no = bill_no
+		bill_no = bill_no,
+		company = company
 	))
 	jv_doc.flags.ignore_permissions = True
 	jv_doc.save(ignore_permissions = True)
@@ -63,8 +65,14 @@ def on_submit_cash_deposited(self,method):
 	if not cash_account:
 		frappe.throw(_("Cash account not specified in fuel station {0}").format(self.fuel_station))
 	account_details = make_account_row(bank_account,cash_account,self.amount)
-	res = make_journal_entry(account_details,self.date,self.credit_sales_reference)
+	company = get_company_from_fuel_station(self.fuel_station)
+	res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
+
+def get_company_from_fuel_station(fuel_station):
+	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
+	if not company:
+		frappe.throw(_("Company not defined in Fuel Station! Please define the company there."))
 
 @frappe.whitelist()
 def list_journal():
