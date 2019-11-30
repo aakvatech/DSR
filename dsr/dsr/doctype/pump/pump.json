@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "fuel_station",
+  "company",
   "pump_number",
   "column_break_3",
   "fuel_item",
@@ -92,9 +93,17 @@
    "label": "Warehouse",
    "options": "Warehouse",
    "reqd": 1
+  },
+  {
+   "fetch_from": "fuel_station.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company",
+   "options": "Company"
   }
  ],
- "modified": "2019-11-30 19:42:58.364418",
+ "modified": "2019-11-30 21:27:36.938975",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",

@@ -2,7 +2,20 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Pump', {
-	// refresh: function(frm) {
-
-	// }
+	setup: function(frm){
+		frm.set_query('fuel_item', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station,
+				}
+			}
+		});
+		frm.set_query('warehouse', function() {
+			return {
+				filters: {
+					'company': frm.doc.company,
+				}
+			}
+		});
+	},
 });
