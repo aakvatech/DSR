@@ -40,7 +40,6 @@ frappe.ui.form.on('Shift', {
 		validate_meter_reading(frm)
 		validate_attendant_pump(frm)
 		validate_dip_reading(frm)
-		calculate_other_sales_totals(frm);
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.close_shift",
 			args: { 'name': frm.doc.name, 'status': 'Closed' },
@@ -237,7 +236,7 @@ function validate_meter_reading(frm) {
 
 function validate_attendant_pump(frm) {
 	frm.doc.attendant_pump.forEach((d, index) => {
-		console.log(d.cash_deposited, d.cash_to_be_deposited, d.cash_shortage)
+		// console.log(d.cash_deposited, d.cash_to_be_deposited, d.cash_shortage)
 		if (!d.cash_deposited && d.cash_deposited != 0) {
 			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table. The amount is recorded is {1}.", [d.idx, d.cash_deposited]))
 		}
@@ -382,7 +381,7 @@ function calculate_generator_expense(frm) {
 		},
 		async: false,
 		callback: function (data) {
-			console.log(data);
+			// console.log(data);
 			if(data.message) {
 				avg_consump = data.message.average_generator_fuel_consumption_per_hour;
 			}
@@ -541,7 +540,7 @@ function calculate_other_sales_totals(frm) {
 		async: false,
 		callback: function (r) {
 			if (r.message) {
-				console.log(r.message)
+				// console.log(r.message)
 				frm.set_value("total_bank_deposit", Number(r.message))
 				total_bank_deposits = r.message[0]
 			}
@@ -555,7 +554,7 @@ function calculate_other_sales_totals(frm) {
 		async: false,
 		callback: function (r) {
 			if (r.message) {
-				console.log(r.message)
+				// console.log(r.message)
 				frm.set_value("total_expenses", Number(r.message))
 				total_expenses = r.message[0];
 			}
@@ -563,7 +562,8 @@ function calculate_other_sales_totals(frm) {
 	});
 	refresh_field("total_expenses")
 
-	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - total_bank_deposits - total_expenses;
+	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - frm.doc.total_bank_deposit - frm.doc.total_expenses;
+	// console.log(cash_in_hand, frm.doc.opening_balance, frm.doc.total_deposited, frm.doc.total_cash_shortage, total_bank_deposits, total_expenses)
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }

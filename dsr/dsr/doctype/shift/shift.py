@@ -10,12 +10,19 @@ from frappe.model.document import Document
 import json
 
 class Shift(Document):
+	def before_save(self):
+		# Below added to calculate the totals upon a change in the values.
+		self.total_bank_deposit = get_total_banking(self.name)
+		self.total_expenses = get_total_expenses(self.name)
+		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_cash_shortage - self.total_bank_deposit - self.total_expenses
+
 	def on_change(self):
 		delete_item_total_table(self.name)
 		add_total_for_dip_reading(self)
 		add_total_for_meter_reading(self)
 		add_total_for_inward(self)
 		add_total_for_credit_sales(self)
+
 		# for dip_read in self.dip_reading:
 		# 	fuel_item = frappe.db.get_value("Fuel Tank",dip_read.fuel_tank,"fuel_item")
 		# 	item_available = False

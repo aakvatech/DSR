@@ -24,6 +24,7 @@
   "fuel_shortage",
   "section_break_15",
   "fuel_stock_receipt_tanks",
+  "purchase_invoice",
   "amended_from"
  ],
  "fields": [
@@ -151,10 +152,17 @@
    "label": "Fuel Origin",
    "options": "Fuel Origin",
    "reqd": 1
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "options": "Purchase Invoice",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-20 13:41:18.341558",
+ "modified": "2019-11-29 19:32:29.623404",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",
