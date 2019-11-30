@@ -79,11 +79,12 @@
    "fieldname": "company",
    "fieldtype": "Link",
    "hidden": 1,
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Company"
   }
  ],
- "modified": "2019-11-29 14:42:01.894760",
+ "modified": "2019-11-30 19:42:30.245341",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Tank",

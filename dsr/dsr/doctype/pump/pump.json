@@ -87,12 +87,14 @@
   {
    "fieldname": "warehouse",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Warehouse",
    "options": "Warehouse",
    "reqd": 1
   }
  ],
- "modified": "2019-11-26 11:26:10.394821",
+ "modified": "2019-11-30 19:42:58.364418",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",

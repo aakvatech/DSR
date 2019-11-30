@@ -37,6 +37,7 @@
    "fieldname": "item",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Item",
    "options": "Item",
    "reqd": 1
@@ -63,7 +64,7 @@
    "fieldtype": "Column Break"
   }
  ],
- "modified": "2019-11-20 17:38:53.570322",
+ "modified": "2019-11-30 19:41:50.681096",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Item",
