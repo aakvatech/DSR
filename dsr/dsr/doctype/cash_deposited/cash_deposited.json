@@ -27,6 +27,7 @@
    "fieldname": "name_of_bank",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Name of Bank",
    "options": "Bank Account",
    "reqd": 1
@@ -59,6 +60,7 @@
    "fetch_from": "shift.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
    "reqd": 1
@@ -125,7 +127,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-27 19:39:55.451641",
+ "modified": "2019-11-30 19:34:12.659829",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

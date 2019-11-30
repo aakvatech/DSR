@@ -31,6 +31,8 @@
   {
    "fieldname": "expense_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Expense Type",
    "options": "Expense Type",
    "reqd": 1
@@ -38,11 +40,13 @@
   {
    "fieldname": "bill_no",
    "fieldtype": "Data",
+   "in_standard_filter": 1,
    "label": "Bill No"
   },
   {
    "fieldname": "amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Amount",
    "reqd": 1
   },
@@ -66,6 +70,7 @@
    "fetch_from": "shift.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Fuel Station",
    "options": "Fuel Station",
    "reqd": 1
@@ -108,7 +113,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 19:45:20.935320",
+ "modified": "2019-11-30 19:32:42.669446",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",

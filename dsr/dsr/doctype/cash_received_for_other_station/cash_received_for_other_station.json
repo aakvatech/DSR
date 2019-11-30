@@ -29,6 +29,7 @@
    "fetch_from": "shift.fuel_station",
    "fieldname": "fuel_station",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Fuel Station",
    "options": "Fuel Station"
   },
@@ -41,6 +42,8 @@
   {
    "fieldname": "for_fuel_station",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "For Fuel Station",
    "options": "Fuel Station"
   },
@@ -62,6 +65,7 @@
   {
    "fieldname": "total_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Total Amount",
    "read_only": 1
   },
@@ -80,6 +84,7 @@
    "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer",
    "options": "Customer",
    "reqd": 1
@@ -87,6 +92,7 @@
   {
    "fieldname": "total_quantity",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Total Quantity",
    "read_only": 1
   },
@@ -130,7 +136,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-19 19:44:39.523732",
+ "modified": "2019-11-30 19:35:38.652321",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Received For Other Station",
