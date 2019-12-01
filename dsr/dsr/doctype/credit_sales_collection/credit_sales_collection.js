@@ -4,6 +4,15 @@
 frappe.ui.form.on('Credit Sales Collection', {
 	onload: function(frm,cdt,cdn) {
 		auto_shift_selection(frm, cdt, cdn)
+},
+setup:function(frm,cdt,cdn){
+	frm.set_query('shift', function() {
+		return {
+			filters: {
+				'shift_status': 'Open'
+			}
+		}
+	});
 }
 });
 var auto_shift_selection = function (frm, cdt, cdn) {

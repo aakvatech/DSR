@@ -9,6 +9,15 @@ frappe.ui.form.on('Cash Received For Other Station', {
 			erpnext.utils.copy_value_in_all_rows(frm.doc, frm.doc.doctype, frm.doc.name, "other_station_credit", "fuel_item");
 		}
 
+	},
+	setup:function(frm,cdt,cdn){
+		frm.set_query('shift', function() {
+			return {
+				filters: {
+					'shift_status': 'Open'
+				}
+			}
+		});
 	}
 });
 

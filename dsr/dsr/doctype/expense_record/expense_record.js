@@ -13,6 +13,13 @@ frappe.ui.form.on('Expense Record', {
 				}
 			}
 		});
+		frm.set_query('shift', function() {
+			return {
+				filters: {
+					'shift_status': 'Open'
+				}
+			}
+		});
 	}
 });
 var auto_shift_selection = function (frm, cdt, cdn) {

@@ -10,6 +10,13 @@ frappe.ui.form.on('Fuel Stock Receipts', {
 				}
 			}
 		});
+		frm.set_query('shift', function() {
+			return {
+				filters: {
+					'shift_status': 'Open'
+				}
+			}
+		});
 	},
 	onload: function(frm,cdt,cdn) {
         if(frm.doc.__islocal){

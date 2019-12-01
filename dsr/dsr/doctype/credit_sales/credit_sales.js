@@ -35,6 +35,13 @@ frappe.ui.form.on('Credit Sales', {
 				}
 			}
 		});
+		frm.set_query('shift', function() {
+			return {
+				filters: {
+					'shift_status': 'Open'
+				}
+			}
+		});
 	},
 	onload: function (frm, cdt, cdn) {
 		auto_shift_selection(frm, cdt, cdn)

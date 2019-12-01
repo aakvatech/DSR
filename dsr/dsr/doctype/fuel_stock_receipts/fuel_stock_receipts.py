@@ -53,6 +53,7 @@ def make_purchase_invoice(supplier,date,company,item_object):
 		items = item_object,
 		update_stock = 1
 	)).insert(ignore_permissions = True)
+	frappe.flags.ignore_account_permission = True
 	pinv_doc.submit()
 
 			

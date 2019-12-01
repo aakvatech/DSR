@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Inspection Report', {
+	setup:function(frm,cdt,cdn){
+		frm.set_query('shift', function() {
+			return {
+				filters: {
+					'shift_status': 'Open'
+				}
+			}
+		});
+	},
 	onload: function(frm,cdt,cdn) {
         if(frm.doc.__islocal){
             frappe.model.set_value(cdt,cdn,"inspected_by",frappe.session.user)

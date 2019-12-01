@@ -17,22 +17,24 @@ def on_submit_expense_record(self,method):
 	cash_account = frappe.db.get_value("Fuel Station",self.fuel_station,"default_cash_account")
 	if not cash_account:
 		frappe.throw(_("Cash account not specified in fuel station {0}").format(self.fuel_station))
-	account_details = make_account_row(expense_account,cash_account,self.amount)
+	account_details = make_account_row(expense_account,cash_account,self.amount,self.fuel_station)
 	company = get_company_from_fuel_station(self.fuel_station)
 	user_remark = self.name + " " + self.doctype + " was created at " + self.fuel_station + " for " + self.expense_type + " bill no " + self.bill_no + " during shift " + self.shift
 	res = make_journal_entry(account_details,self.date,self.bill_no,company, user_remark)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
-def make_account_row(debit_account,credit_account,amount):
+def make_account_row(debit_account,credit_account,amount,fuel_station):
 	accounts = []
 	debit_row = dict(
 		account = debit_account,
-		debit_in_account_currency = amount
+		debit_in_account_currency = amount,
+		cost_center = get_cost_center_from_fuel_station(fuel_station)
 	)
 	accounts.append(debit_row)
 	credit_row = dict(
 		account = credit_account,
-		credit_in_account_currency = amount
+		credit_in_account_currency = amount,
+		cost_center = get_cost_center_from_fuel_station(fuel_station)
 	)
 	accounts.append(credit_row)
 	return accounts
@@ -68,7 +70,7 @@ def on_submit_cash_deposited(self,method):
 	cash_account = frappe.db.get_value("Fuel Station",self.fuel_station,"default_cash_account")
 	if not cash_account:
 		frappe.throw(_("Cash account not specified in fuel station {0}").format(self.fuel_station))
-	account_details = make_account_row(bank_account,cash_account,self.amount)
+	account_details = make_account_row(bank_account,cash_account,self.amount,self.fuel_station)
 	company = get_company_from_fuel_station(self.fuel_station)
 	res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
@@ -78,6 +80,13 @@ def get_company_from_fuel_station(fuel_station):
 	if not company:
 		frappe.throw(_("Compant Not Define In Fuel Station"))
 	return company
+
+def get_cost_center_from_fuel_station(fuel_station):
+	cost_center = frappe.db.get_value("Fuel Station",fuel_station,"cost_center")
+	if cost_center:
+		return cost_center
+	else:
+		frappe.throw(_("Cost Center Not Define In Fuel Station"))	
 
 @frappe.whitelist()
 def list_journal():

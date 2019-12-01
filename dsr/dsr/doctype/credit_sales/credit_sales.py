@@ -145,7 +145,8 @@ def on_submit_credit_sales(self):
 		item_code = get_item_from_fuel_item(self.fuel_item),
 		qty = self.quantity,
 		rate = self.rate,
-		warehouse = get_pump_warehouse(self.pump)
+		warehouse = get_pump_warehouse(self.pump),
+		cost_center = get_cost_center_from_fuel_station(self.fuel_station)
 	)
 	item_obj.append(item_dict)
 	company = get_company_from_fuel_station(self.fuel_station)
@@ -164,11 +165,20 @@ def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credi
 		fuel_station = fuel_station,
 		shift = shift,
 		pump = pump,
-		credit_sales = credit_id
+		credit_sales = credit_id,
+		cost_center = get_cost_center_from_fuel_station(fuel_station)
 	)).insert(ignore_permissions=True)
+	frappe.flags.ignore_account_permission = True
 	invoice_doc.submit()
 	frappe.db.set_value("Credit Sales",credit_id,"sales_invoice",invoice_doc.name)
 	return invoice_doc
+
+def get_cost_center_from_fuel_station(fuel_station):
+	cost_center = frappe.db.get_value("Fuel Station",fuel_station,"cost_center")
+	if cost_center:
+		return cost_center
+	else:
+		frappe.throw(_("Cost Center Not Define In Fuel Station"))	
 
 def get_item_from_fuel_item(fuel_item):
 	item = frappe.db.get_value("Fuel Item",fuel_item,"item")
@@ -204,7 +214,8 @@ def make_journal_entry(invoice_doc):
 		account = "Debtors - D",
 		debit_in_account_currency = invoice_doc.grand_total,
 		party_type = "Customer",
-		party = get_customer_from_fuel_station(invoice_doc.fuel_station)
+		party = get_customer_from_fuel_station(invoice_doc.fuel_station),
+		cost_center = get_cost_center_from_fuel_station(invoice_doc.fuel_station)
 	)
 	accounts.append(debit_row)
 	credit_row = dict(
@@ -212,6 +223,7 @@ def make_journal_entry(invoice_doc):
 		credit_in_account_currency = invoice_doc.grand_total,
 		party_type = "Customer",
 		party = invoice_doc.customer,
+		cost_center = get_cost_center_from_fuel_station(invoice_doc.fuel_station),
 		reference_type = invoice_doc.doctype,
 		reference_name = invoice_doc.name
 	)

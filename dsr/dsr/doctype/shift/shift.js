@@ -546,6 +546,9 @@ function calculate_other_sales_totals(frm) {
 			}
 		}
 	});
+	if (!frm.doc.total_bank_deposit) {
+		frm.set_value("total_bank_deposit", 0)
+	}
 	refresh_field("total_bank_deposit")
 
 	frappe.call({
@@ -560,6 +563,9 @@ function calculate_other_sales_totals(frm) {
 			}
 		}
 	});
+	if (!frm.doc.total_expenses) {
+		frm.set_value("total_expenses", 0)
+	}
 	refresh_field("total_expenses")
 
 	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - frm.doc.total_bank_deposit - frm.doc.total_expenses;
