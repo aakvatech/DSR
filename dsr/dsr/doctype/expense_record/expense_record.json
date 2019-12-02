@@ -84,7 +84,7 @@
   },
   {
    "fieldname": "journal_entry",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Journal Entry",
    "options": "Journal Entry",
    "read_only": 1
@@ -113,7 +113,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-30 19:32:42.669446",
+ "modified": "2019-12-02 09:51:03.826944",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",

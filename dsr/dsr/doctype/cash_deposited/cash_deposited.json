@@ -13,14 +13,14 @@
   "section_break_5",
   "name_of_bank",
   "credit_sales_reference",
+  "cash_deposit_slip",
   "column_break_8",
   "amount",
   "amount_to_be_deposited",
   "pending_amount_after_deposit",
   "section_break_10",
-  "cash_deposit_slip",
-  "amended_from",
-  "journal_entry"
+  "journal_entry",
+  "amended_from"
  ],
  "fields": [
   {
@@ -96,7 +96,7 @@
   },
   {
    "fieldname": "journal_entry",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Journal Entry",
    "options": "Journal Entry",
    "read_only": 1
@@ -127,7 +127,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-30 19:34:12.659829",
+ "modified": "2019-12-02 09:51:41.327604",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",

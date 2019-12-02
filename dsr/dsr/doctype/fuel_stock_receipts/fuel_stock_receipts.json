@@ -155,14 +155,14 @@
   },
   {
    "fieldname": "purchase_invoice",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Purchase Invoice",
    "options": "Purchase Invoice",
    "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-29 19:32:29.623404",
+ "modified": "2019-12-02 09:50:47.241330",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

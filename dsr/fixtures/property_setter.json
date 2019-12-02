@@ -10,7 +10,7 @@
   "doctype": "Property Setter",
   "doctype_or_field": "DocField",
   "field_name": "company",
-  "modified": "2019-11-27 21:49:13.883011",
+  "modified": "2019-12-02 11:28:58.461747",
   "name": "Bank Account-company-fetch_from",
   "parent": null,
   "parentfield": null,
@@ -30,7 +30,7 @@
   "doctype": "Property Setter",
   "doctype_or_field": "DocField",
   "field_name": "company",
-  "modified": "2019-11-28 17:05:33.173273",
+  "modified": "2019-12-02 11:28:28.742061",
   "name": "Bank Account-company-read_only",
   "parent": null,
   "parentfield": null,
@@ -38,5 +38,25 @@
   "property": "read_only",
   "property_type": "Check",
   "value": "1"
+ },
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": ",DSR",
+  "default_value": null,
+  "doc_type": "Notification",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "channel",
+  "modified": "2019-12-02 11:42:42.330296",
+  "name": "Notification-channel-options",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "options",
+  "property_type": "Text",
+  "value": "Email\nSlack\nMessageMax"
  }
 ]

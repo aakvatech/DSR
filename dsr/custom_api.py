@@ -90,7 +90,7 @@ def get_cost_center_from_fuel_station(fuel_station):
 
 @frappe.whitelist()
 def list_journal():
-	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` ORDER BY name DESC LIMIT 3", as_dict=1)
+	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 2", as_dict=1)
 	return journal_doclist
 
 @frappe.whitelist()
@@ -114,8 +114,15 @@ def list_stockentry():
 	return stockentry_doclist
 
 @frappe.whitelist()
-def update_journal(data):
-	return {"message":"Journal updated"}
+def update_journal(**kwargs):
+	import ast
+	# # kwargs = {"message":{"cmd":"dsr.custom_api.update_journal","data":{"company":"My Company","journal_name":"ACC-ABC-912","voucher_uid":"343241234-345432-6546"}}}
+	kwargs=frappe._dict(kwargs)
+	frappe.log_error(str(kwargs))
+	data = kwargs.get('data', '')
+	# frappe.db.set_value("Journal Entry", 'ACC-JV-2019-00032', "tally_remoteid", str(data))
+	return frappe.db.set_value("Journal Entry", data.get('journal_name'), "tally_remoteid", data.get('voucher_uid'))
+	# return "Journal Entry", data.get('journal_name'), "tally_remoteid", data.get('voucher_uid')
 
 @frappe.whitelist()
 def update_payments(data):
