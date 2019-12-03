@@ -82,7 +82,7 @@ frappe.ui.form.on('Shift', {
 		}
 	},
 	setup: function(frm) {
-		console.log(frm)
+		// console.log(frm)
 		frm.set_query('pump', 'pump_meter_reading', function(doc, cdt, cdn) {
 			return {
 				filters: {

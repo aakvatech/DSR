@@ -12,10 +12,14 @@ import json
 class Shift(Document):
 	def before_save(self):
 		# Below added to calculate the totals upon a change in the values.
-		self.total_bank_deposit = get_total_banking(self.name) or 0
-		self.total_expenses = get_total_expenses(self.name) or 0
-
-		self.cash_in_hand = (self.opening_balance or 0) + (self.total_deposited or 0) - (self.total_cash_shortage or 0) - self.total_bank_deposit - self.total_expenses
+		self.total_bank_deposit = get_total_banking(self.name)
+		self.total_expenses = get_total_expenses(self.name)
+		self.opening_balance = (self.opening_balance or 0)
+		self.total_deposited = (self.total_deposited or 0)
+		self.total_cash_shortage = (self.total_cash_shortage or 0)
+		self.total_bank_deposit = (self.total_bank_deposit or 0)
+		self.total_expenses = (self.total_expenses or 0)
+		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_cash_shortage - self.total_bank_deposit - self.total_expenses
 
 	def on_change(self):
 		delete_item_total_table(self.name)
@@ -173,8 +177,6 @@ def get_last_shift_data(fuel_station):
 	shift_list = frappe.get_all("Shift",filters={'shift_status': 'Closed','fuel_station':fuel_station},fields=["name"],order_by="creation desc")
 	if len(shift_list) >= 1:
 		return frappe.get_doc("Shift",shift_list[0].name)
-	else:
-		frappe.throw(_("No Any Closed Shift Available"))
 
 @frappe.whitelist()
 def calculate_total_sales(shift,pump,total_qty):
