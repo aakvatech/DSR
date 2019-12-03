@@ -211,7 +211,7 @@ def get_customer_from_fuel_station(fuel_station):
 def make_journal_entry(invoice_doc):
 	accounts = []
 	debit_row = dict(
-		account = "Debtors - D",
+		account = invoice_doc.debit_to,
 		debit_in_account_currency = invoice_doc.grand_total,
 		party_type = "Customer",
 		party = get_customer_from_fuel_station(invoice_doc.fuel_station),
@@ -219,7 +219,7 @@ def make_journal_entry(invoice_doc):
 	)
 	accounts.append(debit_row)
 	credit_row = dict(
-		account = "Debtors - D",
+		account = invoice_doc.debit_to,
 		credit_in_account_currency = invoice_doc.grand_total,
 		party_type = "Customer",
 		party = invoice_doc.customer,
