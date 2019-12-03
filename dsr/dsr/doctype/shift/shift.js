@@ -82,6 +82,7 @@ frappe.ui.form.on('Shift', {
 		}
 	},
 	setup: function(frm) {
+		console.log(frm)
 		frm.set_query('pump', 'pump_meter_reading', function(doc, cdt, cdn) {
 			return {
 				filters: {
@@ -90,6 +91,13 @@ frappe.ui.form.on('Shift', {
 			}
 		});
 		frm.set_query('pump', 'attendant_pump', function(doc, cdt, cdn) {
+			return {
+				filters: {
+					'fuel_station': doc.fuel_station
+				}
+			}
+		});
+		frm.set_query('attendant', 'attendant_pump', function(doc, cdt, cdn) {
 			return {
 				filters: {
 					'fuel_station': doc.fuel_station
@@ -131,8 +139,11 @@ function get_last_shift_data(frm){
 					frappe.model.set_value(child.doctype, child.name, "opening_mm", d.closing_mm)
 					frappe.model.set_value(child.doctype, child.name, "opening_liters", d.closing_liters)
 				});
-				refresh_field("dip_reading");
-				frm.set_value("opening_balance", r.message.cash_in_hand)
+				refresh_field("dip_reading")
+				frm.set_value("opening_balance", 0);
+				if(r.message.cash_in_hand) {
+					frm.set_value("opening_balance", r.message.cash_in_hand);
+				}
 				refresh_field("opening_balance")
 				frm.set_value("generator_hours", r.message.generator_operation_hours)
 				refresh_field("generator_hours")
@@ -455,13 +466,17 @@ frappe.ui.form.on('Pump Meter Reading', {
 		calculate_mechanical_difference(frm, cdt, cdn)
 	},
 	calculated_sales: function (frm, cdt, cdn) {
+		var child = locals[cdt][cdn]
+		console.log(child.pump, child.calculated_sales)
 		calculate_total_sales(frm, cdt, cdn)
 	}
 });
 
 function calculate_sales_qty(frm, cdt, cdn) {
 	var child = locals[cdt][cdn]
-	frappe.model.set_value(cdt, cdn, "calculated_sales", child.closing_electrical - child.opening_electrical)
+	if (child.closing_electrical) {
+		frappe.model.set_value(cdt, cdn, "calculated_sales", child.closing_electrical - child.opening_electrical)
+	}	
 }
 
 function calculate_mechanical_difference(frm, cdt, cdn) {
@@ -470,6 +485,7 @@ function calculate_mechanical_difference(frm, cdt, cdn) {
 }
 
 function calculate_total_sales(frm, cdt, cdn) {
+	frapp.msgprint("Inside Calculated Total Sales")
 	var child = locals[cdt][cdn]
 	if (child.pump) {
 		frappe.call({
@@ -533,7 +549,6 @@ function calculate_other_sales_totals(frm) {
 	calculate_attendant_deposit_totals(frm)
 
 	var total_bank_deposits = 0;
-	var total_expenses = 0;
 	frappe.call({
 		method: "dsr.dsr.doctype.shift.shift.get_total_banking",
 		args: { 'shift': frm.doc.name },
@@ -541,16 +556,14 @@ function calculate_other_sales_totals(frm) {
 		callback: function (r) {
 			if (r.message) {
 				// console.log(r.message)
-				frm.set_value("total_bank_deposit", Number(r.message))
 				total_bank_deposits = r.message[0]
 			}
 		}
 	});
-	if (!frm.doc.total_bank_deposit) {
-		frm.set_value("total_bank_deposit", 0)
-	}
+	frm.set_value("total_bank_deposit", total_bank_deposits)
 	refresh_field("total_bank_deposit")
 
+	var total_expenses = 0;
 	frappe.call({
 		method: "dsr.dsr.doctype.shift.shift.get_total_expenses",
 		args: { 'shift': frm.doc.name },
@@ -558,18 +571,15 @@ function calculate_other_sales_totals(frm) {
 		callback: function (r) {
 			if (r.message) {
 				// console.log(r.message)
-				frm.set_value("total_expenses", Number(r.message))
 				total_expenses = r.message[0];
 			}
 		}
 	});
-	if (!frm.doc.total_expenses) {
-		frm.set_value("total_expenses", 0)
-	}
+	frm.set_value("total_expenses", total_expenses)
 	refresh_field("total_expenses")
 
+	console.log(cash_in_hand, frm.doc.opening_balance, frm.doc.total_deposited, frm.doc.total_cash_shortage, total_bank_deposits, total_expenses)
 	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - frm.doc.total_bank_deposit - frm.doc.total_expenses;
-	// console.log(cash_in_hand, frm.doc.opening_balance, frm.doc.total_deposited, frm.doc.total_cash_shortage, total_bank_deposits, total_expenses)
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }
