@@ -485,7 +485,7 @@ function calculate_mechanical_difference(frm, cdt, cdn) {
 }
 
 function calculate_total_sales(frm, cdt, cdn) {
-	frapp.msgprint("Inside Calculated Total Sales")
+	// frappe.msgprint("Inside Calculated Total Sales")
 	var child = locals[cdt][cdn]
 	if (child.pump) {
 		frappe.call({
