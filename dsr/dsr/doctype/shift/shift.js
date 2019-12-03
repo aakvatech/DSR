@@ -467,7 +467,7 @@ frappe.ui.form.on('Pump Meter Reading', {
 	},
 	calculated_sales: function (frm, cdt, cdn) {
 		var child = locals[cdt][cdn]
-		console.log(child.pump, child.calculated_sales)
+		// console.log(child.pump, child.calculated_sales)
 		calculate_total_sales(frm, cdt, cdn)
 	}
 });
@@ -578,7 +578,7 @@ function calculate_other_sales_totals(frm) {
 	frm.set_value("total_expenses", total_expenses)
 	refresh_field("total_expenses")
 
-	console.log(cash_in_hand, frm.doc.opening_balance, frm.doc.total_deposited, frm.doc.total_cash_shortage, total_bank_deposits, total_expenses)
+	// console.log(cash_in_hand, frm.doc.opening_balance, frm.doc.total_deposited, frm.doc.total_cash_shortage, total_bank_deposits, total_expenses)
 	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - frm.doc.total_bank_deposit - frm.doc.total_expenses;
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
