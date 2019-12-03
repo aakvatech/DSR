@@ -90,27 +90,27 @@ def get_cost_center_from_fuel_station(fuel_station):
 
 @frappe.whitelist()
 def list_journal():
-	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 2", as_dict=1)
+	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 3", as_dict=1)
 	return journal_doclist
 
 @frappe.whitelist()
 def list_payments():
-	payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` ORDER BY name DESC LIMIT 3", as_dict=1)
+	payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 3", as_dict=1)
 	return payment_doclist
 
 @frappe.whitelist()
 def list_sales():
-	sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` ORDER BY name DESC LIMIT 3", as_dict=1)
+	sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 3", as_dict=1)
 	return sales_doclist
 
 @frappe.whitelist()
 def list_purchase():
-	purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` ORDER BY name DESC LIMIT 3", as_dict=1)
+	purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 3", as_dict=1)
 	return purchase_doclist
 
 @frappe.whitelist()
 def list_stockentry():
-	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` ORDER BY name DESC LIMIT 3", as_dict=1)
+	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') ORDER BY name DESC LIMIT 3", as_dict=1)
 	return stockentry_doclist
 
 @frappe.whitelist()
@@ -168,21 +168,13 @@ def update_stockentry(**kwargs):
 	update_result = update_record(doctype, docname, voucher_uid)
 	return update_result
 
-def update_record(doctype, docname, voucher_id)
+def update_record(doctype, docname, voucher_uid):
 	if(frappe.get_doc(doctype, docname)):
-		if (!frappe.db.set_value(doctype, docname, "tally_remoteid", voucher_uid)):
-			status_text = "Something went wrong while updating" + doctype + " record for " + docname + " with Tally voucher number " + voucher_uid + ". Please check the access rights to the document."
+		if not (frappe.db.set_value(doctype, docname, "tally_remoteid", voucher_uid)):
+			status_text = "Something went wrong while updating " + docname + " record for " + doctype + " with Tally voucher number " + voucher_uid + ". Please check the access rights to the document."
+		else:
+			status_text = "Voucher " + voucher_uid + " updated the " + docname + " record for " + doctype + " correctly."
 	else:
-		status_text = "Voucher " + voucher_uid + " is not updated as " + doctype + " record for " + docname + " was not found!"
+		status_text = docname + " record for " + doctype + " was not found!"
 		frappe.log_error(status_text)
-	return 
-
-def internal_login_logout_for_transaction(login=True):
-	from frappe.auth import LoginManager
-	login_manager = LoginManager()
-	if login == True:
-		login_manager.authenticate("Administrator","dsr-BM$123")
-		login_manager.post_login()
-	else:
-		delete_session(frappe.session.sid, user='Administrator', reason="Internal Logout")
-
+	return status_text
