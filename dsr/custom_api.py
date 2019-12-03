@@ -115,30 +115,67 @@ def list_stockentry():
 
 @frappe.whitelist()
 def update_journal(**kwargs):
-	import ast
-	# # kwargs = {"message":{"cmd":"dsr.custom_api.update_journal","data":{"company":"My Company","journal_name":"ACC-ABC-912","voucher_uid":"343241234-345432-6546"}}}
 	kwargs=frappe._dict(kwargs)
 	frappe.log_error(str(kwargs))
 	data = kwargs.get('data', '')
-	# frappe.db.set_value("Journal Entry", 'ACC-JV-2019-00032', "tally_remoteid", str(data))
-	return frappe.db.set_value("Journal Entry", data.get('journal_name'), "tally_remoteid", data.get('voucher_uid'))
-	# return "Journal Entry", data.get('journal_name'), "tally_remoteid", data.get('voucher_uid')
+	doctype = "Journal Entry"
+	docname = data.get('journal_name')
+	voucher_uid = data.get('voucher_uid')
+	update_result = update_record(doctype, docname, voucher_uid)
+	return update_result
 
 @frappe.whitelist()
-def update_payments(data):
-	return {"message":"Payment updated"}
+def update_payments(**kwargs):
+	kwargs=frappe._dict(kwargs)
+	frappe.log_error(str(kwargs))
+	data = kwargs.get('data', '')
+	doctype = "Payment Entry"
+	docname = data.get('sales_name')
+	voucher_uid = data.get('voucher_uid')
+	update_result = update_record(doctype, docname, voucher_uid)
+	return update_result
 
 @frappe.whitelist()
-def update_sales(data):
-	return {"message":"Sales Invoice updated"}
+def update_sales(**kwargs):
+	kwargs=frappe._dict(kwargs)
+	frappe.log_error(str(kwargs))
+	data = kwargs.get('data', '')
+	doctype = "Sales Invoice"
+	docname = data.get('sales_name')
+	voucher_uid = data.get('voucher_uid')
+	update_result = update_record(doctype, docname, voucher_uid)
+	return update_result
 
 @frappe.whitelist()
-def update_purchase(data):
-	return {"message":"Purchase Invoice updated"}
+def update_purchase(**kwargs):
+	kwargs=frappe._dict(kwargs)
+	frappe.log_error(str(kwargs))
+	data = kwargs.get('data', '')
+	doctype = "Purchase Invoice"
+	docname = data.get('purchase_name')
+	voucher_uid = data.get('voucher_uid')
+	update_result = update_record(doctype, docname, voucher_uid)
+	return update_result
 
 @frappe.whitelist()
-def update_stockentry(data):
-	return {"message":"Stock Entry updated"}
+def update_stockentry(**kwargs):
+	kwargs=frappe._dict(kwargs)
+	frappe.log_error(str(kwargs))
+	data = kwargs.get('data', '')
+	doctype = "Stock Entry"
+	docname = data.get('stock_name')
+	voucher_uid = data.get('voucher_uid')
+	update_result = update_record(doctype, docname, voucher_uid)
+	return update_result
+
+def update_record(doctype, docname, voucher_id)
+	if(frappe.get_doc(doctype, docname)):
+		if (!frappe.db.set_value(doctype, docname, "tally_remoteid", voucher_uid)):
+			status_text = "Something went wrong while updating" + doctype + " record for " + docname + " with Tally voucher number " + voucher_uid + ". Please check the access rights to the document."
+	else:
+		status_text = "Voucher " + voucher_uid + " is not updated as " + doctype + " record for " + docname + " was not found!"
+		frappe.log_error(status_text)
+	return 
 
 def internal_login_logout_for_transaction(login=True):
 	from frappe.auth import LoginManager
