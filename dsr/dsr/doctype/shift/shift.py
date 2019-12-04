@@ -192,12 +192,12 @@ def calculate_total_sales(shift,pump,total_qty):
 	return (total_sales,credit_sales_total,retail_total_sales)
 
 def get_credit_sales_details(shift,pump):
-	credit_sales_qty, credit_sales_amount = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
-	dou_credit_sales_qty, dou_credit_sales_amount = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabDispensed for Office Use` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
-	credit_sales_qty = credit_sales_qty or 0
-	dou_credit_sales_qty = dou_credit_sales_qty or 0
-	credit_sales_amount = credit_sales_amount or 0
-	dou_credit_sales_amount = dou_credit_sales_amount or 0
+	credit_sales_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
+	dou_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabDispensed for Office Use` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
+	credit_sales_qty = credit_sales_details[0].get('quantity',0)
+	dou_credit_sales_qty = dou_details[0].get('quantity',0)
+	credit_sales_amount = credit_sales_details[0].get('amount',0)
+	dou_credit_sales_amount = dou_details[0].get('amount',0)
 	return (credit_sales_qty + dou_credit_sales_qty, credit_sales_amount + dou_credit_sales_amount)
 
 def get_rate(pump):
