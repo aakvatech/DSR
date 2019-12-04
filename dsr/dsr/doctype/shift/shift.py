@@ -12,8 +12,8 @@ import json
 class Shift(Document):
 	def before_save(self):
 		# Below added to calculate the totals upon a change in the values.
-		self.total_bank_deposit = get_total_banking(self.name)
-		self.total_expenses = get_total_expenses(self.name)
+		self.total_bank_deposit = (get_total_banking(self.name) or 0)
+		self.total_expenses = (get_total_expenses(self.name) or 0)
 		self.opening_balance = (self.opening_balance or 0)
 		self.total_deposited = (self.total_deposited or 0)
 		self.total_cash_shortage = (self.total_cash_shortage or 0)
@@ -75,7 +75,7 @@ def add_total_for_dip_reading(self):
 				set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.closing_liters))
 				item_available = True
 		if item_available == False:
-			add_total_row(fuel_item,doc.name,'tank_usage_quantity',dip_read.closing_liters)
+			add_total_row(fuel_item,doc.name,'tank_usage_quantity',(dip_read.closing_liters or 0))
 
 def add_total_for_meter_reading(self):
 	for meter_read in self.pump_meter_reading:
@@ -112,7 +112,6 @@ def add_total_for_credit_sales(self):
 			cash_sales = flt(total_row.total_sales_quantity) - flt(credit_sales )
 		set_total(total_row.name,total_row.doctype,'credit_sales_quantity',flt(credit_sales))
 		set_total(total_row.name,total_row.doctype,'cash_sales_quantity',flt(cash_sales))
-
 
 def get_total_quatity_inward_from_stock_receipt(shift,item):
 	stock_reciept = frappe.db.sql("""SELECT Sum(actual_quantity)
@@ -193,7 +192,13 @@ def calculate_total_sales(shift,pump,total_qty):
 	return (total_sales,credit_sales_total,retail_total_sales)
 
 def get_credit_sales_details(shift,pump):
-	return frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
+	credit_sales_qty, credit_sales_amount = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
+	dou_credit_sales_qty, dou_credit_sales_amount = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabDispensed for Office Use` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
+	credit_sales_qty = credit_sales_qty or 0
+	dou_credit_sales_qty = dou_credit_sales_qty or 0
+	credit_sales_amount = credit_sales_amount or 0
+	dou_credit_sales_amount = dou_credit_sales_amount or 0
+	return (credit_sales_qty + dou_credit_sales_qty, credit_sales_amount + dou_credit_sales_amount)
 
 def get_rate(pump):
 	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")

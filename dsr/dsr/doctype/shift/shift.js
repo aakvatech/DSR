@@ -40,6 +40,7 @@ frappe.ui.form.on('Shift', {
 		validate_meter_reading(frm)
 		validate_attendant_pump(frm)
 		validate_dip_reading(frm)
+		validate_generator_reading(frm)
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.close_shift",
 			args: { 'name': frm.doc.name, 'status': 'Closed' },
@@ -263,6 +264,12 @@ function validate_dip_reading(frm) {
 			frappe.throw(__("Row {0}:Closing MM Mandatory In Dip Reading Table", [d.idx]))
 		}
 	});
+}
+
+function validate_generator_reading(frm) {
+	if (!frm.doc.closing_generator_hours || frm.doc.closing_generator_hours == 0) {
+	}
+		frappe.throw(__("Closing Generator Hours is Mandatory. Please enter Closing Generator Hours"))
 }
 
 // Check if there are any credit sales pending to be posted or with cash_discounted not full paid
@@ -541,6 +548,15 @@ frappe.ui.form.on('Attendant Pump', {
 		}
 	},
 	cash_deposited: function (frm) {
+		var child = locals[cdt][cdn];
+		if (child.pump) {
+			frm.doc.attendant_pump.forEach((d, index) => {
+				if (d.name == child.name) {
+					frappe.model.set_value(child.doctype, child.name, "cash_deposited", Number(d.cash_deposited))
+					refresh_field("cash_deposited", d.name, d.parentfield);
+				}
+			});
+		}
 		calculate_attendant_deposit_totals(frm)
 	}
 });
