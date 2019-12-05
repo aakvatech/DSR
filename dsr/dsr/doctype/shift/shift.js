@@ -268,8 +268,8 @@ function validate_dip_reading(frm) {
 
 function validate_generator_reading(frm) {
 	if (!frm.doc.closing_generator_hours || frm.doc.closing_generator_hours == 0) {
-	}
 		frappe.throw(__("Closing Generator Hours is Mandatory. Please enter Closing Generator Hours"))
+	}
 }
 
 // Check if there are any credit sales pending to be posted or with cash_discounted not full paid
@@ -279,7 +279,8 @@ function validate_cash_discounted_pending(frm) {
 		args:{
 			doctype: 'Credit Sales',
 			filters: {'shift': frm.doc.shift,'discounted_cash_customer':1,'full_paid':0},
-			fields:["name"]
+			fields:["name"],
+			limit: 1
 		},
 		async: false,
 		callback:function(r)
@@ -547,7 +548,7 @@ frappe.ui.form.on('Attendant Pump', {
 			});
 		}
 	},
-	cash_deposited: function (frm) {
+	cash_deposited: function (frm, cdt, cdn) {
 		var child = locals[cdt][cdn];
 		if (child.pump) {
 			frm.doc.attendant_pump.forEach((d, index) => {
