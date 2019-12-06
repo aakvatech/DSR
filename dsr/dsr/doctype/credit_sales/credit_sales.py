@@ -151,7 +151,8 @@ def on_submit_credit_sales(self):
 	item_obj.append(item_dict)
 	company = get_company_from_fuel_station(self.fuel_station)
 	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name)
-	make_journal_entry(invoice_doc)
+	if invoice_doc:
+		make_journal_entry(invoice_doc)
 
 def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1):
 	invoice_doc = frappe.get_doc(dict(

@@ -75,7 +75,7 @@ def add_total_for_dip_reading(self):
 				set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.closing_liters))
 				item_available = True
 		if item_available == False:
-			add_total_row(fuel_item,doc.name,'tank_usage_quantity',(dip_read.closing_liters or 0))
+			add_total_row(fuel_item,doc.name,'tank_usage_quantity',dip_read.closing_liters)
 
 def add_total_for_meter_reading(self):
 	for meter_read in self.pump_meter_reading:
@@ -164,7 +164,7 @@ def delete_item_total_table(doc_name):
 	frappe.db.sql("""delete from `tabShift Fuel Item Total` where parent=%s""",doc_name)
 
 def set_total(doc_name,doctype,field_name,field_value):
-	frappe.db.set_value(doctype,doc_name,str(field_name),field_value)
+	frappe.db.set_value(doctype,doc_name,str(field_name),flt(field_value) or 0)
 
 @frappe.whitelist()
 def close_shift(name,status=None):
@@ -182,10 +182,11 @@ def calculate_total_sales(shift,pump,total_qty):
 	credit_sales = get_credit_sales_details(shift,pump)
 	credit_qty = 0
 	credit_sales_total = 0
+	retail_total_sales = 0
 	if credit_sales:
 		credit_qty = credit_sales[0]['qty'] or 0
 		credit_sales_total = credit_sales[0]['amount'] or 0
-	retail_total_qty = flt(total_qty) - flt(credit_qty)
+	retail_total_qty = (flt(total_qty) - flt(credit_qty)) or 0
 	retail_rate = get_rate(pump)
 	retail_total_sales = retail_total_qty * retail_rate
 	total_sales = flt(retail_total_sales) + flt(credit_sales_total)
