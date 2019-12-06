@@ -183,9 +183,12 @@ def calculate_total_sales(shift,pump,total_qty):
 	credit_qty = 0
 	credit_sales_total = 0
 	retail_total_sales = 0
+	# frappe.msgprint(str(credit_sales))
 	if credit_sales:
-		credit_qty = credit_sales[0]['qty'] or 0
-		credit_sales_total = credit_sales[0]['amount'] or 0
+		# credit_qty = credit_sales[0].get('qty',0.0)
+		credit_qty = credit_sales[0] or 0
+		credit_sales_total = credit_sales[1] or 0
+		# credit_sales_total = credit_sales[0].get('amount',0.0)
 	retail_total_qty = (flt(total_qty) - flt(credit_qty)) or 0
 	retail_rate = get_rate(pump)
 	retail_total_sales = retail_total_qty * retail_rate
@@ -197,15 +200,22 @@ def get_credit_sales_details(shift,pump):
 	dou_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabDispensed for Office Use` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
 	credit_sales_qty = 0
 	credit_sales_amount = 0
-	if credit_sales_details:
-		credit_sales_qty = credit_sales_details[0].get('quantity',0)
-		credit_sales_amount = credit_sales_details[0].get('amount',0)
+	# frappe.msgprint(str(credit_sales_details))
+	if 'amount' in credit_sales_details[0]:
+		credit_sales_amount = credit_sales_details[0].get('amount',0) or 0
+	if 'qty' in credit_sales_details[0]:
+		credit_sales_qty = credit_sales_details[0].get('qty',0) or 0
+	# frappe.msgprint(str(credit_sales_amount))
 	dou_credit_sales_qty = 0
 	dou_credit_sales_amount = 0
-	if dou_details:
-		dou_credit_sales_qty = dou_details[0].get('quantity',0)
-		dou_credit_sales_amount = dou_details[0].get('amount',0)
-	return (credit_sales_qty + dou_credit_sales_qty, credit_sales_amount + dou_credit_sales_amount)
+	# frappe.msgprint(str(dou_details))
+	if 'amount' in dou_details[0]:
+		dou_credit_sales_amount = dou_details[0].get('amount',0) or 0
+	if 'qty' in dou_details[0]:
+		dou_credit_sales_qty = dou_details[0].get('qty',0) or 0
+	total_credit_qty = credit_sales_qty + dou_credit_sales_qty
+	total_credit_amount = credit_sales_amount + dou_credit_sales_amount
+	return (total_credit_qty, total_credit_amount)
 
 def get_rate(pump):
 	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")

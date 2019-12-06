@@ -571,13 +571,13 @@ function calculate_other_sales_totals(frm) {
 		args: { 'shift': frm.doc.name },
 		async: false,
 		callback: function (r) {
+			// console.log(r.message)
 			if (r.message) {
-				// console.log(r.message)
-				total_bank_deposits = r.message[0]
+				frm.set_value("total_bank_deposit", r.message)
+				// console.log(frm.doc.total_bank_deposit)
 			}
 		}
 	});
-	frm.set_value("total_bank_deposit", total_bank_deposits)
 	refresh_field("total_bank_deposit")
 
 	var total_expenses = 0;
@@ -586,17 +586,17 @@ function calculate_other_sales_totals(frm) {
 		args: { 'shift': frm.doc.name },
 		async: false,
 		callback: function (r) {
+			// console.log(r.message)
 			if (r.message) {
-				// console.log(r.message)
-				total_expenses = r.message[0];
+				frm.set_value("total_expenses", r.message)
+				// console.log(frm.doc.total_expenses)
 			}
 		}
 	});
-	frm.set_value("total_expenses", total_expenses)
 	refresh_field("total_expenses")
 
-	// console.log(cash_in_hand, frm.doc.opening_balance, frm.doc.total_deposited, frm.doc.total_cash_shortage, total_bank_deposits, total_expenses)
-	var cash_in_hand = frm.doc.opening_balance + frm.doc.total_deposited - frm.doc.total_cash_shortage - frm.doc.total_bank_deposit - frm.doc.total_expenses;
+	// console.log('cih',cash_in_hand, 'ob', frm.doc.opening_balance, 'td', frm.doc.total_deposited, 'cs', frm.doc.total_cash_shortage, 'tbd', total_bank_deposits, 'te', total_expenses)
+	var cash_in_hand = (frm.doc.opening_balance || 0)+ (frm.doc.total_deposited || 0) - (frm.doc.total_cash_shortage || 0)- (frm.doc.total_bank_deposit || 0)- (frm.doc.total_expenses || 0);
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }
