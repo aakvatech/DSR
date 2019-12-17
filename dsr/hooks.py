@@ -93,6 +93,18 @@ fixtures = [
 ]
 
 doc_events = {
+	"Purchase Invoice": {
+		"on_submit": "dsr.custom_api.reset_tally_related_data",
+	},
+	"Sales Invoice": {
+		"on_submit": "dsr.custom_api.reset_tally_related_data",
+	},
+	"Journal Entry": {
+		"on_submit": "dsr.custom_api.reset_tally_related_data",
+	},
+	"Payment Entry": {
+		"on_submit": "dsr.custom_api.reset_tally_related_data",
+	},
 	"Expense Record": {
 		"on_submit": "dsr.custom_api.on_submit_expense_record",
 		"on_cancel":"dsr.custom_api.on_cancel_jv_cancel"
