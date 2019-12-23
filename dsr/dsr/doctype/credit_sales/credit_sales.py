@@ -170,7 +170,7 @@ def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credi
 		cost_center = get_cost_center_from_fuel_station(fuel_station)
 	)).insert(ignore_permissions=True)
 	frappe.flags.ignore_account_permission = True
-	invoice_doc.submit(ignore_permissions = True)
+	invoice_doc.submit()
 	frappe.db.set_value("Credit Sales",credit_id,"sales_invoice",invoice_doc.name)
 	return invoice_doc
 
