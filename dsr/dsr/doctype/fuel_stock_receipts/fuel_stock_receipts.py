@@ -59,7 +59,7 @@ def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_n
 		fuel_stock_receipts = fuel_stock_receipt_no
 	)).insert(ignore_permissions = True)
 	frappe.flags.ignore_account_permission = True
-	pinv_doc.submit()
+	pinv_doc.submit(ignore_permissions = True)
 	frappe.db.set_value("Fuel Stock Receipts",fuel_stock_receipt_no,"purchase_invoice",pinv_doc.name)
 
 def get_cost_center_from_fuel_station(fuel_station):
