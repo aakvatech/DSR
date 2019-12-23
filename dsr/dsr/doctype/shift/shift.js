@@ -63,9 +63,13 @@ frappe.ui.form.on('Shift', {
 	},
 	recalculate_sales_total:function(frm,cdt,cdn){
 		var child = locals[cdt][cdn];
+		var calculated_sales = 0;
 		child.pump_meter_reading.forEach((d, index) => {
-			frappe.model.set_value(d.doctype, d.name, "calculated_sales", 0)
-			frappe.model.set_value(d.doctype, d.name, "calculated_sales", d.closing_electrical - d.opening_electrical)
+			calculated_sales = 0;
+			frappe.model.set_value(d.doctype, d.name, "calculated_sales", calculated_sales)
+			calculated_sales = d.closing_electrical - d.opening_electrical;
+			frappe.model.set_value(d.doctype, d.name, "calculated_sales", calculated_sales)
+			// console.log(d.pump, calculated_sales);
 		});
 		refresh_field("attendance_pump");
 		calculate_other_sales_totals(frm);
@@ -495,6 +499,7 @@ function calculate_mechanical_difference(frm, cdt, cdn) {
 function calculate_total_sales(frm, cdt, cdn) {
 	// frappe.msgprint("Inside Calculated Total Sales")
 	var child = locals[cdt][cdn]
+	var total_credit_sales = 0;
 	if (child.pump) {
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
@@ -507,6 +512,7 @@ function calculate_total_sales(frm, cdt, cdn) {
 						if (d.pump == child.pump) {
 							frappe.model.set_value(d.doctype, d.name, "cash_to_be_deposited", Number((r.message[2]).toFixed(2)))
 							frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
+							frappe.model.set_value(d.doctype, d.name, "credit_sales", Number((r.message[1]).toFixed(2)))
 						}
 					});
 				}
@@ -521,11 +527,15 @@ function calculate_attendant_deposit_totals(frm) {
 	var total_cash_sales_to_be_deposited = 0;
 	var total_deposited = 0;
 	var total_cash_shortage = 0;
+	var total_credit_sales = 0;
+
 	frm.doc.attendant_pump.forEach((d, index) => {
 		frappe.model.set_value(d.doctype, d.name, "cash_shortage", d.cash_to_be_deposited - d.cash_deposited)
 		total_deposited = total_deposited + d.cash_deposited;
 		total_cash_sales_to_be_deposited = total_cash_sales_to_be_deposited + d.cash_to_be_deposited;
 		total_cash_shortage = total_cash_shortage + d.cash_to_be_deposited - d.cash_deposited;
+		total_credit_sales = total_credit_sales + d.credit_sales
+		// console.log(total_credit_sales, d.pump)
 	});
 	refresh_field("attendant_pump")
 	frm.set_value("total_cash_sales_to_be_deposited", total_cash_sales_to_be_deposited)
@@ -534,6 +544,8 @@ function calculate_attendant_deposit_totals(frm) {
 	refresh_field("total_deposited")
 	frm.set_value("total_cash_shortage", total_cash_shortage)
 	refresh_field("total_cash_shortage")
+	frm.set_value("total_credit_sales", total_credit_sales)
+	refresh_field("total_credit_sales")
 }
 
 frappe.ui.form.on('Attendant Pump', {

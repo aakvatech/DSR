@@ -183,13 +183,13 @@ def calculate_total_sales(shift,pump,total_qty):
 	credit_qty = 0
 	credit_sales_total = 0
 	retail_total_sales = 0
-	frappe.msgprint(credit_sales)
+	# console.log(credit_sales)
 	if credit_sales:
 		# credit_qty = credit_sales[0].get('qty',0.0)
 		credit_qty = credit_sales[0] or 0
 		credit_sales_total = credit_sales[1] or 0
 		# credit_sales_total = credit_sales[0].get('amount',0.0)
-	frappe.msgprint(credit_qty, credit_sales_total)
+	# frappe.msgprint(credit_qty, credit_sales_total)
 	retail_total_qty = (flt(total_qty) - flt(credit_qty)) or 0
 	retail_rate = get_rate(pump)
 	retail_total_sales = retail_total_qty * retail_rate
