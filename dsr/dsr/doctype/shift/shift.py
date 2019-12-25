@@ -157,7 +157,7 @@ def add_total_row(item,parent,field_name,field_value):
 		fuel_item = item,
 		field_name = field_value
 	)).insert()
-	frappe.db.set_value(doc.doctype,doc.name,str(field_name),field_value)
+	frappe.db.set_value(doc.doctype,doc.name,str(field_name),field_value or 0)
 	return doc
 
 def delete_item_total_table(doc_name):
