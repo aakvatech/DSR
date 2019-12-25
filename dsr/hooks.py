@@ -10,6 +10,7 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@aakvatech.com"
 app_license = "MIT"
+app_logo_url = "files/mmpl-mw-icon.svg"
 
 # Includes in <head>
 # ------------------
@@ -17,8 +18,10 @@ app_license = "MIT"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/dsr/css/dsr.css"
 app_include_css = [
-	"dsr/custom.css"
+	"assets/css/custom.css"
 ]
+#app_include_css = "assets/css/erpnext.css"
+
 # app_include_js = "/assets/dsr/js/dsr.js"
 
 # include js, css files in header of web template
