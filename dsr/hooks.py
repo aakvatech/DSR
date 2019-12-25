@@ -16,6 +16,9 @@ app_license = "MIT"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/dsr/css/dsr.css"
+app_include_css = [
+	"dsr/custom.css"
+]
 # app_include_js = "/assets/dsr/js/dsr.js"
 
 # include js, css files in header of web template
