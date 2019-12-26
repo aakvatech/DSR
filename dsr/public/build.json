@@ -1,5 +1,5 @@
 {
-    "css/custom.css": [
+    "css/custom.min.css": [
     "public/css/custom.css"
-    ],
+    ]
 }
