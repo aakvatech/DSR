@@ -30,7 +30,7 @@ frappe.ui.form.on('Shift', {
 	},
 	get_last_shift_details:function(frm){
 		if(!frm.doc.fuel_station){
-			frappe.throw(__("Fuel Station Require For Load Last Shift Details"))
+			frappe.throw(__("Fuel Station Required For Loading Last Shift Details"))
 		}
 		get_last_shift_data(frm)
 	},
@@ -74,16 +74,18 @@ frappe.ui.form.on('Shift', {
 		refresh_field("attendance_pump");
 		calculate_other_sales_totals(frm);
 	},
-	generator_hours: function(frm) {
-		if (frm.doc.closing_generator_hours) {
-			frm.set_value("generator_operation_hours", frm.doc.closing_generator_hours - frm.doc.generator_hours)
-			calculate_generator_expense(frm)
-		}
-	},
 	closing_generator_hours: function(frm) {
 		if (frm.doc.generator_hours || frm.doc.generator_hours == 0) {
-			frm.set_value("generator_operation_hours", frm.doc.closing_generator_hours - frm.doc.generator_hours)
-			calculate_generator_expense(frm)
+			if (frm.doc.closing_generator_hours < frm.doc.generator_hours) {
+				frm.set_value("generator_operation_hours", 0)
+				frm.set_value("closing_generator_hours", 0)
+				frm.set_value("estimated_generator_expense", 0)
+				frappe.throw(__("Closing generator hours cannot be less than opening generator hours"))
+			}
+			else {
+				frm.set_value("generator_operation_hours", frm.doc.closing_generator_hours - frm.doc.generator_hours)
+				calculate_generator_expense(frm)
+			}
 		}
 	},
 	setup: function(frm) {
@@ -427,8 +429,7 @@ function calculate_generator_expense(frm) {
 			}
 		}
 	});
-	frm.set_value("estimated_generator_expense", avg_consump * item_rate);
-
+	frm.set_value("estimated_generator_expense", avg_consump * item_rate * frm.doc.generator_operation_hours);
 }
 
 frappe.ui.form.on('Dip Reading', {

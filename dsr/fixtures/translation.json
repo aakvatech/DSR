@@ -1,1 +1,16 @@
-[]
+[
+ {
+  "contributed_translation_doctype_name": null,
+  "docstatus": 0,
+  "doctype": "Translation",
+  "language": "en",
+  "modified": "2019-12-26 13:24:42.522421",
+  "name": "e639d6b960",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "source_name": "Submit",
+  "status": "Saved",
+  "target_name": "Approve"
+ }
+]

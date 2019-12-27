@@ -2,3 +2,25 @@
     background-color: crimson;
     border-color: crimson;
 }
+.btn-primary:hover {
+    background: darkred;
+    border-color: darkred;
+}
+.form-control {
+    background-color: lawngreen;
+}
+.form-control::placeholder {
+    color: lightcyan;
+}
+.form-control.bold {
+    background-color: bisque;
+}
+.navbar-default {
+    background-color: antiquewhite;
+}
+.page-form {
+    background-color: antiquewhite;
+}
+.list-row-head {
+    background-color: antiquewhite;
+}

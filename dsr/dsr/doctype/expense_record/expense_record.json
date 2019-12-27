@@ -25,6 +25,7 @@
    "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
+   "in_standard_filter": 1,
    "label": "Date",
    "reqd": 1
   },
@@ -48,6 +49,7 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Amount",
    "reqd": 1
   },
@@ -114,7 +116,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-16 13:20:29.527071",
+ "modified": "2019-12-26 18:45:27.548502",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",

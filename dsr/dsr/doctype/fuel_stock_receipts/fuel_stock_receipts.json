@@ -47,6 +47,7 @@
   {
    "fieldname": "fuel_item",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Fuel Item",
    "options": "Fuel Item",
    "reqd": 1
@@ -54,6 +55,7 @@
   {
    "fieldname": "quantity_as_per_dn",
    "fieldtype": "Float",
+   "in_standard_filter": 1,
    "label": "Quantity as per DN",
    "reqd": 1
   },
@@ -61,6 +63,7 @@
    "fieldname": "actual_quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Actual Quantity",
    "read_only": 1
   },
@@ -82,6 +85,7 @@
   {
    "fieldname": "shift",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Shift",
    "options": "Shift",
    "reqd": 1
@@ -149,6 +153,7 @@
   {
    "fieldname": "fuel_origin",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Fuel Origin",
    "options": "Fuel Origin",
    "reqd": 1
@@ -162,7 +167,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-02 09:50:47.241330",
+ "modified": "2019-12-26 18:44:29.809525",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

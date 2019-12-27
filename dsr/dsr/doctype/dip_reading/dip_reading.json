@@ -18,6 +18,7 @@
    "in_list_view": 1,
    "label": "Fuel Tank",
    "options": "Fuel Tank",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -54,7 +55,7 @@
   }
  ],
  "istable": 1,
- "modified": "2019-11-19 20:24:57.064788",
+ "modified": "2019-12-26 13:19:53.174431",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dip Reading",

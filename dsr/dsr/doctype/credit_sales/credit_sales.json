@@ -16,12 +16,14 @@
   "other_station_cash_record",
   "section_break_5",
   "lpo",
+  "cg_lpo_owner",
   "credit_customer",
   "credit_customer_type",
   "manual_lpo_no",
   "column_break_8",
   "discounted_cash_customer",
   "vehicle_number",
+  "loading_order",
   "section_break_15",
   "quantity",
   "pump",
@@ -224,10 +226,26 @@
    "hidden": 1,
    "label": "Rate",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "doc.credit_customer==\"Mount Meru Petroleum Limited\"",
+   "fieldname": "loading_order",
+   "fieldtype": "Check",
+   "label": "Loading Order"
+  },
+  {
+   "depends_on": "doc.lpo",
+   "fetch_from": "lpo.owner",
+   "fieldname": "cg_lpo_owner",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "CG LPO Owner",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-25 15:01:40.311189",
+ "modified": "2019-12-26 20:54:02.318049",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",

@@ -63,6 +63,7 @@ frappe.ui.form.on('Credit Sales', {
 			frm.set_df_property("fuel_item", "read_only", true);
 			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "manual_lpo_no", "");
 		} else {
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "cg_lpo_owner", "");
 			frm.set_df_property("vehicle_number", "read_only", false);
 			frm.set_df_property("credit_customer", "read_only", false);
 			frm.set_df_property("is_cash_received_at_other_station", "read_only", false);
