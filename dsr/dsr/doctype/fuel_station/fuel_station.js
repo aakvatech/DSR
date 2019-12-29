@@ -12,6 +12,15 @@ frappe.ui.form.on('Fuel Station', {
 				}
 			}
 		});
+		frm.set_query('stock_adjustment', function() {
+			return {
+				filters: {
+					'company': frm.doc.company,
+					"account_type": "Stock Adjustment",
+					"is_group": 0,
+				}
+			}
+		});
 		frm.set_query('cost_center', function() {
 			return {
 				filters: {

@@ -20,7 +20,7 @@ def on_submit_expense_record(self,method):
 	account_details = make_account_row(expense_account,cash_account,self.amount,self.fuel_station)
 	company = get_company_from_fuel_station(self.fuel_station)
 	user_remark = self.name + " " + self.doctype + " was created at " + self.fuel_station + " for " + self.expense_type + " bill no " + self.bill_no + " during shift " + self.shift
-	res = make_journal_entry(account_details,self.date,self.bill_no,company, user_remark)
+	res = make_journal_entry(account_details,self.date,self.bill_no,company, user_remark,self.fuel_station)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
 def make_account_row(debit_account,credit_account,amount,fuel_station):
@@ -39,7 +39,7 @@ def make_account_row(debit_account,credit_account,amount,fuel_station):
 	accounts.append(credit_row)
 	return accounts
 
-def make_journal_entry(accounts,date,bill_no=None,company=None,user_remark=None):
+def make_journal_entry(accounts,date,bill_no=None,company=None,user_remark=None,fuel_station=None):
 	if len(accounts) <= 0:
 		frappe.throw(_("Something went while creating journal entry"))
 	jv_doc = frappe.get_doc(dict(
@@ -48,6 +48,7 @@ def make_journal_entry(accounts,date,bill_no=None,company=None,user_remark=None)
 		accounts = accounts,
 		bill_no = bill_no,
 		company = company,
+		fuel_station = fuel_station,
 		user_remark = user_remark
 	))
 	jv_doc.flags.ignore_permissions = True
@@ -72,7 +73,8 @@ def on_submit_cash_deposited(self,method):
 		frappe.throw(_("Cash account not specified in fuel station {0}").format(self.fuel_station))
 	account_details = make_account_row(bank_account,cash_account,self.amount,self.fuel_station)
 	company = get_company_from_fuel_station(self.fuel_station)
-	res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company)
+	user_remark = self.name + " " + self.doctype + " was created at " + self.fuel_station + " for " + self.name_of_bank + " during shift " + self.shift
+	res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company,user_remark,self.fuel_station)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
 def get_company_from_fuel_station(fuel_station):

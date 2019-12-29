@@ -24,7 +24,9 @@
   "fuel_shortage",
   "section_break_15",
   "fuel_stock_receipt_tanks",
+  "section_break_20",
   "purchase_invoice",
+  "stock_adjustment",
   "amended_from"
  ],
  "fields": [
@@ -160,15 +162,27 @@
   },
   {
    "fieldname": "purchase_invoice",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Purchase Invoice",
    "options": "Purchase Invoice",
    "read_only": 1
+  },
+  {
+   "fieldname": "stock_adjustment",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Stock Adjustment",
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-26 18:44:29.809525",
- "modified_by": "Administrator",
+ "modified": "2019-12-29 03:33:36.893363",
+ "modified_by": "yousef@dsr.com",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",
  "owner": "Administrator",
