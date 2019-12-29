@@ -75,6 +75,7 @@ def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_n
 		company = company,
 		items = item_object,
 		update_stock = 1,
+		remarks = user_remarks,
 		fuel_station = fuel_station,
 		fuel_stock_receipts = fuel_stock_receipt_no
 	)).insert(ignore_permissions = True)
@@ -92,6 +93,7 @@ def make_stock_adjustment_entry(date,company,item_code,qty,fuel_stock_receipt_no
 		source= warehouse,
 		company= company,
 		qty= qty * (-1), 
+		remarks = user_remarks,
 		fuel_station = fuel_station,
 		fuel_stock_receipts = fuel_stock_receipt_no,
 		expense_account= stock_adjustment)

@@ -45,31 +45,31 @@ def get_rate(item_code):
 @frappe.whitelist()
 def get_cash_receiver_other_station_details(station,customer,vehicle):
 	data = frappe.db.sql("""
-select
-   c.name as 'name',
-   c.fuel_item as 'item',
-   c.balance_qty as 'balance_qty',
-   (
-      select
-         name 
-      from
-         `tabPump` 
-      where
-         fuel_item = c.fuel_item 
-         and fuel_station = %s
-   )
-   as 'pump' 
-from
-   `tabOther Station Credit` as c 
-   inner join
-      `tabCash Received For Other Station` as p 
-      on c.parent = p.name 
-where
-   p.for_fuel_station = %s 
-   and p.customer = %s
-   and c.truck_number = %s
+		select
+		c.name as 'name',
+		c.fuel_item as 'item',
+		c.balance_qty as 'balance_qty',
+		(
+			select
+				name 
+			from
+				`tabPump` 
+			where
+				fuel_item = c.fuel_item 
+				and fuel_station = %s
+		)
+		as 'pump' 
+		from
+		`tabOther Station Credit` as c 
+		inner join
+			`tabCash Received For Other Station` as p 
+			on c.parent = p.name 
+		where
+		p.for_fuel_station = %s 
+		and p.customer = %s
+		and c.truck_number = %s
 
-""",(station,station,customer,vehicle),as_dict=1)
+		""",(station,station,customer,vehicle),as_dict=1)
 	if len(data) >= 1:
 		return data[0]
 	else:
@@ -150,11 +150,15 @@ def on_submit_credit_sales(self):
 	)
 	item_obj.append(item_dict)
 	company = get_company_from_fuel_station(self.fuel_station)
-	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name)
+	user_remarks = "To vehicle " + self.vehicle_number + " from pump " + self.pump + " Customer Generated LPO " + (self.lpo or self.manual_lpo_no)
+	# frappe.msgprint(user_remarks)
+
+	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name,user_remarks)
 	if invoice_doc:
+		frappe.db.set_value(self.doctype,self.name,"sales_invoice",invoice_doc.name)
 		make_journal_entry(invoice_doc)
 
-def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1):
+def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1,user_remarks=None):
 	invoice_doc = frappe.get_doc(dict(
 		doctype = "Sales Invoice",
 		customer = customer,
@@ -167,12 +171,13 @@ def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credi
 		shift = shift,
 		pump = pump,
 		credit_sales = credit_id,
+		remarks = user_remarks,
 		cost_center = get_cost_center_from_fuel_station(fuel_station)
 	)).insert(ignore_permissions=True)
-	frappe.flags.ignore_account_permission = True
-	invoice_doc.submit()
-	frappe.db.set_value("Credit Sales",credit_id,"sales_invoice",invoice_doc.name)
-	return invoice_doc
+	if invoice_doc:
+		frappe.flags.ignore_account_permission = True
+		invoice_doc.submit()
+		return invoice_doc
 
 def get_cost_center_from_fuel_station(fuel_station):
 	cost_center = frappe.db.get_value("Fuel Station",fuel_station,"cost_center")
@@ -193,7 +198,7 @@ def get_pump_warehouse(pump):
 	if warehouse: 
 		return warehouse
 	else:
-		frappe.throw(_("Warehouse Not Define In Pump"))
+		frappe.throw(_("Warehouse Not Defined In Pump"))
 
 def get_company_from_fuel_station(fuel_station):
 	company = frappe.db.get_value("Fuel Station",fuel_station,"company")

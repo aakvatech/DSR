@@ -216,8 +216,9 @@
   },
   {
    "fieldname": "sales_invoice",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Sales Invoice",
+   "options": "Sales Invoice",
    "read_only": 1
   },
   {
@@ -245,7 +246,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-26 20:54:02.318049",
+ "modified": "2019-12-29 17:43:29.465183",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",
