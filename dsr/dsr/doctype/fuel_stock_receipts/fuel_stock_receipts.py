@@ -6,7 +6,6 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe import _
-from erpnext.stock.doctype.stock_entry.stock_entry_utils import make_stock_entry
 
 
 class FuelStockReceipts(Document):
@@ -56,16 +55,16 @@ def on_submit_fuel_stock_Receipt(self):
 			cost_center = cost_center
 		)
 		item_object.append(item_row)
-	user_remarks = "Fuel Stock Receipt " + self.name + " for delivery Note " + self.delivery_note + " for shift " + self.shift + " Shortage recorded for fuel item " +self.fuel_item + " = " + self.fuel_shortage
+	user_remarks = "Fuel Stock Receipt " + self.name + " for delivery Note " + str(self.delivery_note) + " for shift " + str(self.shift) + " Shortage recorded for fuel item " +self.fuel_item + " = " + str(self.fuel_shortage)
 
 	pinv_doc_name = make_purchase_invoice(supplier,self.date,company,item_object,self.name, self.fuel_station,user_remarks)
 	if pinv_doc_name:
-		frappe.db.set_value(self.doctype,self.name,"purchase_invoice",pinv_doc_name)
+		self.purchase_invoice = pinv_doc_name
 
-
-	stock_entry_doc_name = make_stock_adjustment_entry(self.date,company,self.fuel_item,self.fuel_shortage,self.name, self.fuel_station,user_remarks,warehouse,stock_adjustment)
+	stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,self.fuel_item,self.fuel_shortage,self.name, self.fuel_station,user_remarks,warehouse,stock_adjustment)
 	if stock_entry_doc_name:
-		frappe.db.set_value(self.doctype,self.name,"stock_adjustment",stock_entry_doc_name)
+		self.stock_adjustment = stock_entry_doc_name
+
 
 def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_no=None,fuel_station=None,user_remarks=None):
 	pinv_doc = frappe.get_doc(dict(
@@ -84,22 +83,31 @@ def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_n
 		pinv_doc.submit()
 		return pinv_doc.name	
 
-def make_stock_adjustment_entry(date,company,item_code,qty,fuel_stock_receipt_no, fuel_station,user_remarks=None,warehouse=None,stock_adjustment=None):
-	stock_entry_doc = make_stock_entry(
+
+def make_stock_adjustment_entry(cost_center,date,company,fuel_item,qty,fuel_stock_receipt_no, fuel_station,user_remarks=None,warehouse=None,stock_adjustment=None):
+	item_object = []
+	item_row = dict(
+			item_code = fuel_item,
+			qty = qty * (-1), 
+			s_warehouse = warehouse,
+			cost_center = cost_center,
+			expense_account= stock_adjustment)
+	item_object.append(item_row)
+	stock_entry_doc =frappe.get_doc(dict(
+		doctype = "Stock Entry",
 		posting_date= date,
-		item_code= item_code,
+		items = item_object,
 		stock_entry_type='Material Issue',
 		purpose='Material Issue',
-		source= warehouse,
-		company= company,
-		qty= qty * (-1), 
+		company= company, 
 		remarks = user_remarks,
 		fuel_station = fuel_station,
 		fuel_stock_receipts = fuel_stock_receipt_no,
-		expense_account= stock_adjustment)
+		)).insert(ignore_permissions = True)
 	if stock_entry_doc:
+		frappe.flags.ignore_account_permission = True
+		stock_entry_doc.submit()
 		return stock_entry_doc.name
-
 	
 
 
