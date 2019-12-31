@@ -10,7 +10,7 @@
     background-color: lawngreen;
 }
 .form-control::placeholder {
-    color: lightcyan;
+    color: antiquewhite;
 }
 .form-control.bold {
     background-color: bisque;

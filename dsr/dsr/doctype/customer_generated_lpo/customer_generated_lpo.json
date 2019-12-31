@@ -1,5 +1,5 @@
 {
- "autoname": "format:{customer}-{fuel_item}-{#####}",
+ "autoname": "format:{customer}-{#####}",
  "creation": "2019-11-13 11:12:01.416923",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -124,7 +124,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2019-11-30 19:36:17.047098",
+ "modified": "2019-12-31 18:37:08.785706",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Customer Generated LPO",
