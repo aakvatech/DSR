@@ -100,6 +100,12 @@ frappe.ui.form.on('Credit Sales', {
 	}
 });
 
+frappe.ui.form.on("Credit Sales", "before_submit", function(frm, cdt, cdn) {
+	// your code
+	if (!frm.doc.lpo && !frm.doc.manual_lpo_no)
+		frappe.throw(__("Please enter Manual LPO number as this credit sales is not from a Customer Generated LPO"))
+ })
+ 
 function calculate_total(frm) {
 	frappe.call({
 		method: "dsr.dsr.doctype.credit_sales.credit_sales.calculate_total",
