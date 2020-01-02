@@ -13,6 +13,9 @@ frappe.ui.form.on('Shift', {
 			frm.set_df_property("pump_meter_reading", "read_only", false);
 			frm.set_df_property("attendant_pump", "read_only", false);
 			frm.set_df_property("dip_reading", "read_only", false);
+			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "opening_mechanical", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "opening_electrical", frm.doc.name).read_only = 0;
 		}
 		if (frm.doc.shift_status == "Closed") {
 			frm.set_df_property("fuel_station", "read_only", true);
