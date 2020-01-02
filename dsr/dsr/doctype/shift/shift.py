@@ -49,7 +49,7 @@ class Shift(Document):
 		if not warehouse:
 			frappe.throw(_("Default Warehouse Not Defined In Fuel Station"))		
 		items = []
-		for total_row in doc.shift_fuel_item_totals:
+		for total_row in self.shift_fuel_item_totals:
 			item_dict = dict(
 				item_code = get_item_from_fuel_item(total_row.fuel_item),
 				qty = self.quantity,
