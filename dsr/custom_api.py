@@ -39,6 +39,7 @@ def make_account_row(debit_account,credit_account,amount,fuel_station):
 	accounts.append(credit_row)
 	return accounts
 
+@frappe.whitelist()
 def make_journal_entry(accounts,date,bill_no=None,company=None,user_remark=None,fuel_station=None):
 	if len(accounts) <= 0:
 		frappe.throw(_("Something went while creating journal entry"))
@@ -77,18 +78,44 @@ def on_submit_cash_deposited(self,method):
 	res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company,user_remark,self.fuel_station)
 	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
+@frappe.whitelist()
+def get_item_from_fuel_item(fuel_item):
+	item = frappe.db.get_value("Fuel Item",fuel_item,"item")
+	if item:
+		return item
+	else:
+		frappe.throw(_("Item Not Defined In Fuel Item"))
+
+@frappe.whitelist()
+def get_pump_warehouse(pump):
+	warehouse = frappe.db.get_value("Pump",pump,"warehouse")
+	if warehouse: 
+		return warehouse
+	else:
+		frappe.throw(_("Warehouse Not Defined In Pump"))
+
+@frappe.whitelist()
 def get_company_from_fuel_station(fuel_station):
 	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
 	if not company:
-		frappe.throw(_("Compant Not Define In Fuel Station"))
+		frappe.throw(_("Company Not Defined In Fuel Station"))
 	return company
 
+@frappe.whitelist()
+def get_oil_company_from_fuel_station(fuel_station):
+	customer = frappe.db.get_value("Fuel Station",fuel_station,"oil_company")
+	if customer:
+		return customer
+	else:
+		frappe.throw(_("Customer Not Defined In Fuel Station"))
+
+@frappe.whitelist()
 def get_cost_center_from_fuel_station(fuel_station):
 	cost_center = frappe.db.get_value("Fuel Station",fuel_station,"cost_center")
 	if cost_center:
 		return cost_center
 	else:
-		frappe.throw(_("Cost Center Not Define In Fuel Station"))	
+		frappe.throw(_("Cost Center Not Defined In Fuel Station"))
 
 @frappe.whitelist()
 def list_journal():
@@ -183,3 +210,59 @@ def update_record(doctype, data):
 def reset_tally_related_data(self,method):
 	frappe.db.set_value(self.doctype,self.name,"tally_error",None)
 	frappe.db.set_value(self.doctype,self.name,"tally_remoteid",None)
+
+@frappe.whitelist()
+def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1,user_remarks=None):
+	invoice_doc = frappe.get_doc(dict(
+		doctype = "Sales Invoice",
+		customer = customer,
+		company = company,
+		posting_date = date,
+		ignore_pricing_rule = ignore_pricing_rule,
+		items = items,
+		update_stock = 1,
+		fuel_station = fuel_station,
+		shift = shift,
+		pump = pump,
+		credit_sales = credit_id,
+		remarks = user_remarks,
+		cost_center = get_cost_center_from_fuel_station(fuel_station)
+	)).insert(ignore_permissions=True)
+	if invoice_doc:
+		frappe.flags.ignore_account_permission = True
+		invoice_doc.submit()
+		return invoice_doc
+
+def make_stock_adjustment_entry(cost_center,date,company,item_stock_object,qty,fuel_stock_receipt_no, fuel_station,user_remarks=None,warehouse=None,stock_adjustment=None):
+	stock_entry_doc =frappe.get_doc(dict(
+		doctype = "Stock Entry",
+		posting_date= date,
+		items = item_stock_object,
+		stock_entry_type='Material Issue',
+		purpose='Material Issue',
+		company= company, 
+		remarks = user_remarks,
+		fuel_station = fuel_station,
+		fuel_stock_receipts = fuel_stock_receipt_no,
+		)).insert(ignore_permissions = True)
+	if stock_entry_doc:
+		frappe.flags.ignore_account_permission = True
+		stock_entry_doc.submit()
+		return stock_entry_doc.name
+	
+
+@frappe.whitelist()
+def get_mera_retail_rate(pump):
+	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")
+	rate = frappe.db.get_value("Fuel Item",fuel_item,"station_retail_price")
+	if not rate:
+		frappe.throw(_("Station Retail Price Not Avaialable For Item {0}").format(fuel_item))
+	return rate
+
+@frappe.whitelist()
+def get_mera_wholesale_rate(item_code):
+	rate = frappe.db.get_value("Fuel Item",item_code,"mera_wholesale_price")
+	if not rate:
+		frappe.throw(_("MERA Wholesale Price Not Avaialable For Item {0}").format(item_code))
+	return rate
+

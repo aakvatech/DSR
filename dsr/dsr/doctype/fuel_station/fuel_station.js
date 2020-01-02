@@ -21,6 +21,14 @@ frappe.ui.form.on('Fuel Station', {
 				}
 			}
 		});
+		frm.set_query('default_warehouse', function() {
+			return {
+				filters: {
+					'company': frm.doc.company,
+					"is_group": 0,
+				}
+			}
+		});
 		frm.set_query('cost_center', function() {
 			return {
 				filters: {

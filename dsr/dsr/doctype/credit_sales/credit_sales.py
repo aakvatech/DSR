@@ -8,6 +8,7 @@ from frappe.model.document import Document
 from erpnext.accounts.doctype.pricing_rule.pricing_rule import get_pricing_rule_for_item
 from frappe.utils import cint,flt,fmt_money
 from frappe import _
+from dsr.custom_api import make_sales_invoice,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_company_from_fuel_station,get_pump_warehouse,get_mera_wholesale_rate,get_oil_company_from_fuel_station
 
 class CreditSales(Document):
 	def on_submit(self):
@@ -29,18 +30,10 @@ class CreditSales(Document):
 			#frappe.errprint(flt(self.quantity) * flt(price_rate_details.price_list_rate))
 			self.amount = flt(self.quantity) * flt(price_rate_details.price_list_rate)
 
-
 @frappe.whitelist()
 def calculate_total(qty,item):
-	rate = get_rate(item)
+	rate = get_mera_wholesale_rate(item)
 	return flt(qty) * flt(rate)
-
-def get_rate(item_code):
-	rate = frappe.db.get_value("Fuel Item",item_code,"mera_wholesale_price")
-	if not rate:
-		frappe.throw(_("Mera Wholesale Price Not Avaialable For Item {0}").format(item_code))
-	return rate
-
 
 @frappe.whitelist()
 def get_cash_receiver_other_station_details(station,customer,vehicle):
@@ -68,12 +61,11 @@ def get_cash_receiver_other_station_details(station,customer,vehicle):
 		p.for_fuel_station = %s 
 		and p.customer = %s
 		and c.truck_number = %s
-
 		""",(station,station,customer,vehicle),as_dict=1)
 	if len(data) >= 1:
 		return data[0]
 	else:
-		frappe.throw(_("No Any Cash Receive At Station {0} For Vehicle {1}").format(station,vehicle))
+		frappe.throw(_("No Cash Received At Station {0} For Vehicle {1}").format(station,vehicle))
 
 @frappe.whitelist()
 def get_price(item_code, qty=1,customer=None,fuel_station=None):
@@ -85,11 +77,9 @@ def get_price(item_code, qty=1,customer=None,fuel_station=None):
 	if price_list:
 		price = frappe.get_all("Item Price", fields=["price_list_rate", "currency"],
 			filters={"price_list": price_list, "item_code": item_code})
-
 		if template_item_code and not price:
 			price = frappe.get_all("Item Price", fields=["price_list_rate", "currency"],
 				filters={"price_list": price_list, "item_code": template_item_code})
-
 		if price:
 			pricing_rule = get_pricing_rule_for_item(frappe._dict({
 				"item_code": item_code,
@@ -110,32 +100,24 @@ def get_price(item_code, qty=1,customer=None,fuel_station=None):
 					price[0].price_list_rate = flt(price[0].price_list_rate) - flt(pricing_rule.discount_amount)
 				if pricing_rule.pricing_rule_for == "Rate":
 					price[0].price_list_rate = pricing_rule.price_list_rate
-
 			price_obj = price[0]
 			if price_obj:
 				price_obj["formatted_price"] = fmt_money(price_obj["price_list_rate"], currency=price_obj["currency"])
-
 				price_obj["currency_symbol"] = not cint(frappe.db.get_default("hide_currency_symbol")) \
 					and (frappe.db.get_value("Currency", price_obj.currency, "symbol", cache=True) or price_obj.currency) \
 					or ""
-
 				uom_conversion_factor = frappe.db.sql("""select	C.conversion_factor
 					from `tabUOM Conversion Detail` C
 					inner join `tabItem` I on C.parent = I.name and C.uom = I.sales_uom
 					where I.name = %s""", item_code)
-
 				uom_conversion_factor = uom_conversion_factor[0][0] if uom_conversion_factor else 1
 				price_obj["formatted_price_sales_uom"] = fmt_money(price_obj["price_list_rate"] * uom_conversion_factor, currency=price_obj["currency"])
-
 				if not price_obj["price_list_rate"]:
 					price_obj["price_list_rate"] = 0
-
 				if not price_obj["currency"]:
 					price_obj["currency"] = ""
-
 				if not price_obj["formatted_price"]:
 					price_obj["formatted_price"] = ""
-
 			return price_obj
 
 @frappe.whitelist()
@@ -152,67 +134,10 @@ def on_submit_credit_sales(self):
 	company = get_company_from_fuel_station(self.fuel_station)
 	user_remarks = "To vehicle " + self.vehicle_number + " from pump " + self.pump + " Customer Generated LPO " + (self.lpo or self.manual_lpo_no)
 	# frappe.msgprint(user_remarks)
-
 	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name,user_remarks)
 	if invoice_doc:
 		frappe.db.set_value(self.doctype,self.name,"sales_invoice",invoice_doc.name)
 		make_journal_entry(invoice_doc)
-
-def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1,user_remarks=None):
-	invoice_doc = frappe.get_doc(dict(
-		doctype = "Sales Invoice",
-		customer = customer,
-		company = company,
-		posting_date = date,
-		ignore_pricing_rule = ignore_pricing_rule,
-		items = items,
-		update_stock = 1,
-		fuel_station = fuel_station,
-		shift = shift,
-		pump = pump,
-		credit_sales = credit_id,
-		remarks = user_remarks,
-		cost_center = get_cost_center_from_fuel_station(fuel_station)
-	)).insert(ignore_permissions=True)
-	if invoice_doc:
-		frappe.flags.ignore_account_permission = True
-		invoice_doc.submit()
-		return invoice_doc
-
-def get_cost_center_from_fuel_station(fuel_station):
-	cost_center = frappe.db.get_value("Fuel Station",fuel_station,"cost_center")
-	if cost_center:
-		return cost_center
-	else:
-		frappe.throw(_("Cost Center Not Define In Fuel Station"))	
-
-def get_item_from_fuel_item(fuel_item):
-	item = frappe.db.get_value("Fuel Item",fuel_item,"item")
-	if item:
-		return item
-	else:
-		frappe.throw(_("Item Not Define In Fuel Item"))
-
-def get_pump_warehouse(pump):
-	warehouse = frappe.db.get_value("Pump",pump,"warehouse")
-	if warehouse: 
-		return warehouse
-	else:
-		frappe.throw(_("Warehouse Not Defined In Pump"))
-
-def get_company_from_fuel_station(fuel_station):
-	company = frappe.db.get_value("Fuel Station",fuel_station,"company")
-	if company:
-		return company
-	else:
-		frappe.throw(_("Company Not Define In Fuel Station"))
-
-def get_customer_from_fuel_station(fuel_station):
-	customer = frappe.db.get_value("Fuel Station",fuel_station,"oil_company")
-	if customer:
-		return customer
-	else:
-		frappe.throw(_("Customer Not Define In Fuel Station"))
 
 def make_journal_entry(invoice_doc):
 	accounts = []
@@ -220,7 +145,7 @@ def make_journal_entry(invoice_doc):
 		account = invoice_doc.debit_to,
 		debit_in_account_currency = invoice_doc.outstanding_amount,
 		party_type = "Customer",
-		party = get_customer_from_fuel_station(invoice_doc.fuel_station),
+		party = get_oil_company_from_fuel_station(invoice_doc.fuel_station),
 		cost_center = get_cost_center_from_fuel_station(invoice_doc.fuel_station)
 	)
 	accounts.append(debit_row)

@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe import _
+from dsr.custom_api import make_stock_adjustment_entry
 
 
 class FuelStockReceipts(Document):
@@ -90,27 +91,6 @@ def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_n
 		frappe.flags.ignore_account_permission = True
 		pinv_doc.submit()
 		return pinv_doc.name	
-
-
-def make_stock_adjustment_entry(cost_center,date,company,item_stock_object,qty,fuel_stock_receipt_no, fuel_station,user_remarks=None,warehouse=None,stock_adjustment=None):
-	
-	stock_entry_doc =frappe.get_doc(dict(
-		doctype = "Stock Entry",
-		posting_date= date,
-		items = item_stock_object,
-		stock_entry_type='Material Issue',
-		purpose='Material Issue',
-		company= company, 
-		remarks = user_remarks,
-		fuel_station = fuel_station,
-		fuel_stock_receipts = fuel_stock_receipt_no,
-		)).insert(ignore_permissions = True)
-	if stock_entry_doc:
-		frappe.flags.ignore_account_permission = True
-		stock_entry_doc.submit()
-		return stock_entry_doc.name
-	
-
 
 def get_cost_center_from_fuel_station(fuel_station):
 	cost_center = frappe.db.get_value("Fuel Station",fuel_station,"cost_center")

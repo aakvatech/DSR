@@ -8,6 +8,12 @@ frappe.ui.form.on('Shift', {
 				frm.events.close_shift(frm);
 			}).addClass("btn-primary");
 		}
+		if (frappe.session.user != frm.doc.owner) {
+			// Assume that the user is allowed to update pump detials 
+			frm.set_df_property("pump_meter_reading", "read_only", false);
+			frm.set_df_property("attendant_pump", "read_only", false);
+			frm.set_df_property("dip_reading", "read_only", false);
+		}
 		if (frm.doc.shift_status == "Closed") {
 			frm.set_df_property("fuel_station", "read_only", true);
 			frm.set_df_property("shift_name", "read_only", true);

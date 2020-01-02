@@ -103,7 +103,7 @@
    "options": "Company"
   }
  ],
- "modified": "2019-11-30 21:27:36.938975",
+ "modified": "2020-01-02 12:50:33.048418",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump",
@@ -151,6 +151,26 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station Manager",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cluster Manager",
+   "share": 1
   }
  ],
  "search_fields": "fuel_station, fuel_item",

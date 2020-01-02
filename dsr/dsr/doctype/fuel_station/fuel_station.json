@@ -26,6 +26,7 @@
   "stock_adjustment",
   "column_break_20",
   "default_cash_account",
+  "default_warehouse",
   "section_break_21",
   "generator_make",
   "generator_model",
@@ -194,9 +195,16 @@
    "label": "Stock Adjustment Account",
    "options": "Account",
    "reqd": 1
+  },
+  {
+   "fieldname": "default_warehouse",
+   "fieldtype": "Link",
+   "label": "Default Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
   }
  ],
- "modified": "2019-12-29 16:54:27.512897",
+ "modified": "2020-01-01 23:45:03.380599",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",
