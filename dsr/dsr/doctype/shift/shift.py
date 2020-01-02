@@ -58,11 +58,12 @@ class Shift(Document):
 				cost_center = get_cost_center_from_fuel_station(self.fuel_station)
 			)
 			items.append(item_dict)
+		frappe.msgprint(str(items))
 		user_remarks = "Cash Sales of the day for shif " + self.name + " at fuel station " + self.fuel_station
-		invoice_doc = make_sales_invoice("Cash Customer",company,self.date,items,self.fuel_station,self.name,"","",1,1,user_remarks)
-		if invoice_doc:
-				frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
-		user_remarks = "Cash Sales of the day for shif " + self.name + " at fuel station " + self.fuel_station
+		# invoice_doc = make_sales_invoice("Cash Customer",company,self.date,items,self.fuel_station,self.name,"","",1,1,user_remarks)
+		# if invoice_doc:
+		# 		frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
+		user_remarks = "Fuel shortage of the day for shift " + self.name + " at fuel station " + self.fuel_station
 		cost_center = get_cost_center_from_fuel_station(self.fuel_station)
 		stock_adjustment = frappe.db.get_value("Fuel Station",self.fuel_station,"stock_adjustment")
 		if not stock_adjustment:
@@ -70,9 +71,9 @@ class Shift(Document):
 		item_stock_object = []
 		#Make 1 stock etnry per fuel item. Get default warehouse from Fuel Station for now.
 		qty = 0
-		stock_entry_doc = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,"",self.fuel_station,user_remarks,warehouse,stock_adjustment)
-		if stock_entry_doc:
-				frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc.name)
+		# stock_entry_doc = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,"",self.fuel_station,user_remarks,warehouse,stock_adjustment)
+		# if stock_entry_doc:
+		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc.name)
 
 		return
 
