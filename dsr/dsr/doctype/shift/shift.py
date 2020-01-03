@@ -48,17 +48,17 @@ class Shift(Document):
 		warehouse = frappe.db.get_value("Fuel Station",self.fuel_station,"default_warehouse")
 		if not warehouse:
 			frappe.throw(_("Default Warehouse Not Defined In Fuel Station"))		
-		items = []
-		for total_row in self.shift_fuel_item_totals:
-			item_dict = dict(
-				item_code = get_item_from_fuel_item(total_row.fuel_item),
-				qty = self.quantity,
-				rate = frappe.db.get_value("Fuel Item",total_row.fuel_item,"station_retail_price"),
-				warehouse = get_pump_warehouse(self.pump),
-				cost_center = get_cost_center_from_fuel_station(self.fuel_station)
-			)
-			items.append(item_dict)
-		frappe.msgprint(str(items))
+		# items = []
+		# for total_row in self.shift_fuel_item_totals:
+		# 	item_dict = dict(
+		# 		item_code = get_item_from_fuel_item(total_row.fuel_item),
+		# 		qty = self.quantity,
+		# 		rate = frappe.db.get_value("Fuel Item",total_row.fuel_item,"station_retail_price"),
+		# 		warehouse = get_pump_warehouse(self.pump),
+		# 		cost_center = get_cost_center_from_fuel_station(self.fuel_station)
+		# 	)
+		# 	items.append(item_dict)
+		# frappe.msgprint(str(items))
 		user_remarks = "Cash Sales of the day for shif " + self.name + " at fuel station " + self.fuel_station
 		# invoice_doc = make_sales_invoice("Cash Customer",company,self.date,items,self.fuel_station,self.name,"","",1,1,user_remarks)
 		# if invoice_doc:
@@ -74,7 +74,6 @@ class Shift(Document):
 		# stock_entry_doc = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,"",self.fuel_station,user_remarks,warehouse,stock_adjustment)
 		# if stock_entry_doc:
 		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc.name)
-
 		return
 
 def add_total_for_dip_reading(self):
