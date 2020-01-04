@@ -125,18 +125,18 @@ def add_total_for_credit_sales(self):
 		set_total(total_row.name,total_row.doctype,'cash_sales_quantity',flt(cash_sales))
 
 def get_total_quatity_inward_from_stock_receipt(shift,item):
-	stock_reciept = frappe.db.sql("""SELECT Sum(actual_quantity)
-FROM   `tabFuel Stock Receipts`
-WHERE  shift = %s
-       AND fuel_item = %s
-       AND docstatus = 1""",(shift,item))
+	stock_reciept = frappe.db.sql("""SELECT SUM(actual_quantity)
+		FROM   `tabFuel Stock Receipts`
+		WHERE  shift = %s
+			AND fuel_item = %s
+			AND docstatus = 1""",(shift,item))
 	if len(stock_reciept) >= 1:
 		return stock_reciept[0][0]
 	else:
 		return 0
 
 def get_total_credit_sales(shift,item):
-	credit_sales = frappe.db.sql("""select sum(quantity) from `tabCredit Sales` where shift=%s and fuel_item=%s and docstatus=1""",(shift,item))
+	credit_sales = frappe.db.sql("""SELECT SUM(quantity) from `tabCredit Sales` where shift=%s and fuel_item=%s and docstatus=1""",(shift,item))
 	if len(credit_sales) >= 1:
 		return credit_sales[0][0]
 	else:
@@ -168,7 +168,7 @@ def add_total_row(item,parent,field_name,field_value):
 		fuel_item = item,
 		field_name = field_value
 	)).insert()
-	frappe.db.set_value(doc.doctype,doc.name,str(field_name),field_value or 0)
+	set_total(doc.name,doc.doctype,str(field_name),field_value)
 	return doc
 
 def delete_item_total_table(doc_name):

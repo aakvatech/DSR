@@ -119,11 +119,11 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "naming_series",
-   "options": "ER-.YYYY.-#######"
+   "options": "ER-.YYYY.-.#######"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-04 17:17:28.500679",
+ "modified": "2020-01-04 17:58:19.891254",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",
