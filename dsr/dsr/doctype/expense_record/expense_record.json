@@ -1,10 +1,11 @@
 {
- "autoname": "format:EXP-{shift}-{###}",
+ "autoname": "naming_series:",
  "creation": "2019-09-07 17:49:31.343177",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "main_info_section",
   "date",
   "shift",
@@ -113,10 +114,16 @@
    "fieldname": "main_info_section",
    "fieldtype": "Section Break",
    "label": "Main Info"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "naming_series",
+   "options": "ER-.YYYY.-#######"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-29 17:44:22.570869",
+ "modified": "2020-01-04 17:17:28.500679",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",

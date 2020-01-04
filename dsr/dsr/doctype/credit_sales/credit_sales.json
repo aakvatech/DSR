@@ -1,10 +1,11 @@
 {
- "autoname": "format:CST-{shift}-{###}",
+ "autoname": "naming_series:",
  "creation": "2019-09-07 17:47:28.836253",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "section_break_1",
   "date",
   "shift",
@@ -253,10 +254,16 @@
    "fieldtype": "Float",
    "label": "Original Quantity",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "naming_series",
+   "options": "CST-.YYYY.-#######"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-04 15:56:03.514355",
+ "modified": "2020-01-04 17:06:02.191598",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",
