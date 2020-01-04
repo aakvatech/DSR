@@ -118,6 +118,15 @@ def get_cost_center_from_fuel_station(fuel_station):
 		frappe.throw(_("Cost Center Not Defined In Fuel Station"))
 
 @frappe.whitelist()
+def list_tally_company(**kwargs):
+	kwargs=frappe._dict(kwargs)
+	# frappe.log_error(str(kwargs))
+	data = kwargs.get('data', '') or " "
+	company = data.get('company') or " "
+	tally_company_list = frappe.db.sql("SELECT t.tally_company, t.company, t.fiscal_year, c.abbr FROM `tabTally Integration Company` t INNER JOIN `tabCompany` c on t.company = c.company WHERE t.company = '" + company + "' ORDER BY t.fiscal_year DESC LIMIT 1", as_dict=1)
+	return tally_company_list
+
+@frappe.whitelist()
 def list_journal():
 	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return journal_doclist

@@ -10,7 +10,10 @@
     background-color: lawngreen;
 }
 .form-control::placeholder {
-    color: antiquewhite;
+    color: crimson;
+}
+.navbar-form::placeholder {
+    color: crimson;
 }
 .form-control.bold {
     background-color: bisque;

@@ -1,0 +1,55 @@
+{
+ "allow_rename": 1,
+ "autoname": "field:tally_company",
+ "creation": "2020-01-03 12:05:03.631584",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "tally_company",
+  "fiscal_year"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "tally_company",
+   "fieldtype": "Data",
+   "label": "Tally Company",
+   "unique": 1
+  },
+  {
+   "fieldname": "fiscal_year",
+   "fieldtype": "Link",
+   "label": "Fiscal Year",
+   "options": "Fiscal Year"
+  }
+ ],
+ "modified": "2020-01-03 12:08:02.489165",
+ "modified_by": "Administrator",
+ "module": "Dsr",
+ "name": "Tally Integration Company",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

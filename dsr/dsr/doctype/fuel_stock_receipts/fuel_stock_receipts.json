@@ -22,6 +22,7 @@
   "actual_quantity",
   "column_break_13",
   "fuel_shortage",
+  "fuel_shortage_percentage",
   "section_break_15",
   "fuel_stock_receipt_tanks",
   "section_break_20",
@@ -178,11 +179,17 @@
   {
    "fieldname": "section_break_20",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "fuel_shortage_percentage",
+   "fieldtype": "Percent",
+   "label": "Fuel Shortage Percentage",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-29 03:33:36.893363",
- "modified_by": "yousef@dsr.com",
+ "modified": "2020-01-04 14:52:12.462607",
+ "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",
  "owner": "Administrator",

@@ -26,6 +26,7 @@
   "loading_order",
   "section_break_15",
   "quantity",
+  "original_quantity",
   "pump",
   "column_break_18",
   "fuel_item",
@@ -118,7 +119,8 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "hidden": 1,
-   "label": "Amount"
+   "label": "Amount",
+   "report_hide": 1
   },
   {
    "fieldname": "amended_from",
@@ -226,7 +228,8 @@
    "fieldtype": "Currency",
    "hidden": 1,
    "label": "Rate",
-   "read_only": 1
+   "read_only": 1,
+   "report_hide": 1
   },
   {
    "default": "0",
@@ -243,10 +246,17 @@
    "hidden": 1,
    "label": "CG LPO Owner",
    "read_only": 1
+  },
+  {
+   "fetch_from": "lpo.quantity",
+   "fieldname": "original_quantity",
+   "fieldtype": "Float",
+   "label": "Original Quantity",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-29 17:43:29.465183",
+ "modified": "2020-01-04 15:56:03.514355",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",
