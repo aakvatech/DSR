@@ -144,7 +144,7 @@ def get_total_credit_sales(shift,item):
 
 @frappe.whitelist()
 def get_total_retail_banking(shift):
-	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and credit_sales_reference = "" docstatus=1""",(shift))
+	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and credit_sales_reference = '' and docstatus=1""",(shift))
 	if len(banking) >= 1:
 		return banking[0][0]
 	else:
