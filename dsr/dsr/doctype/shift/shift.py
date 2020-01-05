@@ -13,14 +13,14 @@ from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,ma
 class Shift(Document):
 	def before_save(self):
 		# Below added to calculate the totals upon a change in the values.
-		self.total_bank_deposit = (get_total_banking(self.name) or 0)
+		self.total_retail_bank_deposit = (get_total_retail_banking(self.name) or 0)
 		self.total_expenses = (get_total_expenses(self.name) or 0)
 		self.opening_balance = (self.opening_balance or 0)
 		self.total_deposited = (self.total_deposited or 0)
 		self.total_cash_shortage = (self.total_cash_shortage or 0)
 		self.total_bank_deposit = (self.total_bank_deposit or 0)
 		self.total_expenses = (self.total_expenses or 0)
-		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_cash_shortage - self.total_bank_deposit - self.total_expenses
+		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_cash_shortage - self.total_retail_bank_deposit - self.total_expenses
 
 	def on_change(self):
 		delete_item_total_table(self.name)
@@ -83,10 +83,10 @@ def add_total_for_dip_reading(self):
 		doc = frappe.get_doc(self.doctype,self.name)			
 		for total_row in doc.shift_fuel_item_totals:
 			if fuel_item == total_row.fuel_item:
-				set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.difference_in_liters))
+				set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.closing_liters))
 				item_available = True
 		if item_available == False:
-			add_total_row(fuel_item,doc.name,'tank_usage_quantity',dip_read.difference_in_liters)
+			add_total_row(fuel_item,doc.name,'tank_usage_quantity',dip_read.closing_liters)
 
 def add_total_for_meter_reading(self):
 	for meter_read in self.pump_meter_reading:
@@ -143,8 +143,8 @@ def get_total_credit_sales(shift,item):
 		return 0
 
 @frappe.whitelist()
-def get_total_banking(shift):
-	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and docstatus=1""",(shift))
+def get_total_retail_banking(shift):
+	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and credit_sales_reference = "" docstatus=1""",(shift))
 	if len(banking) >= 1:
 		return banking[0][0]
 	else:

@@ -599,7 +599,7 @@ function calculate_other_sales_totals(frm) {
 
 	var total_bank_deposits = 0;
 	frappe.call({
-		method: "dsr.dsr.doctype.shift.shift.get_total_banking",
+		method: "dsr.dsr.doctype.shift.shift.get_total_retail_banking",
 		args: { 'shift': frm.doc.name },
 		async: false,
 		callback: function (r) {

@@ -139,6 +139,7 @@
   {
    "allow_on_submit": 1,
    "default": "0",
+   "depends_on": "eval: doc.stamped_cash_deposited_slip",
    "fieldname": "stamped_slip_approved",
    "fieldtype": "Check",
    "label": "Stamped Slip Approved",
@@ -152,7 +153,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-04 17:58:12.967685",
+ "modified": "2020-01-05 13:00:45.477667",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",
