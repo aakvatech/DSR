@@ -55,14 +55,14 @@ def on_submit_fuel_stock_Receipt(self):
 			rate = item_details.mera_wholesale_price,
 			warehouse = warehouse,
 			cost_center = cost_center)
-		item_stock_row = dict(
-			item_code = item_details.item,
-			qty = row.difference_ltrs * (-1), 
-			s_warehouse = warehouse,
-			cost_center = cost_center,
-			expense_account= stock_adjustment)
-		item_object.append(item_row)	
-		item_stock_object.append(item_stock_row)
+		item_object.append(item_row)
+	item_stock_row = dict(
+		item_code = item_details.item,
+		qty = self.fuel_shortage * (-1), 
+		s_warehouse = warehouse,
+		cost_center = cost_center,
+		expense_account= stock_adjustment)	
+	item_stock_object.append(item_stock_row)
 
 	user_remarks = "Fuel Stock Receipt " + self.name + " for delivery Note " + str(self.delivery_note) + " for shift " + str(self.shift) + " Shortage recorded for fuel item " +self.fuel_item + " = " + str(self.fuel_shortage)
 
