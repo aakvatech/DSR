@@ -7,14 +7,19 @@
  "field_order": [
   "fuel_item",
   "tank_usage_quantity",
+  "column_break_3",
   "inward_quantity",
+  "section_break_5",
   "total_sales_quantity",
+  "column_break_7",
   "difference_quantity",
+  "section_break_9",
   "credit_sales_quantity",
   "cash_sales_quantity"
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "fuel_item",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -22,41 +27,67 @@
    "options": "Fuel Item"
   },
   {
+   "columns": 1,
    "fieldname": "inward_quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Inward Quantity"
+   "label": "Inward Quantity",
+   "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "tank_usage_quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Tank Usage Quantity"
+   "label": "Tank Usage Quantity",
+   "read_only": 1
   },
   {
    "fieldname": "credit_sales_quantity",
    "fieldtype": "Float",
-   "label": "Credit Sales Quantity"
+   "label": "Credit Sales Quantity",
+   "read_only": 1
   },
   {
    "fieldname": "cash_sales_quantity",
    "fieldtype": "Float",
-   "label": "Cash Sales Quantity"
+   "label": "Cash Sales Quantity",
+   "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "total_sales_quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Total Sales Quantity"
+   "label": "Total Sales Quantity",
+   "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "difference_quantity",
    "fieldtype": "Float",
-   "label": "Difference Quantity"
+   "label": "Difference Quantity",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break"
   }
  ],
  "istable": 1,
- "modified": "2019-11-19 22:46:19.181801",
+ "modified": "2020-01-06 15:57:17.097332",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift Fuel Item Total",
