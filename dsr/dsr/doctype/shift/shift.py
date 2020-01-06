@@ -23,11 +23,7 @@ class Shift(Document):
 		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_cash_shortage - self.total_retail_bank_deposit - self.total_expenses
 
 	def on_change(self):
-		delete_item_total_table(self.name)
-		add_total_for_dip_reading(self)
-		add_total_for_meter_reading(self)
-		add_total_for_inward(self)
-		add_total_for_credit_sales(self)
+		recalculate_shift_fuel_totals(self)
 
 	def before_submit(self):
 		'''
@@ -75,6 +71,14 @@ class Shift(Document):
 		# if stock_entry_doc:
 		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc.name)
 		return
+
+@frappe.whitelist()
+def recalculate_shift_fuel_totals(self):
+		delete_item_total_table(self.name)
+		add_total_for_dip_reading(self)
+		add_total_for_meter_reading(self)
+		add_total_for_inward(self)
+		add_total_for_credit_sales(self)
 
 def add_total_for_dip_reading(self):
 	for dip_read in self.dip_reading:

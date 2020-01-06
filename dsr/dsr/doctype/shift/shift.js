@@ -482,7 +482,19 @@ frappe.ui.form.on('Dip Reading', {
 	closing_liters:function(frm,cdt,cdn){
 		var doc = locals[cdt][cdn]
 		frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters)-parseFloat(doc.opening_liters))
-	}
+	},
+	recalculate_shift_fuel_totals:function(frm,cdt,cdn){
+		frappe.msgprint("Starting Shift Fuel refresh...")
+		frappe.call({
+			method: "dsr.dsr.doctype.shift.shift.recalculate_shift_fuel_totals",
+			args: { 'self': frm },
+			async: false,
+			callback: function (r) {
+				frappe.msgprint("Shift Fuel Items refreshing...")
+				refresh_field("shift_fuel_item_totals");
+			}
+		});
+}
 });
 
 frappe.ui.form.on('Pump Meter Reading', {
