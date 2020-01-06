@@ -46,6 +46,7 @@ frappe.ui.form.on('Shift', {
 			frappe.meta.get_docfield("Dip Reading", "fuel_tank", frm.doc.name).read_only = 1;
 			frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).read_only = 1;
 		}
+		refresh_field("shift_fuel_item_totals");
 	},
 	get_last_shift_details:function(frm){
 		if(!frm.doc.fuel_station){
