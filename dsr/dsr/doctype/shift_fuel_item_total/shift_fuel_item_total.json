@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "fuel_item",
+  "section_break_2",
   "tank_usage_quantity",
   "column_break_3",
   "inward_quantity",
@@ -24,7 +25,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Fuel Item",
-   "options": "Fuel Item"
+   "options": "Fuel Item",
+   "read_only": 1
   },
   {
    "columns": 1,
@@ -84,10 +86,14 @@
   {
    "fieldname": "section_break_9",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break"
   }
  ],
  "istable": 1,
- "modified": "2020-01-06 15:57:17.097332",
+ "modified": "2020-01-06 15:59:14.975148",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift Fuel Item Total",
