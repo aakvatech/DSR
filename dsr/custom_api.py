@@ -153,7 +153,7 @@ def list_purchase():
 @frappe.whitelist()
 def list_stockentry():
 	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
-	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
+	# stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return stockentry_doclist
 
 @frappe.whitelist()
