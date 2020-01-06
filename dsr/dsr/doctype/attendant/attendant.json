@@ -35,7 +35,7 @@
    "options": "Fuel Station"
   }
  ],
- "modified": "2019-11-30 19:41:29.109904",
+ "modified": "2020-01-06 14:46:47.242161",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Attendant",
@@ -72,7 +72,6 @@
    "share": 1
   }
  ],
- "quick_entry": 1,
  "search_fields": "fuel_station",
  "sort_field": "attendant_name",
  "sort_order": "ASC",

@@ -123,31 +123,36 @@ def list_tally_company(**kwargs):
 	# frappe.log_error(str(kwargs))
 	data = kwargs.get('data', '') or " "
 	company = data.get('company') or " "
-	tally_company_list = frappe.db.sql("SELECT t.tally_company, t.company, t.fiscal_year, c.abbr FROM `tabTally Integration Company` t INNER JOIN `tabCompany` c on t.company = c.company WHERE t.company = '" + company + "' ORDER BY t.fiscal_year DESC LIMIT 1", as_dict=1)
+	tally_company_list = frappe.db.sql("SELECT t.tally_company, t.company, t.fiscal_year, c.abbr FROM `tabTally Integration Company` t INNER JOIN `tabCompany` c on t.company = c.name WHERE t.company = '" + company + "' ORDER BY t.fiscal_year DESC LIMIT 1", as_dict=1)
 	return tally_company_list
 
 @frappe.whitelist()
 def list_journal():
-	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
+	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
+	# journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return journal_doclist
 
 @frappe.whitelist()
 def list_payments():
-	payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
+	payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
+	# payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return payment_doclist
 
 @frappe.whitelist()
 def list_sales():
-	sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
+	sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
+	# sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return sales_doclist
 
 @frappe.whitelist()
 def list_purchase():
-	purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
+	purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
+	# purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return purchase_doclist
 
 @frappe.whitelist()
 def list_stockentry():
+	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
 	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' ORDER BY name DESC", as_dict=1)
 	return stockentry_doclist
 
