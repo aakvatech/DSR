@@ -17,6 +17,8 @@ frappe.ui.form.on('Shift', {
 		}
 		if (frappe.session.user == "Administrator") {
 			// Assume that the user is allowed to update pump detials 
+			frm.set_df_property("opening_balance", "read_only", false);
+			frm.set_df_property("cash_in_hand", "read_only", false);
 			frm.set_df_property("pump_meter_reading", "read_only", false);
 			frm.set_df_property("attendant_pump", "read_only", false);
 			frm.set_df_property("dip_reading", "read_only", false);

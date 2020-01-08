@@ -52,6 +52,16 @@ frappe.ui.form.on('Credit Sales', {
 		// }
 
 	},
+	credit_customer_type: function (frm) {
+		// if (frm.doc.quantity && frm.doc.fuel_item) {
+		// 	calculate_total(frm)
+		// }
+		if (frm.doc.credit_customer_type = "Discounted Cash") {
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", 1);
+		} else {
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", 0);
+		}
+	},
 	lpo: function (frm) {
 		if (frm.doc.lpo) {
 			frm.set_df_property("vehicle_number", "read_only", true);

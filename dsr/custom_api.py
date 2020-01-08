@@ -62,7 +62,8 @@ def make_journal_entry(accounts,date,bill_no=None,company=None,user_remark=None,
 def on_cancel_jv_cancel(self,method):
 	if self.journal_entry:
 		journal_entry_doc = frappe.get_doc("Journal Entry",self.journal_entry)
-		journal_entry_doc.cancel(ignore_permissions=True)
+		if journal_entry_doc:
+			journal_entry_doc.cancel(ignore_permissions=True)
 
 @frappe.whitelist()
 def on_submit_cash_deposited(self,method):

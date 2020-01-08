@@ -18,6 +18,9 @@ class CreditSales(Document):
 				if balance_qty < self.quantity:
 					frappe.throw(_("Balance Qty is {0} not sufficient and Applied Qty is {1}").format(balance_qty,self.quantity))
 				frappe.db.set_value("Other Station Credit",self.other_station_cash_record,"balance_qty",balance_qty-self.quantity)
+		if self.lpo:
+			if (self.quantity == self.original_quantity):
+				frappe.db.set_value("Customer Generated LPO",self.lpo,"fulfilled","Completely Fulfilled")
 		on_submit_credit_sales(self)
 
 	def validate(self):

@@ -18,6 +18,11 @@ frappe.ui.form.on('Cash Received For Other Station', {
 				}
 			}
 		});
+		// frm.set_query('for_fuel_station', function() {
+		// 	return {
+		// 		'query': "dsr.custom_api.get_all_fuel_stations"
+		// 	}
+		// });
 	}
 });
 
@@ -43,7 +48,7 @@ frappe.ui.form.on('Other Station Credit', {
 		
 	},
 	other_station_credit_remove: function(frm,cdt,cdn){
-		console.log('delete')
+		// console.log('delete')
 		calculate_total(cur_frm)
 	}
 
@@ -63,7 +68,7 @@ var auto_shift_selection = function(frm, cdt, cdn) {
 			async: false,
 			callback: function (r) {
 				if (r.message) {
-					console.log(r.message)
+					// console.log(r.message)
 					frappe.model.set_value(cdt, cdn, "shift", r.message[0].name)
 					frappe.model.set_value(cdt, cdn, "fuel_station", r.message[0].fuel_station)
 
@@ -105,7 +110,7 @@ var calculate_amount = function(frm,cdt,cdn){
 }
 
 var calculate_total = function(frm){
-	console.log(frm.doc.other_station_credit)
+	// console.log(frm.doc.other_station_credit)
 	var total_amount = 0
 	var total_qty = 0
 	frm.doc.other_station_credit.forEach((d) => {
