@@ -47,16 +47,24 @@ frappe.ui.form.on('Credit Sales', {
 		auto_shift_selection(frm, cdt, cdn)
 	},
 	quantity: function (frm) {
-		// if (frm.doc.quantity && frm.doc.fuel_item) {
-		// 	calculate_total(frm)
-		// }
-
+		if (frm.doc.quantity && frm.doc.fuel_item) {
+			calculate_total(frm)
+		}
 	},
+	// pump: function (frm) {
+	// 	if (frm.doc.quantity && frm.doc.fuel_item) {
+	// 		calculate_total(frm)
+	// 	}
+	// 	var fuel_item = frappe.db.get_value("Pump", {name: frm.doc.pump}, "fuel_item")
+	// 	console.log("Fetching value for fuel item from pump", frm.doc.pump)
+	// 	frm.add_fetch('pump','fuel_item','fuel_item')
+	// 	console.log(frm.doc.fuel_item)
+	// },
 	credit_customer_type: function (frm) {
 		// if (frm.doc.quantity && frm.doc.fuel_item) {
 		// 	calculate_total(frm)
 		// }
-		if (frm.doc.credit_customer_type = "Discounted Cash") {
+		if (frm.doc.credit_customer_type == "Discounted Cash") {
 			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", 1);
 		} else {
 			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", 0);
@@ -72,8 +80,18 @@ frappe.ui.form.on('Credit Sales', {
 			frm.set_df_property("discounted_cash_customer", "read_only", true);
 			frm.set_df_property("fuel_item", "read_only", true);
 			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "manual_lpo_no", "");
+			// console.log("setting fuel item from lpo", frm.doc.lpo)
+			// frm.add_fetch("lpo","fuel_item","fuel_item")
+			// console.log("fuel item set to", frm.doc.fuel_item)
 		} else {
 			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "cg_lpo_owner", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "credit_customer", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "credit_customer_type", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "vehicle_number", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "quantity", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "original_quantity", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "amount", "");
+			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "fuel_item", "");
 			frm.set_df_property("vehicle_number", "read_only", false);
 			frm.set_df_property("credit_customer", "read_only", false);
 			frm.set_df_property("is_cash_received_at_other_station", "read_only", false);
@@ -84,8 +102,8 @@ frappe.ui.form.on('Credit Sales', {
 	fuel_item: function (frm) {
 		if (frm.doc.quantity && frm.doc.fuel_item) {
 			calculate_total(frm)
-			frm.set_value("pump", "")
-		}
+			// frm.set_value("pump", "")
+		};
 	},
 	is_cash_received_at_other_station: function (frm, cdt, cdn) {
 		if (frm.doc.is_cash_received_at_other_station) {

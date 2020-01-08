@@ -20,7 +20,7 @@ class Shift(Document):
 		self.total_cash_shortage = (self.total_cash_shortage or 0)
 		self.total_bank_deposit = (self.total_bank_deposit or 0)
 		self.total_expenses = (self.total_expenses or 0)
-		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_cash_shortage - self.total_retail_bank_deposit - self.total_expenses
+		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_retail_bank_deposit - self.total_expenses
 
 	def on_change(self):
 		recalculate_shift_fuel_totals(self)

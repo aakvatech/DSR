@@ -18,11 +18,11 @@ frappe.ui.form.on('Cash Received For Other Station', {
 				}
 			}
 		});
-		// frm.set_query('for_fuel_station', function() {
-		// 	return {
-		// 		'query': "dsr.custom_api.get_all_fuel_stations"
-		// 	}
-		// });
+		frm.set_query('for_fuel_station', function() {
+			return {
+				query: "dsr.custom_api.get_all_fuel_stations"
+			};
+		});
 	}
 });
 

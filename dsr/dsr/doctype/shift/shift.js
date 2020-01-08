@@ -189,9 +189,12 @@ function validate_close_shift(frm){
 			filters: {'shift_status': 'Open','fuel_station':frm.doc.fuel_station},
 			fields:["name"]
 		},
+		async: false,
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
+				frm.set_value("fuel_station", "")
+				refresh_field("fuel_station")
 				frappe.throw(__("{0} is not yet closed",[r.message[0].name]))
 			}
 		}
@@ -643,7 +646,7 @@ function calculate_other_sales_totals(frm) {
 	refresh_field("total_expenses")
 
 	// console.log('cih',cash_in_hand, 'ob', frm.doc.opening_balance, 'td', frm.doc.total_deposited, 'cs', frm.doc.total_cash_shortage, 'tbd', total_bank_deposits, 'te', total_expenses)
-	var cash_in_hand = (frm.doc.opening_balance || 0)+ (frm.doc.total_deposited || 0) - (frm.doc.total_cash_shortage || 0)- (frm.doc.total_bank_deposit || 0)- (frm.doc.total_expenses || 0);
+	var cash_in_hand = (frm.doc.opening_balance || 0)+ (frm.doc.total_deposited || 0) - (frm.doc.total_bank_deposit || 0)- (frm.doc.total_expenses || 0);
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }

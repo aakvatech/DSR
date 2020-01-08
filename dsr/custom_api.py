@@ -233,6 +233,7 @@ def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credi
 		customer = customer,
 		company = company,
 		posting_date = date,
+		due_date = date,
 		ignore_pricing_rule = ignore_pricing_rule,
 		items = items,
 		update_stock = 1,
@@ -281,3 +282,9 @@ def get_mera_wholesale_rate(item_code):
 		frappe.throw(_("MERA Wholesale Price Not Avaialable For Item {0}").format(item_code))
 	return rate
 
+def get_all_fuel_stations(doctype, txt, searchfield, start, page_len, filters):
+	conditions = []
+
+	return frappe.db.sql("""select name
+		from `tabFuel Station`"""
+		)

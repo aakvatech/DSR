@@ -13,10 +13,10 @@
   "fuel_station",
   "section_break_5",
   "name_of_bank",
-  "credit_sales_reference",
+  "amount",
   "cash_deposit_slip",
   "column_break_8",
-  "amount",
+  "credit_sales_reference",
   "amount_to_be_deposited",
   "pending_amount_after_deposit",
   "stamped_cash_deposited_slip",
@@ -36,6 +36,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "credit_sales_reference.amount",
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -111,6 +112,7 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval: !doc.credit_sales_reference",
    "fetch_from": "shift.cash_in_hand",
    "fieldname": "amount_to_be_deposited",
    "fieldtype": "Currency",
@@ -153,7 +155,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-06 16:48:07.690729",
+ "modified": "2020-01-09 01:02:35.480014",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",
