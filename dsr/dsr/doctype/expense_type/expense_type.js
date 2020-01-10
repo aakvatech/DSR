@@ -9,7 +9,8 @@ frappe.ui.form.on('Expense Type', {
 					'company': frm.doc.company,
 					"root_type": "Expense",
 					'is_group': 0
-				}
+				},
+				order_by: "name"
 			}
 		});
 	}
