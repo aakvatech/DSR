@@ -8,27 +8,6 @@ frappe.ui.form.on('Shift', {
 				frm.events.close_shift(frm);
 			}).addClass("btn-primary");
 		}
-		if (frappe.session.user != frm.doc.owner) {
-			// Assume that the user is allowed to update pump detials 
-			frm.set_df_property("pump_meter_reading", "read_only", false);
-			frm.set_df_property("attendant_pump", "read_only", false);
-			frm.set_df_property("dip_reading", "read_only", false);
-			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
-		}
-		if (frappe.session.user == "Administrator") {
-			// Assume that the user is allowed to update pump detials 
-			frm.set_df_property("opening_balance", "read_only", false);
-			frm.set_df_property("cash_in_hand", "read_only", false);
-			frm.set_df_property("pump_meter_reading", "read_only", false);
-			frm.set_df_property("attendant_pump", "read_only", false);
-			frm.set_df_property("dip_reading", "read_only", false);
-			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
-			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
-			frappe.meta.get_docfield("Pump Meter Reading", "closing_mechanical", frm.doc.name).read_only = 0;
-			frappe.meta.get_docfield("Pump Meter Reading", "closing_electrical", frm.doc.name).read_only = 0;
-			frappe.meta.get_docfield("Attendant Pump", "pump", frm.doc.name).read_only = 0;
-			frappe.meta.get_docfield("Dip Reading", "fuel_tank", frm.doc.name).read_only = 0;
-		}
 		if (frm.doc.shift_status == "Closed") {
 			frm.set_df_property("fuel_station", "read_only", true);
 			frm.set_df_property("shift_name", "read_only", true);
@@ -47,6 +26,29 @@ frappe.ui.form.on('Shift', {
 			frappe.meta.get_docfield("Attendant Pump", "cash_deposited", frm.doc.name).read_only = 1;
 			frappe.meta.get_docfield("Dip Reading", "fuel_tank", frm.doc.name).read_only = 1;
 			frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).read_only = 1;
+		}
+		if (frappe.user_roles.includes("Cluster Manager")) {
+			console.log("Special access granted to " + frappe.session.user)
+			// Assume that the user is allowed to update pump detials 
+			frm.set_df_property("pump_meter_reading", "read_only", false);
+			frm.set_df_property("attendant_pump", "read_only", false);
+			frm.set_df_property("dip_reading", "read_only", false);
+			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
+		}
+		if (frappe.user_roles.includes("System Manager")) {
+			console.log("Super Special access granted to " + frappe.session.user)
+			// Assume that the user is allowed to update pump detials 
+			frm.set_df_property("opening_balance", "read_only", false);
+			frm.set_df_property("cash_in_hand", "read_only", false);
+			frm.set_df_property("pump_meter_reading", "read_only", false);
+			frm.set_df_property("attendant_pump", "read_only", false);
+			frm.set_df_property("dip_reading", "read_only", false);
+			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "closing_mechanical", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "closing_electrical", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Attendant Pump", "pump", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Dip Reading", "fuel_tank", frm.doc.name).read_only = 0;
 		}
 		refresh_field("shift_fuel_item_totals");
 	},
@@ -649,4 +651,14 @@ function calculate_other_sales_totals(frm) {
 	var cash_in_hand = (frm.doc.opening_balance || 0)+ (frm.doc.total_deposited || 0) - (frm.doc.total_bank_deposit || 0)- (frm.doc.total_expenses || 0);
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
+}
+
+/**
+ * Returns true if list_a is subset of list_b
+ * @param {Array} list_a
+ * @param {Array} list_b
+ */
+function is_subset(list_a, list_b) {
+	
+	return list_a.every(item => list_b.includes(item));
 }
