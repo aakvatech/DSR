@@ -45,13 +45,33 @@ frappe.ui.form.on('Shift', {
 			frm.set_df_property("dip_reading", "read_only", false);
 			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Pump Meter Reading", "pump", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "opening_mechanical", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Pump Meter Reading", "closing_mechanical", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Pump Meter Reading", "opening_electrical", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Pump Meter Reading", "closing_electrical", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Attendant Pump", "pump", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Dip Reading", "fuel_tank", frm.doc.name).read_only = 0;
 		}
 		refresh_field("shift_fuel_item_totals");
 	},
+
+	recalculate_shift_fuel_totals: function (frm) {
+		frappe.msgprint("Starting Shift Fuel refresh...");
+		// frm.clear_table("shift_fuel_item_totals");
+		frappe.call({
+			method: "dsr.dsr.doctype.shift.shift.recalculate_shift_fuel_totals_from_name",
+			args: {
+				'name': frm.doc.name
+			},
+			async: false,
+			callback: function (r) {
+				frappe.msgprint("Shift Fuel Items refreshing...")
+				refresh_field("shift_fuel_item_totals");
+			}
+		});
+		frm.refresh_fields();
+	},
+	
 	get_last_shift_details:function(frm){
 		if(!frm.doc.fuel_station){
 			frappe.throw(__("Fuel Station Required For Loading Last Shift Details"))
@@ -490,18 +510,9 @@ frappe.ui.form.on('Dip Reading', {
 		var doc = locals[cdt][cdn]
 		frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters)-parseFloat(doc.opening_liters))
 	},
-	recalculate_shift_fuel_totals:function(frm,cdt,cdn){
-		frappe.msgprint("Starting Shift Fuel refresh...");
-		frappe.call({
-			method: "dsr.dsr.doctype.shift.shift.recalculate_shift_fuel_totals",
-			doc: cur_frm.doc,
-			async: false,
-			callback: function (r) {
-				frappe.msgprint("Shift Fuel Items refreshing...")
-				refresh_field("shift_fuel_item_totals");
-			}
-		});
-}
+
+	
+	
 });
 
 frappe.ui.form.on('Pump Meter Reading', {
