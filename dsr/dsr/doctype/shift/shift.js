@@ -628,7 +628,6 @@ frappe.ui.form.on('Attendant Pump', {
 function calculate_other_sales_totals(frm) {
 	calculate_attendant_deposit_totals(frm)
 
-	var total_bank_deposits = 0;
 	frappe.call({
 		method: "dsr.dsr.doctype.shift.shift.get_total_retail_banking",
 		args: { 'shift': frm.doc.name },
@@ -643,7 +642,6 @@ function calculate_other_sales_totals(frm) {
 	});
 	refresh_field("total_bank_deposit")
 
-	var total_expenses = 0;
 	frappe.call({
 		method: "dsr.dsr.doctype.shift.shift.get_total_expenses",
 		args: { 'shift': frm.doc.name },
@@ -658,8 +656,8 @@ function calculate_other_sales_totals(frm) {
 	});
 	refresh_field("total_expenses")
 
-	// console.log('cih',cash_in_hand, 'ob', frm.doc.opening_balance, 'td', frm.doc.total_deposited, 'cs', frm.doc.total_cash_shortage, 'tbd', total_bank_deposits, 'te', total_expenses)
-	var cash_in_hand = (frm.doc.opening_balance || 0)+ (frm.doc.total_deposited || 0) - (frm.doc.total_bank_deposit || 0)- (frm.doc.total_expenses || 0);
+	console.log('cih',cash_in_hand, 'ob', frm.doc.opening_balance, 'td', frm.doc.total_deposited, 'cs', frm.doc.total_cash_shortage, 'tbd', frm.doc.total_bank_deposits, 'te', frm.doc.total_expenses)
+	var cash_in_hand = (frm.doc.opening_balance || 0) + (frm.doc.total_deposited || 0) - (frm.doc.total_bank_deposit || 0) - (frm.doc.total_expenses || 0);
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
 }

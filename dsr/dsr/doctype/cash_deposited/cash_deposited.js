@@ -13,6 +13,20 @@ frappe.ui.form.on('Cash Deposited', {
 				}
 			}
 		});
+		frm.set_query('name_of_bank', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station
+				}
+			}
+		});
+		frm.set_query('credit_sales_reference', function() {
+			return {
+				filters: {
+					'fuel_station': frm.doc.fuel_station
+				}
+			}
+		});
 	},
 	amount: function(frm) {
 		if (frm.doc.credit_sales_reference) {

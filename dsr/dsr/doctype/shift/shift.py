@@ -78,6 +78,7 @@ class Shift(Document):
 		qty = 0 # temp
 		fuel_stock_receipt_no=None  # temp
 		stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
+		# stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
 		# if stock_entry_doc_name:
 		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
 
@@ -164,7 +165,8 @@ def get_total_credit_sales(shift,item):
 
 @frappe.whitelist()
 def get_total_retail_banking(shift):
-	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and credit_sales_reference = '' and docstatus=1""",(shift))
+	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and (credit_sales_reference = '' or credit_sales_reference is null) and docstatus=1""",(shift))
+	# frappe.msgprint(str(banking))
 	if len(banking) >= 1:
 		return banking[0][0]
 	else:

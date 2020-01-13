@@ -265,7 +265,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-09 00:54:33.658955",
+ "modified": "2020-01-13 19:56:01.080619",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",
@@ -323,6 +323,7 @@
    "write": 1
   }
  ],
+ "search_fields": "lpo, credit_customer, fuel_item, vehicle_number, quantity",
  "sort_field": "modified",
  "sort_order": "DESC",
  "track_changes": 1
