@@ -78,9 +78,8 @@ class Shift(Document):
 		qty = 0 # temp
 		fuel_stock_receipt_no=None  # temp
 		stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
-		if stock_entry_doc_name:
-				frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
-		return
+		# if stock_entry_doc_name:
+		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
 
 @frappe.whitelist()
 def recalculate_shift_fuel_totals_from_name(name):
