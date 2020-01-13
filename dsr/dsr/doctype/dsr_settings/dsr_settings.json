@@ -4,24 +4,29 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "system_user",
-  "system_user_password"
+  "system_api_key",
+  "system_api_secret",
+  "system_url"
  ],
  "fields": [
   {
-   "fieldname": "system_user",
-   "fieldtype": "Link",
-   "label": "System user",
-   "options": "User"
+   "fieldname": "system_api_key",
+   "fieldtype": "Data",
+   "label": "System API Key"
   },
   {
-   "fieldname": "system_user_password",
+   "fieldname": "system_api_secret",
    "fieldtype": "Password",
-   "label": "System user password"
+   "label": "System API Secret"
+  },
+  {
+   "fieldname": "system_url",
+   "fieldtype": "Data",
+   "label": "System URL"
   }
  ],
  "issingle": 1,
- "modified": "2019-11-29 16:04:48.996511",
+ "modified": "2020-01-12 21:33:54.691115",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "DSR Settings",

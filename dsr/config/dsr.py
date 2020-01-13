@@ -100,7 +100,17 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
+					"name": "DSR Settings",
+					"onboard": 1,
+				},
+				{
+					"type": "doctype",
 					"name": "Fuel Station",
+					"onboard": 1,
+				},
+				{
+					"type": "doctype",
+					"name": "Tally Integration Company",
 					"onboard": 1,
 				},
 				{
