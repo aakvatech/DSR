@@ -51,6 +51,8 @@ frappe.ui.form.on('Shift', {
 			frappe.meta.get_docfield("Pump Meter Reading", "closing_electrical", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Attendant Pump", "pump", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Dip Reading", "fuel_tank", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Dip Reading", "opening_mm", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Dip Reading", "opening_liters", frm.doc.name).read_only = 0;
 		}
 		refresh_field("shift_fuel_item_totals");
 	},

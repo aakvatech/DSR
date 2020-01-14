@@ -44,6 +44,11 @@
   "section_break_36",
   "cash_sales_invoice",
   "stock_entry",
+  "section_break_40",
+  "cluster_manager",
+  "column_break_41",
+  "station_manager",
+  "section_break_43",
   "amended_from"
  ],
  "fields": [
@@ -298,10 +303,38 @@
    "fieldname": "recalculate_shift_fuel_totals",
    "fieldtype": "Button",
    "label": "Recalculate Shift Fuel Totals"
+  },
+  {
+   "fetch_from": "fuel_station.cluster_manager",
+   "fieldname": "cluster_manager",
+   "fieldtype": "Link",
+   "label": "Cluster Manager",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_41",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "fuel_station.station_manager",
+   "fieldname": "station_manager",
+   "fieldtype": "Link",
+   "label": "Station Manager",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_43",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_40",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-11 10:33:36.796654",
+ "modified": "2020-01-14 19:11:47.738126",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Shift",

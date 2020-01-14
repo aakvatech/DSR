@@ -37,6 +37,11 @@
   "full_paid",
   "section_break_25",
   "sales_invoice",
+  "section_break_33",
+  "cluster_manager",
+  "column_break_35",
+  "station_manager",
+  "section_break_37",
   "amended_from"
  ],
  "fields": [
@@ -262,10 +267,38 @@
    "fieldtype": "Select",
    "label": "naming_series",
    "options": "CST-.YYYY.-.#######"
+  },
+  {
+   "fieldname": "section_break_33",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "fuel_station.cluster_manager",
+   "fieldname": "cluster_manager",
+   "fieldtype": "Link",
+   "label": "Cluster Manager",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_35",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "fuel_station.station_manager",
+   "fieldname": "station_manager",
+   "fieldtype": "Link",
+   "label": "Station Manager",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_37",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-13 19:56:01.080619",
+ "modified": "2020-01-14 19:10:08.185104",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",

@@ -76,8 +76,10 @@ def on_submit_cash_deposited(self,method):
 	account_details = make_account_row(bank_account,cash_account,self.amount,self.fuel_station)
 	company = get_company_from_fuel_station(self.fuel_station)
 	user_remark = self.name + " " + self.doctype + " was created at " + self.fuel_station + " for " + self.name_of_bank + " during shift " + self.shift
-	res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company,user_remark,self.fuel_station)
-	frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
+	# Do not create bank journal for credit sales reference deposits
+	if not self.credit_sales_reference:
+		res = make_journal_entry(account_details,self.date,self.credit_sales_reference,company,user_remark,self.fuel_station)
+		frappe.db.set_value(self.doctype,self.name,"journal_entry",res)
 
 @frappe.whitelist()
 def get_item_from_fuel_item(fuel_item):
@@ -130,31 +132,31 @@ def list_tally_company(**kwargs):
 @frappe.whitelist()
 def list_journal():
 	# journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
-	journal_doclist=frappe.db.sql("SELECT name FROM `tabJournal Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' and company in (select company from `tabTally Integration Company`) ORDER BY name DESC", as_dict=1)
+	journal_doclist=frappe.db.sql("SELECT trx.name as name, tly.name as tally_company, c.abbr as abbr FROM `tabJournal Entry` trx INNER JOIN `tabCompany` c ON trx.company = c.name INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND trx.docstatus = 1 and posting_date > '2020-01-01' ORDER BY tly.name, trx.name DESC", as_dict=1)
 	return journal_doclist
 
 @frappe.whitelist()
 def list_payments():
 	# payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
-	payment_doclist=frappe.db.sql("SELECT name FROM `tabPayment Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' and company in (select company from `tabTally Integration Company`) ORDER BY name DESC", as_dict=1)
+	payment_doclist=frappe.db.sql("SELECT trx.name as name, tly.name as tally_company, c.abbr as abbr FROM `tabPayment Entry` trx INNER JOIN `tabCompany` c ON trx.company = c.name INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND trx.docstatus = 1 and posting_date > '2020-01-01' ORDER BY tly.name, trx.name DESC", as_dict=1)
 	return payment_doclist
 
 @frappe.whitelist()
 def list_sales():
 	# sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
-	sales_doclist=frappe.db.sql("SELECT name FROM `tabSales Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' and company in (select company from `tabTally Integration Company`) ORDER BY name DESC", as_dict=1)
+	sales_doclist=frappe.db.sql("SELECT trx.name as name, tly.name as tally_company, c.abbr as abbr FROM `tabSales Invoice` trx INNER JOIN `tabCompany` c ON trx.company = c.name INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND trx.docstatus = 1 and posting_date > '2020-01-01' ORDER BY tly.name, trx.name DESC", as_dict=1)
 	return sales_doclist
 
 @frappe.whitelist()
 def list_purchase():
 	# purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
-	purchase_doclist=frappe.db.sql("SELECT name FROM `tabPurchase Invoice` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' and company in (select company from `tabTally Integration Company`) ORDER BY name DESC", as_dict=1)
+	purchase_doclist=frappe.db.sql("SELECT trx.name as name, tly.name as tally_company, c.abbr as abbr FROM `tabPurchase Invoice` trx INNER JOIN `tabCompany` c ON trx.company = c.name INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND trx.docstatus = 1 and posting_date > '2020-01-01' ORDER BY tly.name, trx.name DESC", as_dict=1)
 	return purchase_doclist
 
 @frappe.whitelist()
 def list_stockentry():
 	# stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 ORDER BY name DESC", as_dict=1)
-	stockentry_doclist=frappe.db.sql("SELECT name FROM `tabStock Entry` WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND docstatus = 1 and posting_date > '2020-01-01' and company in (select company from `tabTally Integration Company`) ORDER BY name DESC", as_dict=1)
+	stockentry_doclist=frappe.db.sql("SELECT trx.name as name, tly.name as tally_company, c.abbr as abbr FROM `tabStock Entry` trx INNER JOIN `tabCompany` c ON trx.company = c.name INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND trx.docstatus = 1 and posting_date > '2020-01-01' ORDER BY tly.name, trx.name DESC", as_dict=1)
 	return stockentry_doclist
 
 @frappe.whitelist()
@@ -283,8 +285,54 @@ def get_mera_wholesale_rate(item_code):
 	return rate
 
 def get_all_fuel_stations(doctype, txt, searchfield, start, page_len, filters):
-	conditions = []
-
 	return frappe.db.sql("""select name
 		from `tabFuel Station`"""
 		)
+
+def get_item_from_pump(pump):
+	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")
+	if not fuel_item:
+		frappe.throw(_("Fuel Item Not Defined For Pump {0}").format(pump))
+	item = get_item_from_fuel_item(fuel_item)
+	return item
+
+
+def get_customer_from_fuel_station(fuel_station):
+	cash_customer = frappe.db.get_value("Fuel Station",fuel_station,"cash_customer")
+	if cash_customer:
+		return cash_customer
+	else:
+		frappe.throw(_("Cash Customer Not Defined In Fuel Station"))
+
+
+def get_pos_from_fuel_station(fuel_station):
+	cash_customer_pos_profile = frappe.db.get_value("Fuel Station",fuel_station,"cash_customer_pos_profile")
+	if cash_customer_pos_profile:
+		return cash_customer_pos_profile
+	else:
+		frappe.throw(_("Cash Customer POS Profile Not Defined In Fuel Station"))
+	
+
+def make_sales_invoice_for_shift(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1,user_remarks=None):
+	invoice_doc = frappe.get_doc(dict(
+		doctype = "Sales Invoice",
+		customer = customer,
+		company = company,
+		posting_date = date,
+		due_date = date,
+		ignore_pricing_rule = ignore_pricing_rule,
+		items = items,
+		update_stock = 1,
+		fuel_station = fuel_station,
+		shift = shift,
+		pump = pump,
+		credit_sales = credit_id,
+		remarks = user_remarks,
+		cost_center = get_cost_center_from_fuel_station(fuel_station),
+		is_pos = 1,
+		pos_profile = 1
+	)).insert(ignore_permissions=True)
+	if invoice_doc:
+		frappe.flags.ignore_account_permission = True
+		invoice_doc.submit()
+		return invoice_doc

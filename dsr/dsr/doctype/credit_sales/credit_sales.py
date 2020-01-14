@@ -135,12 +135,15 @@ def on_submit_credit_sales(self):
 	)
 	item_obj.append(item_dict)
 	company = get_company_from_fuel_station(self.fuel_station)
+	party = get_oil_company_from_fuel_station(invoice_doc.fuel_station)
 	user_remarks = "To vehicle " + self.vehicle_number + " from pump " + self.pump + " Customer LPO " + (self.lpo or self.manual_lpo_no)
 	# frappe.msgprint(user_remarks)
-	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name,user_remarks)
+	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name,user_remarks=user_remarks)
 	if invoice_doc:
 		frappe.db.set_value(self.doctype,self.name,"sales_invoice",invoice_doc.name)
-		make_journal_entry(invoice_doc)
+		# Don't create unnecessary journals for oil company consumpion
+		if (self.credit_customer != party):
+			make_journal_entry(invoice_doc)
 
 def make_journal_entry(invoice_doc):
 	accounts = []
