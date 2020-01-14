@@ -56,23 +56,23 @@ def on_submit_fuel_stock_Receipt(self):
 			warehouse = warehouse,
 			cost_center = cost_center)
 		item_object.append(item_row)
-	item_stock_row = dict(
-		item_code = item_details.item,
-		qty = self.fuel_shortage * (-1), 
-		s_warehouse = warehouse,
-		cost_center = cost_center,
-		expense_account= stock_adjustment)	
-	item_stock_object.append(item_stock_row)
-
 	user_remarks = "Fuel Stock Receipt " + self.name + " for delivery Note " + str(self.delivery_note) + " for shift " + str(self.shift) + " Shortage recorded for fuel item " +self.fuel_item + " = " + str(self.fuel_shortage)
 
 	pinv_doc_name = make_purchase_invoice(supplier,self.date,company,item_object,self.name, self.fuel_station,user_remarks)
 	if pinv_doc_name:
 		self.purchase_invoice = pinv_doc_name
-	
-	stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,self.fuel_shortage,self.name, self.fuel_station,user_remarks,warehouse,stock_adjustment)
-	if stock_entry_doc_name:
-		self.stock_adjustment = stock_entry_doc_name
+
+	if self.fuel_shortage != 0:
+		item_stock_row = dict(
+			item_code = item_details.item,
+			qty = self.fuel_shortage * (-1), 
+			s_warehouse = warehouse,
+			cost_center = cost_center,
+			expense_account= stock_adjustment)	
+		item_stock_object.append(item_stock_row)
+		stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,self.fuel_shortage,self.name, self.fuel_station,user_remarks,warehouse,stock_adjustment)
+		if stock_entry_doc_name:
+			self.stock_adjustment = stock_entry_doc_name
 
 
 def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_no=None,fuel_station=None,user_remarks=None):
