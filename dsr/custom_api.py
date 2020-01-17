@@ -329,10 +329,16 @@ def make_sales_invoice_for_shift(customer,company,date,items,fuel_station,shift,
 		credit_sales = credit_id,
 		remarks = user_remarks,
 		cost_center = get_cost_center_from_fuel_station(fuel_station),
-		is_pos = 1,
-		pos_profile = 1
 	)).insert(ignore_permissions=True)
 	if invoice_doc:
 		frappe.flags.ignore_account_permission = True
-		invoice_doc.submit()
 		return invoice_doc
+
+def make_slaes_pos_payment(invoice_doc):
+	invoice_doc.is_pos = 1
+	invoice_doc.pos_profile = "Stadium POS"
+	payment_row = invoice_doc.append("payments",{})
+	payment_row.mode_of_payment = "Cash"
+	payment_row.amount = invoice_doc.grand_total
+	payment_row.account = "Cash - D"
+	invoice_doc.submit()

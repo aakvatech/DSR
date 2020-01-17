@@ -8,7 +8,7 @@ from frappe import throw, _
 from frappe.utils import cint,flt,now_datetime
 from frappe.model.document import Document
 import json
-from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station
+from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_slaes_pos_payment
 
 class Shift(Document):
 	def before_save(self):
@@ -47,37 +47,33 @@ class Shift(Document):
 		user_remarks = "Cash Sales of the day for shif " + self.name + " at fuel station " + self.fuel_station
 
 		items = []
-		# for pump_row in self.pump_meter_reading:
-		# 	item_dict = dict(
-		# 		item_code = get_item_from_pump(pump_row.pump),
-		# 		qty = pump_row.calculated_sales,
-		# 		rate = get_mera_retail_rate(pump_row.pump),
-		# 		warehouse = get_pump_warehouse(pump_row.pump),
-		# 		cost_center = get_cost_center_from_fuel_station(self.fuel_station)
-		# 	)
-		# 	items.append(item_dict)
-		# # frappe.msgprint(str(items))
+		for pump_row in self.pump_meter_reading:
+			if pump_row.calculated_sales > 0 :
+				item_dict = dict(
+					warehouse = get_pump_warehouse(pump_row.pump),
+					item_code = get_item_from_pump(pump_row.pump),
+					qty = pump_row.calculated_sales,
+					rate = get_mera_retail_rate(pump_row.pump),
+					cost_center = get_cost_center_from_fuel_station(self.fuel_station)
+				)
+				items.append(item_dict)
 
-		# invoice_doc = make_sales_invoice_for_shift(
-        #         customer = get_customer_from_fuel_station(self.fuel_station),
-        #         company = self.company,
-        #         posting_date = self.date,
-        #         due_date = self.date,
-        #         ignore_pricing_rule = ignore_pricing_rule,
-        #         items = items,
-        #         update_stock = 1,
-        #         fuel_station = self.fuel_station,
-        #         shift = self.name,
-        #         pump = "",
-        #         credit_sales = "",
-        #         remarks = user_remarks,
-        #         cost_center = get_cost_center_from_fuel_station(self.fuel_station)
-        #         is_pos = 1
-        #         pos_profile = get_pos_from_fuel_station(self.fuel_station)
-        #     )
-		# invoice_doc = make_sales_invoice("Cash Customer",company,self.date,items,self.fuel_station,self.name,"","",1,1,user_remarks)
-		# if invoice_doc:
+		invoice_doc = make_sales_invoice_for_shift(
+                customer = get_customer_from_fuel_station(self.fuel_station),
+                company = get_company_from_fuel_station(self.fuel_station),
+                date = self.date,
+                items = items,
+                update_stock = 1,
+                fuel_station = self.fuel_station,
+                shift = self.name,
+                pump = "",
+                credit_id = "",
+                user_remarks = user_remarks,
+            )
+		if invoice_doc:
+			make_slaes_pos_payment(invoice_doc)
 		# 		frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
+		
 		user_remarks = "Fuel shortage of the day for shift " + self.name + " at fuel station " + self.fuel_station
 		cost_center = get_cost_center_from_fuel_station(self.fuel_station)
 		stock_adjustment = frappe.db.get_value("Fuel Station",self.fuel_station,"stock_adjustment")

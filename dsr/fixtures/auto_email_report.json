@@ -1,1 +1,29 @@
-[]
+[
+ {
+  "data_modified_till": 0,
+  "day_of_week": "Monday",
+  "description": "<div>This is the stop of latest open shifts as of today by fuel station, fuel tank and fuel type. You can paste this into excel and do your analysis.</div>",
+  "docstatus": 0,
+  "doctype": "Auto Email Report",
+  "dynamic_date_period": "",
+  "email_to": "neel@mountmerugroup.com,mayank.chauhan@mountmerugroup.com",
+  "enabled": 1,
+  "filter_meta": null,
+  "filters": "",
+  "format": "XLSX",
+  "frequency": "Daily",
+  "from_date_field": null,
+  "modified": "2020-01-16 11:25:37.515176",
+  "name": "Latest Stock by Station",
+  "no_of_rows": 100,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "reference_report": null,
+  "report": "Latest Stock by Station",
+  "report_type": "Query Report",
+  "send_if_data": 1,
+  "to_date_field": null,
+  "user": "neel@mountmerugroup.com"
+ }
+]

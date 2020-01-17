@@ -35,6 +35,12 @@ app_include_css = [
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 doctype_js = {
 	"Bank Account" : "dsr/bank_account.js",
+	"Dispensed for Office Use" : "dsr/dsr_common.js",
+	"Fuel Stock Receipts" : "dsr/dsr_common.js",
+	"Expense Record" : "dsr/dsr_common.js",
+	"Cash Deposited" : "dsr/dsr_common.js",
+	"Credit Sales Collection" : "dsr/dsr_common.js",
+	"Cash Received for Other Station" : "dsr/dsr_common.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
