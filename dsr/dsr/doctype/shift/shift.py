@@ -8,7 +8,7 @@ from frappe import throw, _
 from frappe.utils import cint,flt,now_datetime
 from frappe.model.document import Document
 import json
-from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station
+from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_slaes_pos_payment
 
 class Shift(Document):
 	def before_save(self):
@@ -68,11 +68,10 @@ class Shift(Document):
                 pump = "",
                 credit_id = "",
                 user_remarks = user_remarks,
-                # is_pos = 1,
-                # pos_profile = get_pos_from_fuel_station(self.fuel_station)
             )
 
-		# if invoice_doc:
+		if invoice_doc:
+			make_slaes_pos_payment(invoice_doc)
 		# 		frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
 
 		
