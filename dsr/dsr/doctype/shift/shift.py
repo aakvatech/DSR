@@ -48,14 +48,15 @@ class Shift(Document):
 
 		items = []
 		for pump_row in self.pump_meter_reading:
-			item_dict = dict(
-				item_code = get_item_from_pump(pump_row.pump),
-				qty = pump_row.calculated_sales,
-				rate = get_mera_retail_rate(pump_row.pump),
-				warehouse = get_pump_warehouse(pump_row.pump),
-				cost_center = get_cost_center_from_fuel_station(self.fuel_station)
-			)
-			items.append(item_dict)
+			if pump_row.calculated_sales > 0 :
+				item_dict = dict(
+					warehouse = get_pump_warehouse(pump_row.pump),
+					item_code = get_item_from_pump(pump_row.pump),
+					qty = pump_row.calculated_sales,
+					rate = get_mera_retail_rate(pump_row.pump),
+					cost_center = get_cost_center_from_fuel_station(self.fuel_station)
+				)
+				items.append(item_dict)
 
 		invoice_doc = make_sales_invoice_for_shift(
                 customer = get_customer_from_fuel_station(self.fuel_station),
@@ -69,11 +70,9 @@ class Shift(Document):
                 credit_id = "",
                 user_remarks = user_remarks,
             )
-
 		if invoice_doc:
 			make_slaes_pos_payment(invoice_doc)
 		# 		frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
-
 		
 		user_remarks = "Fuel shortage of the day for shift " + self.name + " at fuel station " + self.fuel_station
 		cost_center = get_cost_center_from_fuel_station(self.fuel_station)

@@ -7,6 +7,420 @@
   "doctype": "Report",
   "is_standard": "No",
   "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2019-12-22 11:50:58.310241",
+  "module": "Dsr",
+  "name": "Tank Calibration Status",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "select ft.name  as \"Fuel Tank Name:Link/Fuel Tank:200\",\n       fuel_station  as \"Fuel Station:Link/Fuel Station:200\",\n       fuel_item  as \"Fuel Item:Link/Fuel Item:200\",\n       tank_number  as \"Tank Number:Int:20\",\n       tank_capacity  as \"Tank Capacity:Int:100\",\n       count(*)  as \"Count of Calibrations:Int:100\"\n    from `tabFuel Tank` ft\n    inner join `tabFuel Tank Calibration` ftc on ft.name = ftc.parent\n    group by ft.name",
+  "ref_doctype": "Fuel Tank",
+  "reference_report": null,
+  "report_name": "Tank Calibration Status",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Tank Calibration Status",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Tank Calibration Status",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Tank Calibration Status",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2019-12-11 16:06:08.221523",
+  "module": "Dsr",
+  "name": "Missing Tank Calibrations",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "SELECT fs.name, fs.cluster_manager from `tabFuel Station` fs\nWHERE fs.name NOT IN (SELECT DISTINCT fuel_station from `tabFuel Tank`)",
+  "ref_doctype": "Fuel Tank",
+  "reference_report": null,
+  "report_name": "Missing Tank Calibrations",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Missing Tank Calibrations",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Missing Tank Calibrations",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Missing Tank Calibrations",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[],\"fields\":[[\"name\",\"Fuel Station\"],[\"station_full_name\",\"Fuel Station\"],[\"station_manager\",\"Fuel Station\"],[\"cluster_manager\",\"Fuel Station\"],[\"mera_due_date\",\"Fuel Station\"],[\"docstatus\",\"Fuel Station\"],[\"business_license_due_date\",\"Fuel Station\"],[\"mbs_due_date\",\"Fuel Station\"],[\"workplace_license_expiry\",\"Fuel Station\"]],\"order_by\":\"`tabFuel Station`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"station_full_name\":120,\"station_manager\":120,\"cluster_manager\":120,\"mera_due_date\":120,\"business_license_due_date\":120,\"mbs_due_date\":120,\"workplace_license_expiry\":120},\"group_by\":null}",
+  "letter_head": null,
+  "modified": "2019-12-10 07:33:17.017219",
+  "module": "Dsr",
+  "name": "Fuel Station Names and Dates",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Fuel Station",
+  "reference_report": null,
+  "report_name": "Fuel Station Names and Dates",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Fuel Station Names and Dates",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Fuel Station Names and Dates",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Fuel Station Names and Dates",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Fuel Station Names and Dates",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Fuel Station Names and Dates",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Customer"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2019-12-21 08:42:06.656108",
+  "module": "Dsr",
+  "name": "Missing Pumps",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "SELECT fs.name, fs.cluster_manager from `tabFuel Station` fs\nWHERE fs.name NOT IN (SELECT DISTINCT fuel_station from `tabPump`)",
+  "ref_doctype": "Pump",
+  "reference_report": null,
+  "report_name": "Missing Pumps",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Missing Pumps",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Missing Pumps",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Missing Pumps",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2019-12-21 08:48:42.365432",
+  "module": "Dsr",
+  "name": "Pump Entry Status",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "select fuel_station, fuel_item, count(*) from `tabPump` p\ngroup by fuel_station, fuel_item",
+  "ref_doctype": "Pump",
+  "reference_report": null,
+  "report_name": "Pump Entry Status",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Pump Entry Status",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Pump Entry Status",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Pump Entry Status",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2020-01-14 16:08:59.158391",
+  "module": "Dsr",
+  "name": "Shift submission by Fuel Station",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "SELECT max(s.owner) as \"Created By:Link/User:200\",\n        f.cluster_manager as \"Cluster Manager:Link/User:200\",\n       fuel_station as \"Fuel Station:Link/Fuel Station:200\",\n       COUNT(*) as \"Count of submissions:Int:150\"\n    FROM `tabShift` s\n    INNER JOIN `tabFuel Station` f ON s.fuel_station = f.name\n    WHERE s.date >= '2020-01-01' and s.docstatus != 3\n    GROUP by fuel_station;\n    ",
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "Shift submission by Fuel Station",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Shift submission by Fuel Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Shift submission by Fuel Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Shift submission by Fuel Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[[\"Shift\",\"date\",\"Between\",[\"2020-01-01\",\"2020-01-31\"],false]],\"fields\":[[\"name\",\"Shift\"],[\"fuel_station\",\"Shift\"],[\"shift_name\",\"Shift\"],[\"date\",\"Shift\"],[\"docstatus\",\"Shift\"],[\"fuel_item\",\"Shift Fuel Item Total\"],[\"total_sales_quantity\",\"Shift Fuel Item Total\"],[\"credit_sales_quantity\",\"Shift Fuel Item Total\"],[\"cash_sales_quantity\",\"Shift Fuel Item Total\"],[\"difference_quantity\",\"Shift Fuel Item Total\"]],\"order_by\":\"`tabShift`.`modified` desc\",\"add_totals_row\":false,\"page_length\":20,\"column_widths\":{\"name\":120,\"fuel_station\":120,\"shift_name\":120,\"date\":120,\"Shift Fuel Item Total:fuel_item\":120,\"Shift Fuel Item Total:total_sales_quantity\":120,\"Shift Fuel Item Total:credit_sales_quantity\":120,\"Shift Fuel Item Total:cash_sales_quantity\":120,\"Shift Fuel Item Total:difference_quantity\":120},\"group_by\":null}",
+  "letter_head": null,
+  "modified": "2020-01-10 15:23:04.819375",
+  "module": "Dsr",
+  "name": "Shift Quantity Sales Report",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "Shift Quantity Sales Report",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Shift Quantity Sales Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Shift Quantity Sales Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Shift Quantity Sales Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[],\"fields\":[[\"name\",\"Shift\"],[\"fuel_station\",\"Shift\"],[\"shift_name\",\"Shift\"],[\"date\",\"Shift\"],[\"total_sales_quantity\",\"Shift Fuel Item Total\"],[\"fuel_item\",\"Shift Fuel Item Total\"],[\"credit_sales_quantity\",\"Shift Fuel Item Total\"],[\"cash_sales_quantity\",\"Shift Fuel Item Total\"],[\"docstatus\",\"Shift\"]],\"order_by\":\"`tabShift`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"fuel_station\":120,\"shift_name\":120,\"date\":120,\"Shift Fuel Item Total:total_sales_quantity\":120,\"Shift Fuel Item Total:fuel_item\":120,\"Shift Fuel Item Total:credit_sales_quantity\":120,\"Shift Fuel Item Total:cash_sales_quantity\":120},\"group_by\":null}",
+  "letter_head": null,
+  "modified": "2020-01-08 09:38:09.891432",
+  "module": "Dsr",
+  "name": "Retail Sales Report",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "Retail Sales Report",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Retail Sales Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Retail Sales Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Retail Sales Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[[\"Shift\",\"date\",\"Between\",[\"2020-01-01\",\"2020-01-31\"],false],[\"Shift\",\"fuel_station\",\"=\",\"DUNDUZU\"]],\"fields\":[[\"name\",\"Shift\"],[\"fuel_station\",\"Shift\"],[\"shift_name\",\"Shift\"],[\"date\",\"Shift\"],[\"docstatus\",\"Shift\"],[\"closing_liters\",\"Dip Reading\"],[\"fuel_tank\",\"Dip Reading\"]],\"order_by\":\"`tabShift`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"fuel_station\":120,\"shift_name\":120,\"date\":120,\"Dip Reading:closing_liters\":120,\"Dip Reading:fuel_tank\":120},\"group_by\":null}",
+  "letter_head": null,
+  "modified": "2020-01-10 15:28:30.494824",
+  "module": "Dsr",
+  "name": "Closing Stock by Shift",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "Closing Stock by Shift",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Closing Stock by Shift",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Closing Stock by Shift",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Closing Stock by Shift",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Closing Stock by Shift",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
   "json": "{\"filters\":[],\"fields\":[[\"name\",\"Pump\"],[\"fuel_station\",\"Pump\"],[\"pump_number\",\"Pump\"],[\"fuel_item\",\"Pump\"],[\"docstatus\",\"Pump\"],[\"manufacturer\",\"Pump\"],[\"serial_number\",\"Pump\"],[\"model_number\",\"Pump\"]],\"order_by\":\"`tabPump`.`name` asc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"fuel_station\":120,\"pump_number\":120,\"fuel_item\":120,\"manufacturer\":120,\"serial_number\":120,\"model_number\":120},\"group_by\":null}",
   "letter_head": null,
   "modified": "2019-11-13 10:26:09.404796",
@@ -128,6 +542,106 @@
     "parentfield": "roles",
     "parenttype": "Report",
     "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2020-01-16 11:36:46.313259",
+  "module": "Dsr",
+  "name": "Latest Stock by Station",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "SELECT s.fuel_station  as \"Fuel Station:Link/Fuel Station:200\",\n       fi.item  as \"Item:Link/Item:150\",\n       ft.name as \"Fuel Tank:Link/Fuel Tank:150\",\n       sum(d.opening_liters) as \"Latest Opening Stock:float:150\",\n       s.name as \"Shift:Link/Shift:200\"\n  FROM `tabShift` s \n  INNER JOIN `tabDip Reading` d on d.parent = s.name\n  INNER JOIN `tabFuel Tank` ft on ft.name = d.fuel_tank\n  INNER JOIN `tabFuel Item` fi on fi.name = ft.fuel_item\nWHERE s.shift_status = 'Open'\nGROUP BY s.fuel_station, fi.item, ft.name",
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "Latest Stock by Station",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Latest Stock by Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Latest Stock by Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Latest Stock by Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Latest Stock by Station",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[[\"Shift\",\"date\",\"Between\",[\"2020-01-01\",\"2020-01-31\"],false],[\"Shift\",\"fuel_station\",\"=\",\"DUNDUZU\"]],\"fields\":[[\"name\",\"Shift\"],[\"fuel_station\",\"Shift\"],[\"shift_status\",\"Shift\"],[\"opening_balance\",\"Shift\"],[\"total_deposited\",\"Shift\"],[\"total_expenses\",\"Shift\"],[\"total_bank_deposit\",\"Shift\"],[\"cash_in_hand\",\"Shift\"],[\"docstatus\",\"Shift\"]],\"order_by\":\"`tabShift`.`modified` desc\",\"add_totals_row\":true,\"page_length\":20,\"column_widths\":{\"name\":120,\"fuel_station\":120,\"shift_status\":120,\"opening_balance\":120,\"total_deposited\":120,\"total_expenses\":120,\"total_bank_deposit\":120,\"cash_in_hand\":120},\"group_by\":null}",
+  "letter_head": null,
+  "modified": "2020-01-16 11:31:10.116450",
+  "module": "Dsr",
+  "name": "Shift Cash Balances",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "Shift Cash Balances",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Shift Cash Balances",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Shift Cash Balances",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Shift Cash Balances",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Shift Cash Balances",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
    }
   ]
  }
