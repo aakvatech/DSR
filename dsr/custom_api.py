@@ -311,6 +311,15 @@ def get_pos_from_fuel_station(fuel_station):
 		return cash_customer_pos_profile
 	else:
 		frappe.throw(_("Cash Customer POS Profile Not Defined In Fuel Station"))
+
+def get_account_pyment_mode(mode_of_payment,company):
+	mode_of_payment_doc = frappe.get_doc("Mode of Payment",mode_of_payment)
+	if mode_of_payment_doc:
+		for account_row in mode_of_payment_doc.accounts:
+			if account_row.company == company:
+				return account_row.default_account
+	else:
+		frappe.throw(_("Default Account Not Defined In Mode of Payment"))
 	
 
 def make_sales_invoice_for_shift(customer,company,date,items,fuel_station,shift,pump,credit_id,ignore_pricing_rule=1,update_stock=1,user_remarks=None):
@@ -336,9 +345,10 @@ def make_sales_invoice_for_shift(customer,company,date,items,fuel_station,shift,
 
 def make_slaes_pos_payment(invoice_doc):
 	invoice_doc.is_pos = 1
-	invoice_doc.pos_profile = "Stadium POS"
+	invoice_doc.pos_profile = get_pos_from_fuel_station(invoice_doc.fuel_station)
 	payment_row = invoice_doc.append("payments",{})
 	payment_row.mode_of_payment = "Cash"
 	payment_row.amount = invoice_doc.grand_total
-	payment_row.account = "Cash - D"
+	payment_row.base_amount = invoice_doc.grand_total
+	payment_row.account = get_account_pyment_mode("Cash",invoice_doc.company)
 	invoice_doc.submit()
