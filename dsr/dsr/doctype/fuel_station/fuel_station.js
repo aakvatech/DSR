@@ -12,6 +12,13 @@ frappe.ui.form.on('Fuel Station', {
 				}
 			}
 		});
+		frm.set_query('cash_customer_pos_profile', function() {
+			return {
+				filters: {
+					'company': frm.doc.company,
+				}
+			}
+		});
 		frm.set_query('stock_adjustment', function() {
 			return {
 				filters: {
