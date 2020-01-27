@@ -12,8 +12,9 @@ from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,ma
 
 class Shift(Document):
 	def before_save(self):
-		# Below added to calculate the totals upon a change in the values.
+		# Below added to calculate the amount totals upon a save of the document.
 		self.total_retail_bank_deposit = (get_total_retail_banking(self.name) or 0)
+		self.total_credit_sales = (get_total_credit_sales_amount(self.name) or 0)
 		self.total_expenses = (get_total_expenses(self.name) or 0)
 		self.opening_balance = (self.opening_balance or 0)
 		self.total_deposited = (self.total_deposited or 0)
@@ -22,8 +23,40 @@ class Shift(Document):
 		self.total_expenses = (self.total_expenses or 0)
 		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_retail_bank_deposit - self.total_expenses
 
-	def on_change(self):
-		recalculate_shift_fuel_totals(self)
+		# Below added to calculate the quantity totals upon a save of the document.
+		self.shift_fuel_item_totals = []
+		data = []
+
+		# Prepare fuel item list from fuel items of the station
+		fuel_item_list = frappe.get_list("Fuel Item", filters={"fuel_station": self.fuel_station})
+		for fuel_item in fuel_item_list:
+			inward_quantity = get_total_quatity_inward_from_stock_receipt(self.name, fuel_item.name) or 0
+			total_credit_sales = get_total_credit_sales(self.name, fuel_item.name) or 0
+
+			fuel_item_related_pump_list = frappe.get_list("Pump", fields=("name"), filters={"fuel_item": fuel_item.name})
+			total_sales_quantity = 0
+			for row in self.pump_meter_reading:
+				if any(pump['name'] == row.pump for pump in fuel_item_related_pump_list):
+					total_sales_quantity += row.calculated_sales or 0
+
+			fuel_item_related_tank_list = frappe.get_list("Fuel Tank", fields=("name"), filters={"fuel_item": fuel_item.name})
+			tank_usage_quantity = 0
+			for row in self.dip_reading:
+				if any(fuel_tank['name'] == row.fuel_tank for fuel_tank in fuel_item_related_tank_list):
+					tank_usage_quantity += (row.difference_in_liters * -1) or 0
+			data.append({
+				"fuel_item": fuel_item.name,
+				"tank_usage_quantity": tank_usage_quantity or 0,
+				"inward_quantity": inward_quantity or 0,
+				"total_sales_quantity": total_sales_quantity or 0,
+				"difference_quantity": (tank_usage_quantity + inward_quantity - total_sales_quantity) or 0,
+				"credit_sales_quantity": total_credit_sales or 0,
+				"cash_sales_quantity": (total_sales_quantity - total_credit_sales) or 0
+			})
+		self.update({
+			"shift_fuel_item_totals": data
+		})
+
 
 	def before_submit(self):
 		'''
@@ -96,83 +129,28 @@ class Shift(Document):
 		# stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
 		# if stock_entry_doc_name:
 		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
+		self.stock_entry = stock_entry_doc_name
 
-@frappe.whitelist()
-def recalculate_shift_fuel_totals_from_name(name):
-	shift_doc = frappe.get_doc('Shift', name)
-	recalculate_shift_fuel_totals(shift_doc)
-	
-
-def recalculate_shift_fuel_totals(shift_doc):
-	delete_item_total_table(shift_doc)
-	add_total_for_dip_reading(shift_doc)
-	add_total_for_meter_reading(shift_doc)
-	add_total_for_inward(shift_doc)
-	add_total_for_credit_sales(shift_doc)
-	shift_doc.reload()
-	
-
-def add_total_for_dip_reading(shift_doc):
-	for dip_read in shift_doc.dip_reading:
-		fuel_item = frappe.db.get_value("Fuel Tank",dip_read.fuel_tank,"fuel_item")
-		item_available = False
-		doc = frappe.get_doc(shift_doc.doctype,shift_doc.name)			
-		for total_row in doc.shift_fuel_item_totals:
-			if fuel_item == total_row.fuel_item:
-				set_total(total_row.name,total_row.doctype,'tank_usage_quantity',flt(total_row.tank_usage_quantity) + flt(dip_read.difference_in_liters or 0)*-1)
-				item_available = True
-		if item_available == False:
-			add_total_row(fuel_item,doc.name,'tank_usage_quantity',(dip_read.difference_in_liters or 0)*-1)
-
-def add_total_for_meter_reading(shift_doc):
-	for meter_read in shift_doc.pump_meter_reading:
-		fuel_item = frappe.db.get_value("Pump",meter_read.pump,"fuel_item")
-		item_available = False
-		doc = frappe.get_doc(shift_doc.doctype,shift_doc.name)			
-		for total_row in doc.shift_fuel_item_totals:
-			if fuel_item == total_row.fuel_item:
-				set_total(total_row.name,total_row.doctype,'total_sales_quantity',flt(total_row.total_sales_quantity) + flt(meter_read.calculated_sales))
-				item_available = True
-		if item_available == False:
-			add_total_row(fuel_item,doc.name,'total_sales_quantity',meter_read.calculated_sales)
-
-def add_total_for_inward(doc):
-	# doc = frappe.get_doc(shift_doc.doctype,shift_doc.name)		
-	for total_row in doc.shift_fuel_item_totals:
-		inward_qty = get_total_quatity_inward_from_stock_receipt(doc.name,total_row.fuel_item)
-		diff_qty = 0 
-		if total_row.tank_usage_quantity:
-			diff_qty += total_row.tank_usage_quantity or 0
-		if inward_qty:
-			diff_qty += flt(inward_qty) or 0
-		if total_row.total_sales_quantity:
-			diff_qty -= total_row.total_sales_quantity or 0
-		set_total(total_row.name,total_row.doctype,'inward_quantity',flt(inward_qty))
-		set_total(total_row.name,total_row.doctype,'difference_quantity',flt(diff_qty))
-
-def add_total_for_credit_sales(doc):
-	# doc = frappe.get_doc(shift_doc.doctype,shift_doc.name)			
-	for total_row in doc.shift_fuel_item_totals:
-		credit_sales = get_total_credit_sales(doc.name,total_row.fuel_item) or 0
-		cash_sales = 0
-		if total_row.total_sales_quantity:
-			cash_sales = flt(total_row.total_sales_quantity or 0) - flt(credit_sales)
-		set_total(total_row.name,total_row.doctype,'credit_sales_quantity',flt(credit_sales))
-		set_total(total_row.name,total_row.doctype,'cash_sales_quantity',flt(cash_sales))
-
-def get_total_quatity_inward_from_stock_receipt(shift,item):
-	stock_reciept = frappe.db.sql("""SELECT SUM(actual_quantity)
+def get_total_quatity_inward_from_stock_receipt(shift,fuel_item):
+	stock_receipt = frappe.db.sql("""SELECT SUM(actual_quantity)
 		FROM   `tabFuel Stock Receipts`
 		WHERE  shift = %s
 			AND fuel_item = %s
-			AND docstatus = 1""",(shift,item))
-	if len(stock_reciept) >= 1:
-		return stock_reciept[0][0]
+			AND docstatus = 1""",(shift,fuel_item))
+	if len(stock_receipt) >= 1:
+		return stock_receipt[0][0]
 	else:
 		return 0
 
-def get_total_credit_sales(shift,item):
-	credit_sales = frappe.db.sql("""SELECT SUM(quantity) from `tabCredit Sales` where shift=%s and fuel_item=%s and docstatus=1""",(shift,item))
+def get_total_credit_sales(shift,fuel_item):
+	credit_sales = frappe.db.sql("""SELECT SUM(quantity) FROM `tabCredit Sales` WHERE shift=%s AND fuel_item=%s AND docstatus=1""",(shift,fuel_item))
+	if len(credit_sales) >= 1:
+		return credit_sales[0][0]
+	else:
+		return 0
+
+def get_total_credit_sales_amount(shift):
+	credit_sales = frappe.db.sql("""SELECT SUM(amount) FROM `tabCredit Sales` WHERE shift=%s AND docstatus=1""",(shift))
 	if len(credit_sales) >= 1:
 		return credit_sales[0][0]
 	else:
@@ -180,7 +158,7 @@ def get_total_credit_sales(shift,item):
 
 @frappe.whitelist()
 def get_total_retail_banking(shift):
-	banking = frappe.db.sql("""select sum(amount) from `tabCash Deposited` where shift=%s and (credit_sales_reference = '' or credit_sales_reference is null) and docstatus=1""",(shift))
+	banking = frappe.db.sql("""SELECT SUM(amount) FROM `tabCash Deposited` WHERE shift=%s AND (credit_sales_reference = '' OR credit_sales_reference IS NULL) AND docstatus=1""",(shift))
 	# frappe.msgprint(str(banking))
 	if len(banking) >= 1:
 		return banking[0][0]
@@ -194,29 +172,6 @@ def get_total_expenses(shift):
 		return expenses[0][0]
 	else:
 		return 0
-
-@frappe.whitelist()
-def add_total_row(item,parent,field_name,field_value):
-	doc = frappe.get_doc(dict(
-		doctype = "Shift Fuel Item Total",
-		parent = parent,
-		parenttype = "Shift",
-		parentfield = "shift_fuel_item_totals",
-		fuel_item = item,
-		field_name = field_value
-	)).insert()
-	set_total(doc.name,doc.doctype,str(field_name),field_value)
-	return doc
-
-def delete_item_total_table(doc):
-	# delted_row = frappe.db.sql("""delete from `tabShift Fuel Item Total` where parent=%s""",doc_name)
-	for row in doc.shift_fuel_item_totals :
-		doc.remove(row)
-		doc.save(ignore_permissions=True)
-	
-
-def set_total(doc_name,doctype,field_name,field_value):
-	frappe.db.set_value(doctype,doc_name,str(field_name),flt(field_value) or 0)
 
 @frappe.whitelist()
 def close_shift(name,status=None):

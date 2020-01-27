@@ -57,23 +57,6 @@ frappe.ui.form.on('Shift', {
 		refresh_field("shift_fuel_item_totals");
 	},
 
-	recalculate_shift_fuel_totals: function (frm) {
-		frappe.msgprint("Starting Shift Fuel refresh...");
-		// frm.clear_table("shift_fuel_item_totals");
-		frappe.call({
-			method: "dsr.dsr.doctype.shift.shift.recalculate_shift_fuel_totals_from_name",
-			args: {
-				'name': frm.doc.name
-			},
-			async: false,
-			callback: function (r) {
-				frappe.msgprint("Shift Fuel Items refreshing...")
-				refresh_field("shift_fuel_item_totals");
-			}
-		});
-		frm.refresh_fields();
-	},
-	
 	get_last_shift_details:function(frm){
 		if(!frm.doc.fuel_station){
 			frappe.throw(__("Fuel Station Required For Loading Last Shift Details"))
@@ -341,7 +324,7 @@ function validate_cash_discounted_pending(frm) {
 		callback:function(r)
 		{
 			if(r.message.length >= 1){
-				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not fully paid yet! Please confirm that the monies are fully paid by going to the document.",[r.message[0].name]))
+				frappe.throw(__("<a href=#Form/Credit%20Sales/{0}>{0}</a> is not fully paid yet! Please confirm that the monies are fully paid by reviewing the document.",[r.message[0].name]))
 			}
 		}
 	});
@@ -658,7 +641,7 @@ function calculate_other_sales_totals(frm) {
 	});
 	refresh_field("total_expenses")
 
-	console.log('cih',cash_in_hand, 'ob', frm.doc.opening_balance, 'td', frm.doc.total_deposited, 'cs', frm.doc.total_cash_shortage, 'tbd', frm.doc.total_bank_deposits, 'te', frm.doc.total_expenses)
+	// console.log('cih',cash_in_hand, 'ob', frm.doc.opening_balance, 'td', frm.doc.total_deposited, 'cs', frm.doc.total_cash_shortage, 'tbd', frm.doc.total_bank_deposits, 'te', frm.doc.total_expenses)
 	var cash_in_hand = (frm.doc.opening_balance || 0) + (frm.doc.total_deposited || 0) - (frm.doc.total_bank_deposit || 0) - (frm.doc.total_expenses || 0);
 	frm.set_value("cash_in_hand", cash_in_hand)
 	refresh_field("cash_in_hand")
