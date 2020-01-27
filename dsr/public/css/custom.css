@@ -7,7 +7,7 @@
     border-color: darkred;
 }
 .form-control {
-    background-color: yellowgreen;
+    background-color: palegreen;
 }
 .form-control::placeholder {
     color: firebrick;
