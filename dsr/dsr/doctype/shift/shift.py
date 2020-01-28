@@ -43,7 +43,7 @@ class Shift(Document):
 			tank_usage_quantity = 0
 			for row in self.dip_reading:
 				if any(fuel_tank['name'] == row.fuel_tank for fuel_tank in fuel_item_related_tank_list):
-					tank_usage_quantity += (row.difference_in_liters * -1) or 0
+					tank_usage_quantity += (row.difference_in_liters or 0) * -1
 			data.append({
 				"fuel_item": fuel_item.name,
 				"tank_usage_quantity": tank_usage_quantity or 0,
