@@ -13,7 +13,7 @@ from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,ma
 class Shift(Document):
 	def before_save(self):
 		# Below added to calculate the amount totals upon a save of the document.
-		self.total_retail_bank_deposit = (get_total_retail_banking(self.name) or 0)
+		self.total_bank_deposit = (get_total_retail_banking(self.name) or 0)
 		self.total_credit_sales = (get_total_credit_sales_amount(self.name) or 0)
 		self.total_expenses = (get_total_expenses(self.name) or 0)
 		self.opening_balance = (self.opening_balance or 0)
@@ -21,7 +21,7 @@ class Shift(Document):
 		self.total_cash_shortage = (self.total_cash_shortage or 0)
 		self.total_bank_deposit = (self.total_bank_deposit or 0)
 		self.total_expenses = (self.total_expenses or 0)
-		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_retail_bank_deposit - self.total_expenses
+		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_bank_deposit - self.total_expenses
 
 		# Below added to calculate the quantity totals upon a save of the document.
 		self.shift_fuel_item_totals = []
