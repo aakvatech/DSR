@@ -10,7 +10,7 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@aakvatech.com"
 app_license = "MIT"
-app_logo_url = "files/mmpl-mw-icon.svg"
+app_logo_url = "files/app-logo-icon.svg"
 
 # Includes in <head>
 # ------------------

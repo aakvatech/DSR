@@ -343,7 +343,7 @@ def make_sales_invoice_for_shift(customer,company,date,items,fuel_station,shift,
 		frappe.flags.ignore_account_permission = True
 		return invoice_doc
 
-def make_slaes_pos_payment(invoice_doc):
+def make_sales_pos_payment(invoice_doc):
 	invoice_doc.is_pos = 1
 	invoice_doc.pos_profile = get_pos_from_fuel_station(invoice_doc.fuel_station)
 	payment_row = invoice_doc.append("payments",{})

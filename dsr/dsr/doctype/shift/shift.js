@@ -2,6 +2,14 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Shift', {
+	before_submit: (frm) => {
+		validate_unsubmitted_documents(frm)
+		validate_cash_discounted_pending(frm)
+		validate_meter_reading(frm)
+		validate_attendant_pump(frm)
+		validate_dip_reading(frm)
+		validate_generator_reading(frm)
+	},
 	refresh: function (frm) {
 		if (!frm.doc.__islocal && frm.doc.shift_status == "Open") {
 			frm.add_custom_button(__('Close Shift'), function () {
@@ -90,7 +98,8 @@ frappe.ui.form.on('Shift', {
 			get_attendant_pump(frm)
 		}
 	},
-	recalculate_sales_total:function(frm,cdt,cdn){
+	validate: function(frm,cdt,cdn){
+		// frappe.msgprint("Validate fired")
 		var child = locals[cdt][cdn];
 		var calculated_sales = 0;
 		child.pump_meter_reading.forEach((d, index) => {
@@ -147,7 +156,7 @@ frappe.ui.form.on('Shift', {
 				}
 			}
 		});
-	},
+	}
 });
 
 function get_last_shift_data(frm){
@@ -276,10 +285,10 @@ function get_attendant_pump(frm){
 function validate_meter_reading(frm) {
 	frm.doc.pump_meter_reading.forEach((d, index) => {
 		if (!d.closing_mechanical || d.closing_mechanical == 0) {
-			frappe.throw(__("Row {0}:Closing Mechanical Mandatory In Pump Meter Reading Table", [d.idx]))
+			frappe.throw(__("Row {0}: Missing Closing Mechanical Mandatory In Pump Meter Reading Table for {1}", [d.idx, d.pump]))
 		}
 		if (!d.closing_electrical || d.closing_electrical == 0) {
-			frappe.throw(__("Row {0}:Closing Electrical Mandatory In Pump Meter Reading Table", [d.idx]))
+			frappe.throw(__("Row {0}: Missing Closing Electrical Mandatory In Pump Meter Reading Table for {1}", [d.idx, d.pump]))
 		}
 	});
 }
@@ -288,10 +297,10 @@ function validate_attendant_pump(frm) {
 	frm.doc.attendant_pump.forEach((d, index) => {
 		// console.log(d.cash_deposited, d.cash_to_be_deposited, d.cash_shortage)
 		if (!d.cash_deposited && d.cash_deposited != 0) {
-			frappe.throw(__("Row {0}:Cash Deposited Mandatory In Attendant Pump Table. The amount is recorded is {1}.", [d.idx, d.cash_deposited]))
+			frappe.throw(__("Row {0}: Cash Deposited Mandatory In Attendant Pump Table for {2}. The amount is recorded is {1}.", [d.idx, d.cash_deposited, d.attendant]))
 		}
 		if (d.cash_shortage > 0) {
-			frappe.throw(__("Row {0}:Cash Deposited is lower than expected In Attendant Pump Table. The shortage is {1}", [d.idx, d.cash_shortage]))
+			frappe.throw(__("Row {0}: Cash Deposited is lower than expected In Attendant Pump Table for {2}. The shortage is {1}", [d.idx, d.cash_shortage, d.attendant]))
 		}
 	});
 }
@@ -299,7 +308,7 @@ function validate_attendant_pump(frm) {
 function validate_dip_reading(frm) {
 	frm.doc.dip_reading.forEach((d, index) => {
 		if (!d.closing_mm || d.closing_mm == 0) {
-			frappe.throw(__("Row {0}:Closing MM Mandatory In Dip Reading Table", [d.idx]))
+			frappe.throw(__("Row {0}: Closing MM Mandatory In Dip Reading Table for {1}", [d.idx, d.fuel_tank]))
 		}
 	});
 }
@@ -517,7 +526,7 @@ frappe.ui.form.on('Pump Meter Reading', {
 		var child = locals[cdt][cdn]
 		// console.log(child.pump, child.calculated_sales)
 		calculate_total_sales(frm, cdt, cdn)
-	}
+	},
 });
 
 function calculate_sales_qty(frm, cdt, cdn) {
@@ -598,13 +607,20 @@ frappe.ui.form.on('Attendant Pump', {
 	},
 	cash_deposited: function (frm, cdt, cdn) {
 		var child = locals[cdt][cdn];
-		if (child.pump) {
-			frm.doc.attendant_pump.forEach((d, index) => {
-				if (d.name == child.name) {
-					frappe.model.set_value(child.doctype, child.name, "cash_deposited", Number(d.cash_deposited))
-					refresh_field("cash_deposited", d.name, d.parentfield);
-				}
-			});
+		// if (child.pump) {
+		// 	frm.doc.attendant_pump.forEach((d, index) => {
+		// 		if (d.name == child.name) {
+		// 			frappe.model.set_value(child.doctype, child.name, "cash_deposited", Number(d.cash_deposited))
+		// 			refresh_field("cash_deposited", d.name, d.parentfield);
+		// 		}
+		// 	});
+		// }
+		if (child.cash_to_be_deposited - child.cash_deposited != 0) {
+			var cash_difference = child.cash_to_be_deposited - child.cash_deposited;
+			if (cash_difference < -1000 || cash_difference > 1000) {
+				frappe.model.set_value(child.doctype, child.name, "cash_deposited", 0)
+				frappe.throw(__("Cash deposited for " + child.attendant + " for pump " + child.pump + " cannot be so different than cash to be deposited. Please counter check the cash deposited."))
+			}
 		}
 		calculate_attendant_deposit_totals(frm)
 	}

@@ -8,10 +8,10 @@ from frappe import throw, _
 from frappe.utils import cint,flt,now_datetime
 from frappe.model.document import Document
 import json
-from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_slaes_pos_payment
+from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_sales_pos_payment
 
 class Shift(Document):
-	def before_save(self):
+	def validate(self):
 		# Below added to calculate the amount totals upon a save of the document.
 		self.total_bank_deposit = (get_total_retail_banking(self.name) or 0)
 		self.total_credit_sales = (get_total_credit_sales_amount(self.name) or 0)
@@ -63,8 +63,7 @@ class Shift(Document):
 		Ensure that the shift is closed before submission
 		'''
 		if (self.shift_status != "Closed"):
-			frappe.throw(_("Shift cannot be submitted unless it is closed"),
-				frappe.DocstatusTransitionError)
+			frappe.throw(_("Shift cannot be submitted unless it is closed"), frappe.DocstatusTransitionError)
 
 	def on_submit(self):
 		'''
@@ -104,7 +103,7 @@ class Shift(Document):
                 user_remarks = user_remarks,
             )
 		if invoice_doc:
-			make_slaes_pos_payment(invoice_doc)
+			make_sales_pos_payment(invoice_doc)
 		# 		frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
 		
 		user_remarks = "Fuel shortage of the day for shift " + self.name + " at fuel station " + self.fuel_station
@@ -136,21 +135,21 @@ def get_total_quatity_inward_from_stock_receipt(shift,fuel_item):
 		FROM   `tabFuel Stock Receipts`
 		WHERE  shift = %s
 			AND fuel_item = %s
-			AND docstatus = 1""",(shift,fuel_item))
+			AND docstatus in (0,1)""",(shift,fuel_item))
 	if len(stock_receipt) >= 1:
 		return stock_receipt[0][0]
 	else:
 		return 0
 
 def get_total_credit_sales(shift,fuel_item):
-	credit_sales = frappe.db.sql("""SELECT SUM(quantity) FROM `tabCredit Sales` WHERE shift=%s AND fuel_item=%s AND docstatus=1""",(shift,fuel_item))
+	credit_sales = frappe.db.sql("""SELECT SUM(quantity) FROM `tabCredit Sales` WHERE shift=%s AND fuel_item=%s and docstatus in (0,1) """,(shift,fuel_item))
 	if len(credit_sales) >= 1:
 		return credit_sales[0][0]
 	else:
 		return 0
 
 def get_total_credit_sales_amount(shift):
-	credit_sales = frappe.db.sql("""SELECT SUM(amount) FROM `tabCredit Sales` WHERE shift=%s AND docstatus=1""",(shift))
+	credit_sales = frappe.db.sql("""SELECT SUM(amount) FROM `tabCredit Sales` WHERE shift=%s and docstatus in (0,1) """,(shift))
 	if len(credit_sales) >= 1:
 		return credit_sales[0][0]
 	else:
@@ -158,7 +157,7 @@ def get_total_credit_sales_amount(shift):
 
 @frappe.whitelist()
 def get_total_retail_banking(shift):
-	banking = frappe.db.sql("""SELECT SUM(amount) FROM `tabCash Deposited` WHERE shift=%s AND (credit_sales_reference = '' OR credit_sales_reference IS NULL) AND docstatus=1""",(shift))
+	banking = frappe.db.sql("""SELECT SUM(amount) FROM `tabCash Deposited` WHERE shift=%s AND (credit_sales_reference = '' OR credit_sales_reference IS NULL) and docstatus in (0,1) """,(shift))
 	# frappe.msgprint(str(banking))
 	if len(banking) >= 1:
 		return banking[0][0]
@@ -167,7 +166,7 @@ def get_total_retail_banking(shift):
 
 @frappe.whitelist()
 def get_total_expenses(shift):
-	expenses = frappe.db.sql("""select sum(amount) from `tabExpense Record` where shift=%s and docstatus=1""",(shift))
+	expenses = frappe.db.sql("""select sum(amount) from `tabExpense Record` where shift=%s and docstatus in (0,1) """,(shift))
 	if len(expenses) >= 1:
 		return expenses[0][0]
 	else:
@@ -175,6 +174,24 @@ def get_total_expenses(shift):
 
 @frappe.whitelist()
 def close_shift(name,status=None):
+	unsubmitted_credit_sales = frappe.db.sql("""select count(*) from `tabCredit Sales` where shift=%s and docstatus=0""",(name))
+	if(unsubmitted_credit_sales):
+		frappe.throw(_("Outstanding Credit Sales to be submitted. Ensure all Credit Sales for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
+	unsubmitted_dou = frappe.db.sql("""select count(*) from `tabDispensed for Office Use` where shift=%s and docstatus=0""",(name))
+	if(unsubmitted_dou):
+		frappe.throw(_("Outstanding Dispensed for Office Use to be submitted. Ensure all Dispensed for Office Use for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
+	unsubmitted_fuel_stock_receipts = frappe.db.sql("""select count(*) from `tabFuel Stock Receipts` where shift=%s and docstatus=0""",(name))
+	if(unsubmitted_fuel_stock_receipts):
+		frappe.throw(_("Outstanding Fuel Stock Receipts to be submitted. Ensure all Fuel Stock Receipts for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
+	unsubmitted_cash_deposited = frappe.db.sql("""select count(*) from `tabCash Deposited` where shift=%s and docstatus=0""",(name))
+	if(unsubmitted_cash_deposited):
+		frappe.throw(_("Outstanding Cash Deposited to be submitted. Ensure all Cash Deposited for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
+	unsubmitted_expense_record = frappe.db.sql("""select count(*) from `tabExpense Record` where shift=%s and docstatus=0""",(name))
+	if(unsubmitted_expense_record):
+		frappe.throw(_("Outstanding Expense Record to be submitted. Ensure all Expense Record for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
+	unsubmitted_inspection_report = frappe.db.sql("""select count(*) from `tabInspection Report` where shift=%s and docstatus=0""",(name))
+	if(unsubmitted_inspection_report):
+		frappe.throw(_("Outstanding Inspection Report to be submitted. Ensure all Inspection Report for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	frappe.db.set_value("Shift",name,"shift_status",status)
 	frappe.db.set_value("Shift",name,"close_date_and_time",now_datetime())
 
@@ -203,8 +220,8 @@ def calculate_total_sales(shift,pump,total_qty):
 	return (total_sales,credit_sales_total,retail_total_sales)
 
 def get_credit_sales_details(shift,pump):
-	credit_sales_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
-	dou_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabDispensed for Office Use` where shift=%s and pump=%s and docstatus=1 limit 1""",(shift,pump),as_dict=1)
+	credit_sales_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus in (0,1) limit 1""",(shift,pump),as_dict=1)
+	dou_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabDispensed for Office Use` where shift=%s and pump=%s and docstatus in (0,1) limit 1""",(shift,pump),as_dict=1)
 	credit_sales_qty = 0
 	credit_sales_amount = 0
 	# frappe.msgprint(str(credit_sales_details))

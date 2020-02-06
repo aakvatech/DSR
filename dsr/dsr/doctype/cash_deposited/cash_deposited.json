@@ -113,6 +113,7 @@
   {
    "fieldname": "cash_deposit_slip",
    "fieldtype": "Attach Image",
+   "in_preview": 1,
    "label": "Cash Deposit Slip",
    "reqd": 1
   },
@@ -141,6 +142,7 @@
    "depends_on": "eval: !doc.stamped_slip_approved",
    "fieldname": "stamped_cash_deposited_slip",
    "fieldtype": "Attach Image",
+   "in_preview": 1,
    "label": "Stamped Cash Deposited Slip"
   },
   {
@@ -188,7 +190,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-14 19:10:57.230718",
+ "modified": "2020-02-02 17:11:46.192594",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Cash Deposited",
