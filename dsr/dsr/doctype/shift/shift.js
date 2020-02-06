@@ -325,7 +325,7 @@ function validate_cash_discounted_pending(frm) {
 		method:"frappe.client.get_list",
 		args:{
 			doctype: 'Credit Sales',
-			filters: {'shift': frm.doc.shift,'discounted_cash_customer':1,'full_paid':0},
+			filters: {'shift': frm.doc.name,'discounted_cash_customer':1,'full_paid':0},
 			fields:["name"],
 			limit: 1
 		},
@@ -544,7 +544,6 @@ function calculate_mechanical_difference(frm, cdt, cdn) {
 function calculate_total_sales(frm, cdt, cdn) {
 	// frappe.msgprint("Inside Calculated Total Sales")
 	var child = locals[cdt][cdn]
-	var total_credit_sales = 0;
 	if (child.pump) {
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
