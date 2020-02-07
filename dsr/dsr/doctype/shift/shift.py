@@ -137,21 +137,21 @@ def get_total_quatity_inward_from_stock_receipt(shift,fuel_item):
 			AND fuel_item = %s
 			AND docstatus in (0,1)""",(shift,fuel_item))
 	if len(stock_receipt) >= 1:
-		return stock_receipt[0][0]
+		return stock_receipt[0][0] or 0
 	else:
 		return 0
 
 def get_total_credit_sales(shift,fuel_item):
 	credit_sales = frappe.db.sql("""SELECT SUM(quantity) FROM `tabCredit Sales` WHERE shift=%s AND fuel_item=%s and docstatus in (0,1) """,(shift,fuel_item))
 	if len(credit_sales) >= 1:
-		return credit_sales[0][0]
+		return credit_sales[0][0] or 0
 	else:
 		return 0
 
 def get_total_credit_sales_amount(shift):
 	credit_sales = frappe.db.sql("""SELECT SUM(amount) FROM `tabCredit Sales` WHERE shift=%s and docstatus in (0,1) """,(shift))
 	if len(credit_sales) >= 1:
-		return credit_sales[0][0]
+		return credit_sales[0][0] or 0
 	else:
 		return 0
 
@@ -160,7 +160,7 @@ def get_total_retail_banking(shift):
 	banking = frappe.db.sql("""SELECT SUM(amount) FROM `tabCash Deposited` WHERE shift=%s AND (credit_sales_reference = '' OR credit_sales_reference IS NULL) and docstatus in (0,1) """,(shift))
 	# frappe.msgprint(str(banking))
 	if len(banking) >= 1:
-		return banking[0][0]
+		return banking[0][0] or 0
 	else:
 		return 0
 
@@ -168,7 +168,7 @@ def get_total_retail_banking(shift):
 def get_total_expenses(shift):
 	expenses = frappe.db.sql("""select sum(amount) from `tabExpense Record` where shift=%s and docstatus in (0,1) """,(shift))
 	if len(expenses) >= 1:
-		return expenses[0][0]
+		return expenses[0][0] or 0
 	else:
 		return 0
 
