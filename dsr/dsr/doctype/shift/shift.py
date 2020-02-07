@@ -175,22 +175,23 @@ def get_total_expenses(shift):
 @frappe.whitelist()
 def close_shift(name,status=None):
 	unsubmitted_credit_sales = frappe.db.sql("""select count(*) from `tabCredit Sales` where shift=%s and docstatus=0""",(name))
-	if(unsubmitted_credit_sales):
+	# frappe.msgprint(str(unsubmitted_credit_sales))
+	if(unsubmitted_credit_sales[0][0] > 0):
 		frappe.throw(_("Outstanding Credit Sales to be submitted. Ensure all Credit Sales for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	unsubmitted_dou = frappe.db.sql("""select count(*) from `tabDispensed for Office Use` where shift=%s and docstatus=0""",(name))
-	if(unsubmitted_dou):
+	if(unsubmitted_dou[0][0] > 0):
 		frappe.throw(_("Outstanding Dispensed for Office Use to be submitted. Ensure all Dispensed for Office Use for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	unsubmitted_fuel_stock_receipts = frappe.db.sql("""select count(*) from `tabFuel Stock Receipts` where shift=%s and docstatus=0""",(name))
-	if(unsubmitted_fuel_stock_receipts):
+	if(unsubmitted_fuel_stock_receipts[0][0] > 0):
 		frappe.throw(_("Outstanding Fuel Stock Receipts to be submitted. Ensure all Fuel Stock Receipts for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	unsubmitted_cash_deposited = frappe.db.sql("""select count(*) from `tabCash Deposited` where shift=%s and docstatus=0""",(name))
-	if(unsubmitted_cash_deposited):
+	if(unsubmitted_cash_deposited[0][0] > 0):
 		frappe.throw(_("Outstanding Cash Deposited to be submitted. Ensure all Cash Deposited for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	unsubmitted_expense_record = frappe.db.sql("""select count(*) from `tabExpense Record` where shift=%s and docstatus=0""",(name))
-	if(unsubmitted_expense_record):
+	if(unsubmitted_expense_record[0][0] > 0):
 		frappe.throw(_("Outstanding Expense Record to be submitted. Ensure all Expense Record for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	unsubmitted_inspection_report = frappe.db.sql("""select count(*) from `tabInspection Report` where shift=%s and docstatus=0""",(name))
-	if(unsubmitted_inspection_report):
+	if(unsubmitted_inspection_report[0][0] > 0):
 		frappe.throw(_("Outstanding Inspection Report to be submitted. Ensure all Inspection Report for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
 	frappe.db.set_value("Shift",name,"shift_status",status)
 	frappe.db.set_value("Shift",name,"close_date_and_time",now_datetime())
