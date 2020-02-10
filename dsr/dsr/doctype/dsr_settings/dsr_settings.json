@@ -6,7 +6,9 @@
  "field_order": [
   "system_api_key",
   "system_api_secret",
-  "system_url"
+  "system_url",
+  "column_break_4",
+  "oil_company_bank_account"
  ],
  "fields": [
   {
@@ -23,10 +25,20 @@
    "fieldname": "system_url",
    "fieldtype": "Data",
    "label": "System URL"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "oil_company_bank_account",
+   "fieldtype": "Link",
+   "label": "Oil Company Bank Account",
+   "options": "Account"
   }
  ],
  "issingle": 1,
- "modified": "2020-01-12 21:33:54.691115",
+ "modified": "2020-02-11 00:15:31.865435",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "DSR Settings",
