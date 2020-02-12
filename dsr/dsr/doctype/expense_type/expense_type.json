@@ -10,7 +10,8 @@
   "fuel_station",
   "column_break_3",
   "company",
-  "expense_account"
+  "expense_account",
+  "related_to_oil_company"
  ],
  "fields": [
   {
@@ -50,9 +51,15 @@
    "label": "Company",
    "options": "Company",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "related_to_oil_company",
+   "fieldtype": "Check",
+   "label": "Related to Oil Company"
   }
  ],
- "modified": "2019-11-30 19:40:53.306922",
+ "modified": "2020-02-11 00:28:19.960184",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Type",
