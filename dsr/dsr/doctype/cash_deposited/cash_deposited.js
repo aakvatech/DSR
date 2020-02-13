@@ -23,7 +23,8 @@ frappe.ui.form.on('Cash Deposited', {
 		frm.set_query('credit_sales_reference', function() {
 			return {
 				filters: {
-					'fuel_station': frm.doc.fuel_station
+					'fuel_station': frm.doc.fuel_station,
+					'full_paid': 0
 				}
 			}
 		});

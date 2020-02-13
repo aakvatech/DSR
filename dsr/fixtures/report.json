@@ -694,5 +694,99 @@
     "role": "Accounts User"
    }
   ]
+ },
+ {
+  "add_total_row": 1,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2020-02-13 16:32:59.863279",
+  "module": "Dsr",
+  "name": "Customer Statement Summary",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "SELECT credit_customer as \"Credit Customer:Link/Customer:200\", amount * -1 as \"Amount:Currency:100\" FROM `tabCredit Sales` WHERE full_paid != 1 GROUP BY credit_customer\r\n",
+  "ref_doctype": "Credit Sales",
+  "reference_report": null,
+  "report_name": "Customer Statement Summary",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Customer Statement Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Customer Statement Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Customer Statement Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[[\"Credit Sales\",\"full_paid\",\"=\",0,false],[\"Credit Sales\",\"discounted_cash_customer\",\"=\",1,false]],\"fields\":[[\"name\",\"Credit Sales\"],[\"date\",\"Credit Sales\"],[\"fuel_station\",\"Credit Sales\"],[\"credit_customer\",\"Credit Sales\"],[\"full_paid\",\"Credit Sales\"],[\"quantity\",\"Credit Sales\"],[\"fuel_item\",\"Credit Sales\"],[\"docstatus\",\"Credit Sales\"]],\"order_by\":\"`tabCredit Sales`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"date\":120,\"fuel_station\":120,\"credit_customer\":120,\"full_paid\":120,\"quantity\":120,\"fuel_item\":120},\"group_by\":null}",
+  "letter_head": null,
+  "modified": "2020-02-13 16:39:59.341326",
+  "module": "Dsr",
+  "name": "Reconcile Fully Paid at the Office",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Credit Sales",
+  "reference_report": null,
+  "report_name": "Reconcile Fully Paid at the Office",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Reconcile Fully Paid at the Office",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "Reconcile Fully Paid at the Office",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "Reconcile Fully Paid at the Office",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Reconcile Fully Paid at the Office",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ]
  }
 ]
