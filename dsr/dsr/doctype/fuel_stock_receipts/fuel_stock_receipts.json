@@ -112,6 +112,7 @@
   },
   {
    "default": "Today",
+   "fetch_from": "shift.date",
    "fieldname": "date",
    "fieldtype": "Date",
    "label": "Date",
@@ -228,7 +229,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-14 19:11:38.173104",
+ "modified": "2020-02-13 23:39:14.612283",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Stock Receipts",

@@ -24,6 +24,7 @@
  "fields": [
   {
    "default": "Today",
+   "fetch_from": "shift.date",
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -124,7 +125,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-04 17:58:28.958863",
+ "modified": "2020-02-13 23:39:35.306157",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Dispensed for Office Use",

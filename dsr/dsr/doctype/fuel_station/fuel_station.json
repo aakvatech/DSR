@@ -32,6 +32,8 @@
   "column_break_25",
   "cash_customer_pos_profile",
   "section_break_27",
+  "section_break_28",
+  "allowable_difference",
   "generator_make",
   "generator_model",
   "column_break_24",
@@ -228,9 +230,19 @@
   {
    "fieldname": "section_break_27",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_28",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "200",
+   "fieldname": "allowable_difference",
+   "fieldtype": "Float",
+   "label": "Allowable Difference"
   }
  ],
- "modified": "2020-01-11 18:02:52.120738",
+ "modified": "2020-02-13 23:48:45.721555",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",

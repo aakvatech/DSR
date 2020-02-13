@@ -47,6 +47,7 @@
  "fields": [
   {
    "default": "Today",
+   "fetch_from": "shift.date",
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -299,7 +300,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-23 23:01:49.822856",
+ "modified": "2020-02-13 23:38:55.742785",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Credit Sales",

@@ -12,50 +12,9 @@ from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,ma
 
 class Shift(Document):
 	def validate(self):
-		# Below added to calculate the amount totals upon a save of the document.
-		self.total_bank_deposit = (get_total_retail_banking(self.name) or 0)
-		self.total_credit_sales = (get_total_credit_sales_amount(self.name) or 0)
-		self.total_expenses = (get_total_expenses(self.name) or 0)
-		self.opening_balance = (self.opening_balance or 0)
-		self.total_deposited = (self.total_deposited or 0)
-		self.total_cash_shortage = (self.total_cash_shortage or 0)
-		self.total_bank_deposit = (self.total_bank_deposit or 0)
-		self.total_expenses = (self.total_expenses or 0)
-		self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_bank_deposit - self.total_expenses
+		set_amount_totals(self)
 
-		# Below added to calculate the quantity totals upon a save of the document.
-		self.shift_fuel_item_totals = []
-		data = []
-
-		# Prepare fuel item list from fuel items of the station
-		fuel_item_list = frappe.get_list("Fuel Item", filters={"fuel_station": self.fuel_station})
-		for fuel_item in fuel_item_list:
-			inward_quantity = get_total_quatity_inward_from_stock_receipt(self.name, fuel_item.name) or 0
-			total_credit_sales = get_total_credit_sales(self.name, fuel_item.name) or 0
-
-			fuel_item_related_pump_list = frappe.get_list("Pump", fields=("name"), filters={"fuel_item": fuel_item.name})
-			total_sales_quantity = 0
-			for row in self.pump_meter_reading:
-				if any(pump['name'] == row.pump for pump in fuel_item_related_pump_list):
-					total_sales_quantity += row.calculated_sales or 0
-
-			fuel_item_related_tank_list = frappe.get_list("Fuel Tank", fields=("name"), filters={"fuel_item": fuel_item.name})
-			tank_usage_quantity = 0
-			for row in self.dip_reading:
-				if any(fuel_tank['name'] == row.fuel_tank for fuel_tank in fuel_item_related_tank_list):
-					tank_usage_quantity += (row.difference_in_liters or 0) * -1
-			data.append({
-				"fuel_item": fuel_item.name,
-				"tank_usage_quantity": tank_usage_quantity or 0,
-				"inward_quantity": inward_quantity or 0,
-				"total_sales_quantity": total_sales_quantity or 0,
-				"difference_quantity": (tank_usage_quantity + inward_quantity - total_sales_quantity) or 0,
-				"credit_sales_quantity": total_credit_sales or 0,
-				"cash_sales_quantity": (total_sales_quantity - total_credit_sales) or 0
-			})
-		self.update({
-			"shift_fuel_item_totals": data
-		})
+		set_quantity_totals(self)
 
 
 	def before_submit(self):
@@ -65,7 +24,13 @@ class Shift(Document):
 		if (self.shift_status != "Closed"):
 			frappe.throw(_("Shift cannot be submitted unless it is closed"), frappe.DocstatusTransitionError)
 
+		set_amount_totals(self)
+
+		set_quantity_totals(self)
+
+
 	def on_submit(self):
+
 		'''
 		To create Sales Invoice for Cash sales and Stock Entry for Tank Shortage
 		'''
@@ -130,6 +95,53 @@ class Shift(Document):
 		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
 		self.stock_entry = stock_entry_doc_name
 
+def set_amount_totals(self):
+	# Below added to calculate the amount totals upon a save of the document.
+	self.total_bank_deposit = (get_total_retail_banking(self.name) or 0)
+	self.total_credit_sales = (get_total_credit_sales_amount(self.name) or 0)
+	self.total_expenses = (get_total_expenses(self.name) or 0)
+	self.opening_balance = (self.opening_balance or 0)
+	self.total_deposited = (self.total_deposited or 0)
+	self.total_cash_shortage = (self.total_cash_shortage or 0)
+	self.total_bank_deposit = (self.total_bank_deposit or 0)
+	self.total_expenses = (self.total_expenses or 0)
+	self.cash_in_hand = self.opening_balance + self.total_deposited - self.total_bank_deposit - self.total_expenses
+
+def set_quantity_totals(self):
+	# Below added to calculate the quantity totals upon a save of the document.
+	self.shift_fuel_item_totals = []
+	data = []
+
+	# Prepare fuel item list from fuel items of the station
+	fuel_item_list = frappe.get_list("Fuel Item", filters={"fuel_station": self.fuel_station})
+	for fuel_item in fuel_item_list:
+		inward_quantity = get_total_quatity_inward_from_stock_receipt(self.name, fuel_item.name) or 0
+		total_credit_sales = get_total_credit_sales(self.name, fuel_item.name) or 0
+
+		fuel_item_related_pump_list = frappe.get_list("Pump", fields=("name"), filters={"fuel_item": fuel_item.name})
+		total_sales_quantity = 0
+		for row in self.pump_meter_reading:
+			if any(pump['name'] == row.pump for pump in fuel_item_related_pump_list):
+				total_sales_quantity += row.calculated_sales or 0
+
+		fuel_item_related_tank_list = frappe.get_list("Fuel Tank", fields=("name"), filters={"fuel_item": fuel_item.name})
+		tank_usage_quantity = 0
+		for row in self.dip_reading:
+			if any(fuel_tank['name'] == row.fuel_tank for fuel_tank in fuel_item_related_tank_list):
+				tank_usage_quantity += (row.difference_in_liters or 0) * -1
+		data.append({
+			"fuel_item": fuel_item.name,
+			"tank_usage_quantity": tank_usage_quantity or 0,
+			"inward_quantity": inward_quantity or 0,
+			"total_sales_quantity": total_sales_quantity or 0,
+			"difference_quantity": (tank_usage_quantity + inward_quantity - total_sales_quantity) or 0,
+			"credit_sales_quantity": total_credit_sales or 0,
+			"cash_sales_quantity": (total_sales_quantity - total_credit_sales) or 0
+		})
+	self.update({
+		"shift_fuel_item_totals": data
+	})
+
 def get_total_quatity_inward_from_stock_receipt(shift,fuel_item):
 	stock_receipt = frappe.db.sql("""SELECT SUM(actual_quantity)
 		FROM   `tabFuel Stock Receipts`
@@ -193,8 +205,19 @@ def close_shift(name,status=None):
 	unsubmitted_inspection_report = frappe.db.sql("""select count(*) from `tabInspection Report` where shift=%s and docstatus=0""",(name))
 	if(unsubmitted_inspection_report[0][0] > 0):
 		frappe.throw(_("Outstanding Inspection Report to be submitted. Ensure all Inspection Report for this shift are submitted and retry to close the shift."), frappe.DocstatusTransitionError)
+
+	'''
+	Check if there are any fuel quantity totals more than 200liters default
+	'''
+	shift_doc = frappe.get_doc("Shift",name)
+	allowable_difference = frappe.db.get_value("Fuel Station",shift_doc.fuel_station,"allowable_difference") or 200
+	for fuel_item_total in shift_doc.shift_fuel_item_totals:
+		if (fuel_item_total.difference_quantity < (allowable_difference * -1) or fuel_item_total.difference_quantity > allowable_difference):
+			frappe.throw(_("The fuel item total for " + fuel_item_total.fuel_item + " is greater than the allowable difference set for the station " + shift_doc.fuel_station + " of " + str(fuel_item_total.difference_quantity) + " liters"))
+
 	frappe.db.set_value("Shift",name,"shift_status",status)
 	frappe.db.set_value("Shift",name,"close_date_and_time",now_datetime())
+
 
 @frappe.whitelist()
 def get_last_shift_data(fuel_station):

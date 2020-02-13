@@ -44,6 +44,9 @@ frappe.ui.form.on('Cash Deposited', {
 		// 	cur_frm.add_fetch("shift", "cash_in_hand", "amount_to_be_deposited")
 		// }
 	},
+	shift: function(frm) {
+		frm.set_value("name_of_bank", "")
+	},
 });
 var auto_shift_selection = function (frm, cdt, cdn) {
 	if (frm.doc.__islocal) {

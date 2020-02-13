@@ -29,6 +29,7 @@
  "fields": [
   {
    "default": "Today",
+   "fetch_from": "shift.date",
    "fieldname": "date",
    "fieldtype": "Date",
    "in_standard_filter": 1,
@@ -156,7 +157,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-10 09:53:00.993670",
+ "modified": "2020-02-13 23:38:40.007272",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Expense Record",
