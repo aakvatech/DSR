@@ -214,7 +214,7 @@ def close_shift(name,status=None):
 	for fuel_item_total in shift_doc.shift_fuel_item_totals:
 		if (fuel_item_total.difference_quantity < (allowable_difference * -1) or fuel_item_total.difference_quantity > allowable_difference):
 			frappe.throw(_("The fuel item total for " + fuel_item_total.fuel_item + " is greater than the allowable difference set for the station " + shift_doc.fuel_station + " of " + str(fuel_item_total.difference_quantity) + " liters"))
-
+			
 	frappe.db.set_value("Shift",name,"shift_status",status)
 	frappe.db.set_value("Shift",name,"close_date_and_time",now_datetime())
 
