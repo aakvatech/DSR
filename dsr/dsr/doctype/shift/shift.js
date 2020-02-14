@@ -72,6 +72,9 @@ frappe.ui.form.on('Shift', {
 		get_last_shift_data(frm)
 	},
 	close_shift: (frm) => {
+		frm.set_value("shift_status", "Closed")
+	},
+	shift_status: (frm) => {		
 		validate_unsubmitted_documents(frm)
 		validate_cash_discounted_pending(frm)
 		validate_meter_reading(frm)
@@ -85,7 +88,7 @@ frappe.ui.form.on('Shift', {
 				cur_frm.reload_doc()
 			}
 		});
-	},
+	}
 	fuel_station: function (frm, cdt, cdn) {
 		var child = locals[cdt][cdn];
 		if (child.fuel_station) {
