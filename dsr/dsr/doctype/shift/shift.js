@@ -88,7 +88,7 @@ frappe.ui.form.on('Shift', {
 				cur_frm.reload_doc()
 			}
 		});
-	}
+	},
 	fuel_station: function (frm, cdt, cdn) {
 		var child = locals[cdt][cdn];
 		if (child.fuel_station) {
