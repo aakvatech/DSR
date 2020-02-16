@@ -337,6 +337,7 @@ def make_sales_invoice_for_shift(customer,company,date,items,fuel_station,shift,
 		pump = pump,
 		credit_sales = credit_id,
 		remarks = user_remarks,
+		is_rounded_total_disabled = 1,
 		cost_center = get_cost_center_from_fuel_station(fuel_station),
 	)).insert(ignore_permissions=True)
 	if invoice_doc:

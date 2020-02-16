@@ -97,9 +97,15 @@ frappe.ui.form.on('Shift', {
 			}
 			get_dip_reading(frm)
 			get_pump_meter_reading(frm)
-			get_last_shift_data(frm)
 			get_attendant_pump(frm)
+			get_last_shift_data(frm)
 		}
+	},
+	shift_name: function (frm, cdt, cdn) {
+		get_last_shift_data(frm)
+	},
+	date: function (frm, cdt, cdn) {
+		get_last_shift_data(frm)
 	},
 	validate: function(frm,cdt,cdn){
 		// frappe.msgprint("Validate fired")
@@ -166,12 +172,15 @@ function get_last_shift_data(frm){
 	frappe.call({
 		method:"dsr.dsr.doctype.shift.shift.get_last_shift_data",
 		args:{
-			fuel_station:frm.doc.fuel_station
+			fuel_station:frm.doc.fuel_station,
+			date:frm.doc.date,
+			shift_name:frm.doc.shift_name
 		},
 		async: false,
 		callback:function(r)
 		{
 			if(r.message){
+				console.log(r.message)
 				frm.clear_table("pump_meter_reading");
 				r.message.pump_meter_reading.forEach(d => {
 					var child = frm.add_child("pump_meter_reading");

@@ -7,6 +7,8 @@
   "system_api_key",
   "system_api_secret",
   "system_url",
+  "host",
+  "check_api",
   "column_break_4",
   "oil_company_bank_account"
  ],
@@ -35,11 +37,21 @@
    "fieldtype": "Link",
    "label": "Oil Company Bank Account",
    "options": "Account"
+  },
+  {
+   "fieldname": "check_api",
+   "fieldtype": "Button",
+   "label": "Check API"
+  },
+  {
+   "fieldname": "host",
+   "fieldtype": "Data",
+   "label": "Host Domain"
   }
  ],
  "issingle": 1,
- "modified": "2020-02-11 00:15:31.865435",
- "modified_by": "Administrator",
+ "modified": "2020-02-15 15:55:17.995449",
+ "modified_by": "yousef@totrox.com",
  "module": "Dsr",
  "name": "DSR Settings",
  "owner": "Administrator",

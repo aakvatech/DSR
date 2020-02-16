@@ -10,11 +10,13 @@ import requests
 from requests.exceptions import Timeout
 import json
 from frappe.utils import today, get_datetime, add_to_date, getdate
+# from urllib.parse import urlparse, urlunparse
 # from frappe.utils.password import get_decrypted_password
 
 class DSRSettings(Document):
 	def validate(self):
-		check_api()
+		# check_api()
+		pass
 
 def get_url():
 	if frappe.db.get_value("DSR Settings", None, "system_url"):
@@ -39,32 +41,52 @@ def get_system_api_secret():
 	else:
 		frappe.throw(_("Please make sure you have System API Secret"))
 
+def get_host():
+	if frappe.db.get_value("DSR Settings", None, "host"):
+		host = frappe.db.get_value("DSR Settings", None, "host")
+		return host
+	else:
+		return
+
+
 def get_headers():
-	headers = {'Authorization': "token " +  get_system_api_key() + ":" + get_system_api_secret()}
+	headers = {'Host': get_host(), 'Authorization': "token " +  get_system_api_key() + ":" + get_system_api_secret()}
 	return headers
 
-
+@frappe.whitelist()
 def check_api():
-	url = get_url() + "/api/resource/Sales Invoice"
+	url = get_url() + "/api/resource/Item"
 	frappe.msgprint(str(url))
 	frappe.msgprint(str(get_headers()))
 	try:
-		response = requests.get(url = url, headers = get_headers(), timeout=5)
+		response = requests.request("GET",url = url, headers = get_headers(), timeout=5)
 	except Timeout:
 		frappe.msgprint(_("Error Please check the Other Server Request timeout"))
 	else:
 		if response.status_code == 200 :
 			res = json.loads(response.text)
 			frappe.msgprint(str(res))
-			# emp_id = str(res["id"])
-			# doc.biometric_id = emp_id
-			# if not doc.biometric_code:
-			# 	doc.biometric_code = str(res["emp_code"])
-			# if not doc.area:
-			# 	for area_item in res["area"]:
-			# 		area_row = doc.append('area',{})
-			# 		area_row.area = area_item['area_name']
-			# 		area_row.area_code = area_item['area_code']
 		else:
 			frappe.msgprint(str(response.status_code))
-					
+
+
+# @frappe.whitelist()
+# def check_api():
+
+# 	url1 = get_url() + "/api/resource/Credit Sales"
+# 	parsed_url = urlparse(url1)
+# 	frappe.msgprint(str(parsed_url))
+# 	params = {'start': '0', 'count': '1', 'currency': '20', 'country': 'CDN'}
+# 	url = urlunparse(parsed_url[:1] + (get_host(),) + parsed_url[2:])
+# 	frappe.msgprint(str(url))
+# 	frappe.msgprint(str(get_headers()))
+# 	try:
+# 		response = requests.get(url, headers={'Host': parsed_url.netloc}, params=params, timeout=5)
+# 	except Timeout:
+# 		frappe.msgprint(_("Error Please check the Other Server Request timeout"))
+# 	else:
+# 		if response.status_code == 200 :
+# 			res = json.loads(response.text)
+# 			frappe.msgprint(str(res))
+# 		else:
+# 			frappe.msgprint(str(response.status_code))
