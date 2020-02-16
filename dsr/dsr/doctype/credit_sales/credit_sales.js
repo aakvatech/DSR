@@ -47,6 +47,10 @@ frappe.ui.form.on('Credit Sales', {
 		auto_shift_selection(frm, cdt, cdn)
 	},
 	quantity: function (frm) {
+		if ((frm.doc.quantity > frm.doc.original_quantity) && frm.doc.lpo ) {
+			frm.set_value("quantity", frm.doc.quantity)
+			frappe.throw("Entered quantity cannot be greater than LPO quantity. Resetting the quantity to original quantity.")
+		}
 		if (frm.doc.quantity && frm.doc.fuel_item) {
 			calculate_total(frm)
 		}
