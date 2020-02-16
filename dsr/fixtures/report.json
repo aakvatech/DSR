@@ -838,5 +838,55 @@
     "role": "Accounts User"
    }
   ]
+ },
+ {
+  "add_total_row": 0,
+  "disable_prepared_report": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": null,
+  "modified": "2020-02-16 22:30:00.676837",
+  "module": "Dsr",
+  "name": "No shift submissions for today",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "prepared_report": 0,
+  "query": "SELECT fs.name as \"Fuel Station:Link/Fuel Station:100\",\n    fs.cluster_manager as \"Cluster Manager:Link/User:150\",\n    fs.station_manager as \"Station Manager:Link/User:150\"\n  FROM `tabFuel Station` fs\n  WHERE fs.name NOT IN (SELECT s.fuel_station FROM `tabShift` s WHERE s.date = CURDATE())\n",
+  "ref_doctype": "Shift",
+  "reference_report": null,
+  "report_name": "No shift submissions for today",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "No shift submissions for today",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "No shift submissions for today",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Cluster Manager"
+   },
+   {
+    "parent": "No shift submissions for today",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Station Manager"
+   },
+   {
+    "parent": "No shift submissions for today",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ]
  }
 ]
