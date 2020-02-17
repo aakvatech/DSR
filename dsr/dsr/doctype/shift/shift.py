@@ -82,7 +82,7 @@ class Shift(Document):
 		qty_zero = True
 
 		for row in self.shift_fuel_item_totals:
-			if (row.difference_quantity == 0):
+			if (row.difference_quantity != 0):
 				item_details = frappe.get_doc("Fuel Item",row.fuel_item)
 				item_stock_row = dict(
 				item_code = item_details.item,
