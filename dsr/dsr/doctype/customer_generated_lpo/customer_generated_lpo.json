@@ -19,6 +19,11 @@
   "section_break_9",
   "fulfilled",
   "outstanding_payments",
+  "section_break_15",
+  "cluster_manager",
+  "column_break_17",
+  "station_manager",
+  "section_break_19",
   "amended_from"
  ],
  "fields": [
@@ -121,10 +126,38 @@
    "fieldtype": "Data",
    "label": "Station Full Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "fuel_station.cluster_manager",
+   "fieldname": "cluster_manager",
+   "fieldtype": "Link",
+   "label": "Cluster Manager",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "fuel_station.station_manager",
+   "fieldname": "station_manager",
+   "fieldtype": "Link",
+   "label": "Station Manager",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break"
   }
  ],
  "is_submittable": 1,
- "modified": "2019-12-31 18:37:08.785706",
+ "modified": "2020-02-17 10:15:45.666356",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Customer Generated LPO",
