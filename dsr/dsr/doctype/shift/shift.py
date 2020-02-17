@@ -78,22 +78,29 @@ class Shift(Document):
 			frappe.throw(_("Expense Not Defined In Fuel Station"))
 		item_stock_object = []
 		# Make 1 stock etnry per fuel item. Get default warehouse from Fuel Station for now.
+		# Set quantity zero to identify to ensure zero quantity transactions do not happen
+		qty_zero = True
+
 		for row in self.shift_fuel_item_totals:
-			item_details = frappe.get_doc("Fuel Item",row.fuel_item)
-			item_stock_row = dict(
-			item_code = item_details.item,
-			qty = row.difference_quantity, 
-			s_warehouse = warehouse,
-			cost_center = cost_center,
-			expense_account= stock_adjustment)	
-		item_stock_object.append(item_stock_row)
-		qty = 0 # temp
-		fuel_stock_receipt_no=None  # temp
-		stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
-		# stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
-		# if stock_entry_doc_name:
-		# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
-		self.stock_entry = stock_entry_doc_name
+			if (row.difference_quantity == 0):
+				item_details = frappe.get_doc("Fuel Item",row.fuel_item)
+				item_stock_row = dict(
+				item_code = item_details.item,
+				qty = row.difference_quantity, 
+				s_warehouse = warehouse,
+				cost_center = cost_center,
+				expense_account= stock_adjustment)
+				# set qty_zero to false so that even if one of the fuel item is having transactions then stock entry is created
+				qty_zero = False
+		if not qty_zero:
+			item_stock_object.append(item_stock_row)
+			qty = 0 # as the stock entry creation requires this field
+			fuel_stock_receipt_no=None # as the stock entry creation requires this field
+			stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
+			# stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
+			# if stock_entry_doc_name:
+			# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
+			self.stock_entry = stock_entry_doc_name
 
 def set_amount_totals(self):
 	# Below added to calculate the amount totals upon a save of the document.
@@ -223,7 +230,7 @@ def close_shift(name,status=None):
 def get_last_shift_data(fuel_station,date=None,shift_name=None):
 	if (not date or not shift_name or not fuel_station):
 		return None
-	shift_list = frappe.get_all("Shift",filters=[{'shift_status': 'Closed'},{'fuel_station':fuel_station},['date', '<=', date]],fields=["name"],order_by="date desc")
+	shift_list = frappe.get_all("Shift",filters=[{'shift_status': 'Closed'},{'fuel_station':fuel_station},['date', '<=', date]],fields=["name"],order_by="date desc, creation desc")
 	if len(shift_list) >= 1:
 		return frappe.get_doc("Shift",shift_list[0].name)
 
