@@ -251,11 +251,11 @@ def make_sales_invoice(customer,company,date,items,fuel_station,shift,pump,credi
 		invoice_doc.submit()
 		return invoice_doc
 
-def make_stock_adjustment_entry(cost_center,date,company,item_stock_object,qty,fuel_stock_receipt_no, fuel_station,user_remarks=None,warehouse=None,stock_adjustment=None):
+def make_stock_adjustment_entry(cost_center,date,company,items,qty,fuel_stock_receipt_no, fuel_station,user_remarks=None,warehouse=None,stock_adjustment=None):
 	stock_entry_doc =frappe.get_doc(dict(
 		doctype = "Stock Entry",
 		posting_date= date,
-		items = item_stock_object,
+		items = items,
 		stock_entry_type='Material Issue',
 		purpose='Material Issue',
 		company= company, 
@@ -267,10 +267,18 @@ def make_stock_adjustment_entry(cost_center,date,company,item_stock_object,qty,f
 		frappe.flags.ignore_account_permission = True
 		stock_entry_doc.submit()
 		return stock_entry_doc.name
-	
+
 
 @frappe.whitelist()
 def get_mera_retail_rate(pump):
+	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")
+	rate = frappe.db.get_value("Fuel Item",fuel_item,"mera_retail_price")
+	if not rate:
+		frappe.throw(_("MERA Retail Price Not Avaialable For Item {0}").format(fuel_item))
+	return rate
+
+@frappe.whitelist()
+def get_station_retail_price(pump):
 	fuel_item = frappe.db.get_value("Pump",pump,"fuel_item")
 	rate = frappe.db.get_value("Fuel Item",fuel_item,"station_retail_price")
 	if not rate:

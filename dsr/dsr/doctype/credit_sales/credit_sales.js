@@ -55,58 +55,51 @@ frappe.ui.form.on('Credit Sales', {
 			calculate_total(frm)
 		}
 	},
-	// pump: function (frm) {
-	// 	if (frm.doc.quantity && frm.doc.fuel_item) {
-	// 		calculate_total(frm)
-	// 	}
-	// 	var fuel_item = frappe.db.get_value("Pump", {name: frm.doc.pump}, "fuel_item")
-	// 	console.log("Fetching value for fuel item from pump", frm.doc.pump)
-	// 	frm.add_fetch('pump','fuel_item','fuel_item')
-	// 	console.log(frm.doc.fuel_item)
-	// },
 	credit_customer_type: function (frm) {
 		// if (frm.doc.quantity && frm.doc.fuel_item) {
 		// 	calculate_total(frm)
 		// }
 		if (frm.doc.credit_customer_type == "Discounted Cash") {
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", 1);
+			frm.set_value("discounted_cash_customer", true)
 		} else {
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", 0);
+			frm.set_value("discounted_cash_customer", false)
 		}
 	},
 	lpo: function (frm) {
 		if (frm.doc.lpo) {
 			frm.set_df_property("vehicle_number", "read_only", true);
 			frm.set_df_property("credit_customer", "read_only", true);
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "is_cash_received_at_other_station", false);
 			frm.set_df_property("is_cash_received_at_other_station", "read_only", true);
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "discounted_cash_customer", false);
 			frm.set_df_property("discounted_cash_customer", "read_only", true);
 			frm.set_df_property("fuel_item", "read_only", true);
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "manual_lpo_no", "");
+			frm.set_value("is_cash_received_at_other_station", false)
+			frm.set_value("discounted_cash_customer", false)
+			frm.set_value("manual_lpo_no", "")
+			frm.set_value("pump", "")
 			// console.log("setting fuel item from lpo", frm.doc.lpo)
 			// frm.add_fetch("lpo","fuel_item","fuel_item")
 			// console.log("fuel item set to", frm.doc.fuel_item)
 		} else {
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "cg_lpo_owner", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "credit_customer", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "credit_customer_type", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "vehicle_number", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "quantity", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "original_quantity", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "amount", "");
-			frappe.model.set_value(frm.doc.doctype, frm.doc.name, "fuel_item", "");
 			frm.set_df_property("vehicle_number", "read_only", false);
 			frm.set_df_property("credit_customer", "read_only", false);
 			frm.set_df_property("is_cash_received_at_other_station", "read_only", false);
 			frm.set_df_property("discounted_cash_customer", "read_only", false);
 			frm.set_df_property("fuel_item", "read_only", false);
+			frm.set_value("cg_lpo_owner", "")
+			frm.set_value("credit_customer", "")
+			frm.set_value("credit_customer_type", "")
+			frm.set_value("vehicle_number", "")
+			frm.set_value("quantity", "")
+			frm.set_value("original_quantity", "")
+			frm.set_value("amount", "")
+			frm.set_value("fuel_item", "")
+			frm.set_value("pump", "")
 		}
 	},
 	fuel_item: function (frm) {
 		if (frm.doc.quantity && frm.doc.fuel_item) {
 			calculate_total(frm)
-			// frm.set_value("pump", "")
+			frm.set_value("pump", "")
 		};
 	},
 	is_cash_received_at_other_station: function (frm, cdt, cdn) {
@@ -144,7 +137,7 @@ function calculate_total(frm) {
 		args: { "qty": frm.doc.quantity, "item": frm.doc.fuel_item },
 		callback: function (r) {
 			if (r.message) {
-				frappe.model.set_value(frm.doc.doctype, frm.doc.name, "amount", r.message)
+				frm.set_value("amount", r.message)
 			}
 		}
 	})

@@ -11,6 +11,8 @@
   "opening_electrical",
   "closing_electrical",
   "calculated_sales",
+  "calculated_cash_sales",
+  "calculated_credit_sales",
   "calculated_sales_price"
  ],
  "fields": [
@@ -66,10 +68,24 @@
    "fieldtype": "Float",
    "label": "Mechanical Difference",
    "read_only": 1
+  },
+  {
+   "fieldname": "calculated_cash_sales",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Calculated Cash Sales",
+   "read_only": 1
+  },
+  {
+   "fieldname": "calculated_credit_sales",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Calculated Credit Sales",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2019-12-26 13:19:34.314030",
+ "modified": "2020-02-18 20:14:38.341849",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Pump Meter Reading",

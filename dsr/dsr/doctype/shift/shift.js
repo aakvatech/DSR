@@ -116,8 +116,21 @@ frappe.ui.form.on('Shift', {
 			frappe.model.set_value(d.doctype, d.name, "calculated_sales", calculated_sales)
 			calculated_sales = d.closing_electrical - d.opening_electrical;
 			frappe.model.set_value(d.doctype, d.name, "calculated_sales", calculated_sales)
-			// console.log(d.pump, calculated_sales);
+			d.calculated_cash_sales = 0;
+			d.calculated_credit_sales= 0;
+				frappe.call({
+					method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
+					args: { 'shift': frm.doc.name, 'pump': d.pump, 'total_qty': calculated_sales },
+					async: false,
+					callback: function (r) {
+						if (r.message) {
+							d.calculated_cash_sales = r.message[3]
+							d.calculated_credit_sales= r.message[4]
+						}
+					}
+				});
 		});
+		refresh_field("pump_meter_reading");
 		refresh_field("attendance_pump");
 		calculate_other_sales_totals(frm);
 	},
@@ -524,9 +537,11 @@ frappe.ui.form.on('Dip Reading', {
 frappe.ui.form.on('Pump Meter Reading', {
 	closing_electrical: function (frm, cdt, cdn) {
 		calculate_sales_qty(frm, cdt, cdn)
+		calculate_cash_sales (frm, cdt, cdn)
 	},
 	opening_electrical: function (frm, cdt, cdn) {
 		calculate_sales_qty(frm, cdt, cdn)
+		calculate_cash_sales (frm, cdt, cdn)
 	},
 	closing_mechanical: function (frm, cdt, cdn) {
 		calculate_mechanical_difference(frm, cdt, cdn)
@@ -554,7 +569,6 @@ function calculate_mechanical_difference(frm, cdt, cdn) {
 }
 
 function calculate_total_sales(frm, cdt, cdn) {
-	// frappe.msgprint("Inside Calculated Total Sales")
 	var child = locals[cdt][cdn]
 	if (child.pump) {
 		frappe.call({
@@ -578,6 +592,23 @@ function calculate_total_sales(frm, cdt, cdn) {
 	}
 	calculate_attendant_deposit_totals(frm)
 }
+
+function calculate_cash_sales (frm, cdt, cdn) {
+	var child = locals[cdt][cdn];
+		frappe.call({
+			method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
+			args: { 'shift': frm.doc.name, 'pump': child.pump, 'total_qty': child.calculated_sales },
+			async: false,
+			callback: function (r) {
+				if (r.message) {
+					child.calculated_cash_sales = r.message[3]
+					child.calculated_credit_sales= r.message[4]
+				}
+			}
+		});
+	refresh_field("pump_meter_reading");
+};
+
 
 function calculate_attendant_deposit_totals(frm) {
 	var total_cash_sales_to_be_deposited = 0;

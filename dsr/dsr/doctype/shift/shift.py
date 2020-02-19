@@ -8,7 +8,7 @@ from frappe import throw, _
 from frappe.utils import cint,flt,now_datetime
 from frappe.model.document import Document
 import json
-from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_sales_pos_payment
+from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_sales_pos_payment,get_station_retail_price
 
 class Shift(Document):
 	def validate(self):
@@ -45,30 +45,30 @@ class Shift(Document):
 
 		items = []
 		for pump_row in self.pump_meter_reading:
-			if pump_row.calculated_sales > 0 :
+			if pump_row.calculated_cash_sales > 0 :
 				item_dict = dict(
 					warehouse = get_pump_warehouse(pump_row.pump),
 					item_code = get_item_from_pump(pump_row.pump),
-					qty = pump_row.calculated_sales,
-					rate = get_mera_retail_rate(pump_row.pump),
+					qty = pump_row.calculated_cash_sales,
+					rate = get_station_retail_price(pump_row.pump),
 					cost_center = get_cost_center_from_fuel_station(self.fuel_station)
 				)
 				items.append(item_dict)
-
-		invoice_doc = make_sales_invoice_for_shift(
-                customer = get_customer_from_fuel_station(self.fuel_station),
-                company = get_company_from_fuel_station(self.fuel_station),
-                date = self.date,
-                items = items,
-                update_stock = 1,
-                fuel_station = self.fuel_station,
-                shift = self.name,
-                pump = "",
-                credit_id = "",
-                user_remarks = user_remarks,
-            )
-		if invoice_doc:
-			make_sales_pos_payment(invoice_doc)
+		if len(items) > 0:
+			invoice_doc = make_sales_invoice_for_shift(
+					customer = get_customer_from_fuel_station(self.fuel_station),
+					company = get_company_from_fuel_station(self.fuel_station),
+					date = self.date,
+					items = items,
+					update_stock = 1,
+					fuel_station = self.fuel_station,
+					shift = self.name,
+					pump = "",
+					credit_id = "",
+					user_remarks = user_remarks,
+				)
+			if invoice_doc:
+				make_sales_pos_payment(invoice_doc)
 		# 		frappe.db.set_value("Shift",self.name,"cash_sales_invoice",invoice_doc.name)
 		
 		user_remarks = "Fuel shortage of the day for shift " + self.name + " at fuel station " + self.fuel_station
@@ -76,30 +76,24 @@ class Shift(Document):
 		stock_adjustment = frappe.db.get_value("Fuel Station",self.fuel_station,"stock_adjustment")
 		if not stock_adjustment:
 			frappe.throw(_("Expense Not Defined In Fuel Station"))
-		item_stock_object = []
+		items = []
 		# Make 1 stock etnry per fuel item. Get default warehouse from Fuel Station for now.
-		# Set quantity zero to identify to ensure zero quantity transactions do not happen
-		qty_zero = True
 
 		for row in self.shift_fuel_item_totals:
 			if (row.difference_quantity != 0):
-				item_details = frappe.get_doc("Fuel Item",row.fuel_item)
-				item_stock_row = dict(
-				item_code = item_details.item,
+				fuel_item = frappe.get_doc("Fuel Item",row.fuel_item)
+				item_dict = dict(
+				item_code = fuel_item.item,
 				qty = row.difference_quantity, 
 				s_warehouse = warehouse,
 				cost_center = cost_center,
 				expense_account= stock_adjustment)
 				# set qty_zero to false so that even if one of the fuel item is having transactions then stock entry is created
-				qty_zero = False
-		if not qty_zero:
-			item_stock_object.append(item_stock_row)
+				items.append(item_dict)
+		if len(items) > 0:
 			qty = 0 # as the stock entry creation requires this field
 			fuel_stock_receipt_no=None # as the stock entry creation requires this field
-			stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
-			# stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
-			# if stock_entry_doc_name:
-			# 		frappe.db.set_value("Shift",self.name,"stock_entry",stock_entry_doc_name)
+			stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,items,qty,fuel_stock_receipt_no,self.fuel_station,user_remarks,warehouse,stock_adjustment)
 			self.stock_entry = stock_entry_doc_name
 
 def set_amount_totals(self):
@@ -122,20 +116,20 @@ def set_quantity_totals(self):
 	# Prepare fuel item list from fuel items of the station
 	fuel_item_list = frappe.get_list("Fuel Item", filters={"fuel_station": self.fuel_station})
 	for fuel_item in fuel_item_list:
-		inward_quantity = get_total_quatity_inward_from_stock_receipt(self.name, fuel_item.name) or 0
-		total_credit_sales = get_total_credit_sales(self.name, fuel_item.name) or 0
-
-		fuel_item_related_pump_list = frappe.get_list("Pump", fields=("name"), filters={"fuel_item": fuel_item.name})
-		total_sales_quantity = 0
-		for row in self.pump_meter_reading:
-			if any(pump['name'] == row.pump for pump in fuel_item_related_pump_list):
-				total_sales_quantity += row.calculated_sales or 0
-
 		fuel_item_related_tank_list = frappe.get_list("Fuel Tank", fields=("name"), filters={"fuel_item": fuel_item.name})
+		fuel_item_related_pump_list = frappe.get_list("Pump", fields=("name"), filters={"fuel_item": fuel_item.name})
+
 		tank_usage_quantity = 0
 		for row in self.dip_reading:
 			if any(fuel_tank['name'] == row.fuel_tank for fuel_tank in fuel_item_related_tank_list):
 				tank_usage_quantity += (row.difference_in_liters or 0) * -1
+		inward_quantity = get_total_quatity_inward_from_stock_receipt(self.name, fuel_item.name) or 0
+		total_sales_quantity = 0
+		for row in self.pump_meter_reading:
+			if any(pump['name'] == row.pump for pump in fuel_item_related_pump_list):
+				total_sales_quantity += row.calculated_sales or 0
+		total_credit_sales = get_total_credit_sales(self.name, fuel_item.name) or 0
+
 		data.append({
 			"fuel_item": fuel_item.name,
 			"tank_usage_quantity": tank_usage_quantity or 0,
@@ -230,7 +224,7 @@ def close_shift(name,status=None):
 def get_last_shift_data(fuel_station,date=None,shift_name=None):
 	if (not date or not shift_name or not fuel_station):
 		return None
-	shift_list = frappe.get_all("Shift",filters=[{'shift_status': 'Closed'},{'fuel_station':fuel_station},['date', '<=', date]],fields=["name"],order_by="date desc, creation desc")
+	shift_list = frappe.get_all("Shift",filters=[{'shift_status': 'Closed'},{'fuel_station':fuel_station},['date', '<=', date]],fields=["name"],order_by="date desc, creation desc, page_length=1")
 	if len(shift_list) >= 1:
 		return frappe.get_doc("Shift",shift_list[0].name)
 
@@ -247,10 +241,13 @@ def calculate_total_sales(shift,pump,total_qty):
 		# credit_sales_total = credit_sales[0].get('amount',0.0)
 	# frappe.msgprint(credit_qty, credit_sales_total)
 	retail_total_qty = (flt(total_qty) - flt(credit_qty)) or 0
-	retail_rate = get_mera_retail_rate(pump)
+	if retail_total_qty < 0:
+		retail_total_qty = 0
+		frappe.throw(_("Cash sales cannot be negative."))
+	retail_rate = get_station_retail_price(pump)
 	retail_total_sales = retail_total_qty * retail_rate
 	total_sales = flt(retail_total_sales) + flt(credit_sales_total)
-	return (total_sales,credit_sales_total,retail_total_sales)
+	return (total_sales,credit_sales_total,retail_total_sales, retail_total_qty, flt(credit_qty))
 
 def get_credit_sales_details(shift,pump):
 	credit_sales_details = frappe.db.sql("""select sum(quantity) as qty,sum(amount) as amount from `tabCredit Sales` where shift=%s and pump=%s and docstatus in (0,1) limit 1""",(shift,pump),as_dict=1)

@@ -125,7 +125,7 @@ def get_price(item_code, qty=1,customer=None,fuel_station=None):
 
 @frappe.whitelist()
 def on_submit_credit_sales(self):
-	item_obj = []
+	items = []
 	item_dict = dict(
 		item_code = get_item_from_fuel_item(self.fuel_item),
 		qty = self.quantity,
@@ -133,12 +133,12 @@ def on_submit_credit_sales(self):
 		warehouse = get_pump_warehouse(self.pump),
 		cost_center = get_cost_center_from_fuel_station(self.fuel_station)
 	)
-	item_obj.append(item_dict)
+	items.append(item_dict)
 	company = get_company_from_fuel_station(self.fuel_station)
 	oil_company = get_oil_company_from_fuel_station(self.fuel_station)
 	user_remarks = "To vehicle " + self.vehicle_number + " from pump " + self.pump + " Customer LPO " + (self.lpo or self.manual_lpo_no)
 	# frappe.msgprint(user_remarks)
-	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,item_obj,self.fuel_station,self.shift,self.pump,self.name,user_remarks=user_remarks)
+	invoice_doc = make_sales_invoice(self.credit_customer,company,self.date,items,self.fuel_station,self.shift,self.pump,self.name,user_remarks=user_remarks)
 	if invoice_doc:
 		frappe.db.set_value(self.doctype,self.name,"sales_invoice",invoice_doc.name)
 		# Don't create unnecessary journals for oil company consumpion

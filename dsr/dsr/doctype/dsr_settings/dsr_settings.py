@@ -59,11 +59,12 @@ def check_api():
 	frappe.msgprint(str(url))
 	frappe.msgprint(str(get_headers()))
 	try:
-		response = requests.request("GET",url = url, headers = get_headers(), timeout=5)
-	except Timeout:
-		frappe.msgprint(_("Error Please check the Other Server Request timeout"))
+		response = requests.request("GET",url = url, headers = get_headers(), timeout=3)
+		frappe.msgprint(_("Response " + str(response)))
+	except Timeout as ex:
+		frappe.msgprint(_("Error Please check the Other Server Request timeout " + str(ex)))
 	else:
-		if response.status_code == 200 :
+		if response.status_code == 200:
 			res = json.loads(response.text)
 			frappe.msgprint(str(res))
 		else:

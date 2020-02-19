@@ -31,48 +31,49 @@ def on_submit_fuel_stock_Receipt(self):
 	if not stock_adjustment:
 		frappe.throw(_("Expense Not Defined In Fuel Station"))
 
-	item_object = []
+	items = []
 	item_stock_object = []
 	for row in self.fuel_stock_receipt_tanks:
-		fuel_item = frappe.db.get_value("Fuel Tank",row.fuel_tank,"fuel_item")
-		if not fuel_item:
-			frappe.throw(_("Fuel Item Not Defined In Fuel Tank"))
-		warehouse = frappe.db.get_value("Fuel Tank",row.fuel_tank,"warehouse")
-		if not warehouse:
-			frappe.throw(_("Warehouse Not Defined In Fuel Tank"))
-		item_details = frappe.get_doc("Fuel Item",fuel_item)
-		if not item_details.item:
-			frappe.throw(_("Item Not Defined In Fuel Item"))
-		if not item_details.mera_wholesale_price:
-			frappe.throw(_("MERA Wholesale Price Not Defined In Fuel Item"))
-		fuel_station = frappe.db.get_value("Fuel Tank",row.fuel_tank,"fuel_station")
-		if not fuel_station:
-			frappe.throw(_("Fuel Station Not Define In Fuel Tank"))
-		item_row = dict(
-			item_code = item_details.item,
-			qty = row.difference_ltrs,
-			fuel_tank = row.fuel_tank,
-			rate = item_details.mera_wholesale_price,
-			warehouse = warehouse,
-			cost_center = cost_center)
-		item_object.append(item_row)
-	user_remarks = "Fuel Stock Receipt " + self.name + " for delivery Note " + str(self.delivery_note) + " for shift " + str(self.shift) + " Shortage recorded for fuel item " +self.fuel_item + " = " + str(self.fuel_shortage)
+		if row.difference_ltrs > 0:
+			fuel_item = frappe.db.get_value("Fuel Tank",row.fuel_tank,"fuel_item")
+			if not fuel_item:
+				frappe.throw(_("Fuel Item Not Defined In Fuel Tank"))
+			warehouse = frappe.db.get_value("Fuel Tank",row.fuel_tank,"warehouse")
+			if not warehouse:
+				frappe.throw(_("Warehouse Not Defined In Fuel Tank"))
+			item_details = frappe.get_doc("Fuel Item",fuel_item)
+			if not item_details.item:
+				frappe.throw(_("Item Not Defined In Fuel Item"))
+			if not item_details.mera_wholesale_price:
+				frappe.throw(_("MERA Wholesale Price Not Defined In Fuel Item"))
+			fuel_station = frappe.db.get_value("Fuel Tank",row.fuel_tank,"fuel_station")
+			if not fuel_station:
+				frappe.throw(_("Fuel Station Not Define In Fuel Tank"))
+			item_row = dict(
+				item_code = item_details.item,
+				qty = row.difference_ltrs,
+				fuel_tank = row.fuel_tank,
+				rate = item_details.mera_wholesale_price,
+				warehouse = warehouse,
+				cost_center = cost_center)
+			items.append(item_row)
+			user_remarks = "Fuel Stock Receipt " + self.name + " for delivery Note " + str(self.delivery_note) + " for shift " + str(self.shift) + " Shortage recorded for fuel item " +self.fuel_item + " = " + str(self.fuel_shortage)
 
-	pinv_doc_name = make_purchase_invoice(supplier,self.date,company,item_object,self.name, self.fuel_station,user_remarks)
-	if pinv_doc_name:
-		self.purchase_invoice = pinv_doc_name
+			pinv_doc_name = make_purchase_invoice(supplier,self.date,company,items,self.name, self.fuel_station,user_remarks)
+			if pinv_doc_name:
+				self.purchase_invoice = pinv_doc_name
 
-	if self.fuel_shortage != 0:
-		item_stock_row = dict(
-			item_code = item_details.item,
-			qty = self.fuel_shortage * (-1), 
-			s_warehouse = warehouse,
-			cost_center = cost_center,
-			expense_account= stock_adjustment)	
-		item_stock_object.append(item_stock_row)
-		stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,self.fuel_shortage,self.name, self.fuel_station,user_remarks,warehouse,stock_adjustment)
-		if stock_entry_doc_name:
-			self.stock_adjustment = stock_entry_doc_name
+		if self.fuel_shortage != 0:
+			item_stock_row = dict(
+				item_code = item_details.item,
+				qty = self.fuel_shortage * (-1), 
+				s_warehouse = warehouse,
+				cost_center = cost_center,
+				expense_account= stock_adjustment)	
+			item_stock_object.append(item_stock_row)
+			stock_entry_doc_name = make_stock_adjustment_entry(cost_center,self.date,company,item_stock_object,self.fuel_shortage,self.name, self.fuel_station,user_remarks,warehouse,stock_adjustment)
+			if stock_entry_doc_name:
+				self.stock_adjustment = stock_entry_doc_name
 
 
 def make_purchase_invoice(supplier,date,company,item_object,fuel_stock_receipt_no=None,fuel_station=None,user_remarks=None):
