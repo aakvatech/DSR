@@ -9,6 +9,7 @@ from frappe.utils import cint,flt,now_datetime
 from frappe.model.document import Document
 import json
 from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_sales_pos_payment,get_station_retail_price
+from frappe.utils import getdate, nowdate, add_days
 
 class Shift(Document):
 	def validate(self):
@@ -224,9 +225,13 @@ def close_shift(name,status=None):
 def get_last_shift_data(fuel_station,date=None,shift_name=None):
 	if (not date or not shift_name or not fuel_station):
 		return None
-	shift_list = frappe.get_all("Shift",filters=[{'shift_status': 'Closed'},{'fuel_station':fuel_station},['date', '<=', date]],fields=["name"],order_by="date desc, creation desc, page_length=1")
+	shift_list = frappe.get_all("Shift",filters=[{'shift_status': 'Closed'},{'fuel_station':fuel_station},['date', '<=', date]],fields=["name", "date"],order_by="date desc, creation desc", limit_page_length=1)
 	if len(shift_list) >= 1:
-		return frappe.get_doc("Shift",shift_list[0].name)
+		# frappe.msgprint("Date " + str(date) + " and shift date is " + str(getdate(shift_list[0].date)))
+		if shift_list[0].date < getdate(add_days(date, -1)):
+			frappe.throw(_("The date entered " + str(date) + " is too far from the last shift date " +str(shift_list[0].date) + ". Please recheck or contact support."))
+		else:
+			return frappe.get_doc("Shift",shift_list[0].name)
 
 @frappe.whitelist()
 def calculate_total_sales(shift,pump,total_qty):

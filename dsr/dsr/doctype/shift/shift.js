@@ -182,6 +182,9 @@ frappe.ui.form.on('Shift', {
 });
 
 function get_last_shift_data(frm){
+	frm.set_value("pump_meter_reading", [])
+	refresh_field("pump_meter_reading");
+
 	frappe.call({
 		method:"dsr.dsr.doctype.shift.shift.get_last_shift_data",
 		args:{
@@ -595,6 +598,7 @@ function calculate_total_sales(frm, cdt, cdn) {
 
 function calculate_cash_sales (frm, cdt, cdn) {
 	var child = locals[cdt][cdn];
+	if (child.calculated_sales > 0) {
 		frappe.call({
 			method: "dsr.dsr.doctype.shift.shift.calculate_total_sales",
 			args: { 'shift': frm.doc.name, 'pump': child.pump, 'total_qty': child.calculated_sales },
@@ -606,6 +610,7 @@ function calculate_cash_sales (frm, cdt, cdn) {
 				}
 			}
 		});
+	}
 	refresh_field("pump_meter_reading");
 };
 
