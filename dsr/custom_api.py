@@ -4,6 +4,7 @@ from frappe.model.document import Document
 from frappe.utils import cint,flt
 from frappe.sessions import Session, clear_sessions, delete_session
 from frappe import _
+from frappe.desk.form.linked_with import get_linked_docs, get_linked_doctypes
 
 @frappe.whitelist()
 def on_submit_expense_record(self,method):
@@ -64,6 +65,7 @@ def on_cancel_jv_cancel(self,method):
 		journal_entry_doc = frappe.get_doc("Journal Entry",self.journal_entry)
 		if journal_entry_doc:
 			journal_entry_doc.cancel(ignore_permissions=True)
+		pass
 
 @frappe.whitelist()
 def on_submit_cash_deposited(self,method):
@@ -360,3 +362,32 @@ def make_sales_pos_payment(invoice_doc):
 	payment_row.base_amount = invoice_doc.grand_total
 	payment_row.account = get_account_pyment_mode("Cash",invoice_doc.company)
 	invoice_doc.submit()
+
+def get_linked_docs_info(doctype,docname):
+	linkinfo = get_linked_doctypes(doctype)
+	linked_doc = get_linked_docs(doctype,docname,linkinfo)
+	linked_doc_list =[]
+	if linked_doc:
+		for key, value in linked_doc.items() :
+			if key != "Activity Log":
+				for val in value:
+					if val.docstatus == 1:
+						dco_info = {
+							"doctype" : key,
+							"docname" : val.name,
+						}
+						linked_doc_list.append(dco_info)
+	return linked_doc_list
+
+
+def delete_linked_docs(doc_list):
+	for doc_info in doc_list:
+		linked_doc_list = get_linked_docs_info(doc_info["doctype"], doc_info["docname"])
+		if len(linked_doc_list)>0 :
+			delete_linked_docs(linked_doc_list)
+		
+		doc	= frappe.get_doc(doc_info["doctype"], doc_info["docname"])
+		if doc.docstatus != 0:
+			doc.flags.ignore_permissions=True
+			doc.cancel()
+			frappe.msgprint(_("{0} {1} is Canceled").format(doc.doctype,doc.name))

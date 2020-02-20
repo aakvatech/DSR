@@ -6,12 +6,28 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe import _
-from dsr.custom_api import make_stock_adjustment_entry
+from dsr.custom_api import make_stock_adjustment_entry,get_linked_docs_info,delete_linked_docs
 
 
 class FuelStockReceipts(Document):
 	def before_submit(self):
 		on_submit_fuel_stock_Receipt(self)
+
+	def on_cancel(self):
+		linked_doc_list = get_linked_docs_info(self.doctype,self.name)
+		delete_linked_docs(linked_doc_list)
+		if self.purchase_invoice:
+			purchase_invoice_doc = frappe.get_doc("Purchase Invoice",self.purchase_invoice)
+			if purchase_invoice_doc.docstatus == 1:
+				purchase_invoice_doc.flags.ignore_permissions=True
+				purchase_invoice_doc.cancel()
+				frappe.msgprint(_("{0} {1} is Canceled").format("Purchase Invoice",purchase_invoice_doc.name))
+		if self.stock_adjustment:
+			stock_adjustment_doc = frappe.get_doc("Stock Entry",self.stock_adjustment)
+			if stock_adjustment_doc.docstatus == 1:
+				stock_adjustment_doc.flags.ignore_permissions=True
+				stock_adjustment_doc.cancel()
+				frappe.msgprint(_("{0} {1} is Canceled").format("Stock Entry",stock_adjustment_doc.name))
 
 @frappe.whitelist()
 def on_submit_fuel_stock_Receipt(self):

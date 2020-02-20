@@ -59,12 +59,12 @@
   "docstatus": 0,
   "doctype": "Notification",
   "document_type": "Shift",
-  "enabled": 1,
+  "enabled": 0,
   "event": "New",
   "is_standard": 0,
   "message": "<h3>Shift Closed</h3\n<p>The Shift {{ doc.name }} has been closed.</p>\n\n<p>Please verify the shift record and submit if it is correct</p>\n",
   "method": null,
-  "modified": "2020-01-24 19:26:13.052421",
+  "modified": "2020-02-19 13:03:52.834551",
   "module": null,
   "name": "Shift Closed",
   "parent": null,
@@ -84,7 +84,7 @@
     "parenttype": "Notification"
    }
   ],
-  "sender": "Dev MMPL DSR Notifications",
+  "sender": "MMPL DSR Notifications",
   "sender_email": "notification@aakvatech.com",
   "set_property_after_alert": null,
   "slack_webhook_url": null,

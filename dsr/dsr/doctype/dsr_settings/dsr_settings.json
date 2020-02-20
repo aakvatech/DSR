@@ -10,6 +10,7 @@
   "host",
   "check_api",
   "column_break_4",
+  "enable_shift_cancellation",
   "oil_company_bank_account"
  ],
  "fields": [
@@ -47,10 +48,16 @@
    "fieldname": "host",
    "fieldtype": "Data",
    "label": "Host Domain"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_shift_cancellation",
+   "fieldtype": "Check",
+   "label": "Enable Shift Cancellation"
   }
  ],
  "issingle": 1,
- "modified": "2020-02-15 15:55:17.995449",
+ "modified": "2020-02-19 18:21:47.668312",
  "modified_by": "yousef@totrox.com",
  "module": "Dsr",
  "name": "DSR Settings",
