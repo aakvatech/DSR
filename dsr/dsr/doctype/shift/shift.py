@@ -8,7 +8,7 @@ from frappe import throw, _
 from frappe.utils import cint,flt,now_datetime
 from frappe.model.document import Document
 import json
-from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_sales_pos_payment,get_station_retail_price,get_linked_docs_info,delete_linked_docs
+from dsr.custom_api import get_mera_retail_rate,get_company_from_fuel_station,make_sales_invoice_for_shift,make_stock_adjustment_entry,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_pump_warehouse,get_item_from_pump,get_customer_from_fuel_station,get_pos_from_fuel_station,make_sales_pos_payment,get_station_retail_price,get_linked_docs_info,cancle_linked_docs,delete_linked_docs
 
 from frappe.utils import getdate, nowdate, add_days
 
@@ -22,9 +22,19 @@ class Shift(Document):
 		enable_shift_cancellation = frappe.db.get_value("DSR Settings", None, "enable_shift_cancellation")
 		if int(enable_shift_cancellation) == 1:
 			linked_doc_list = get_linked_docs_info(self.doctype,self.name)
-			delete_linked_docs(linked_doc_list)
+			cancle_linked_docs(linked_doc_list)
 		else:
 			frappe.throw(_("Shift Cancellation is Disabled"))
+
+	def on_trash(self):
+		enable_shift_cancellation = frappe.db.get_value("DSR Settings", None, "enable_shift_deletion")
+		if int(enable_shift_cancellation) == 1:
+			linked_doc_list = get_linked_docs_info(self.doctype,self.name)
+			delete_linked_docs(linked_doc_list)
+		else:
+			frappe.throw(_("Shift Deletion is Disabled"))
+
+
 
 	def before_submit(self):
 		'''

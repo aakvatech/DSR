@@ -162,6 +162,203 @@ def list_stockentry():
 	return stockentry_doclist
 
 @frappe.whitelist()
+def tally_pending_journal():
+	# journal_doclist=frappe.db.sql("SELECT trx.name as name, tly.name as tally_company, c.abbr as abbr FROM `tabJournal Entry` trx INNER JOIN `tabCompany` c ON trx.company = c.name INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company WHERE (tally_remoteid IS NULL or tally_remoteid = '') AND trx.docstatus = 1 and posting_date > '2020-01-01' ORDER BY tly.name, trx.name DESC", as_dict=1)
+	# Journal Entry tally_company, abbr, posting_date, company, remark, owner, name, uuid
+	# Journal Entry Item party, account, debit, credit
+	journal_doclist=frappe.db.sql("""SELECT trx.name as name,
+		tly.name as tally_company,
+		c.abbr as abbr,
+		trx.posting_date,
+		trx.company,
+		trx.remark,
+		trx.owner,
+		trx.name,
+		uuid(),
+		CONCAT(
+			'[',
+			GROUP_CONCAT(
+				JSON_OBJECT(
+					'party', trxdtl.party,
+					'account', trxdtl.account,
+					'debit', trxdtl.debit,
+					'credit', trxdtl.credit
+				)
+			),
+			']'
+		) as accounts
+		FROM `tabJournal Entry` trx
+		INNER JOIN `tabJournal Entry Account` trxdtl on trxdtl.parent = trx.name
+		INNER JOIN `tabCompany` c ON trx.company = c.name
+		INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company
+		WHERE (tally_remoteid IS NULL or tally_remoteid = '')
+			AND trx.docstatus = 1
+			and posting_date > '2020-01-01'
+		GROUP BY
+			name,
+			tally_company,
+			abbr,
+			trx.posting_date,
+			trx.company,
+			trx.remark,
+			trx.owner
+		ORDER BY
+			tly.name,
+			trx.name DESC
+			""", as_dict=1)
+	return journal_doclist
+
+@frappe.whitelist()
+def tally_pending_payments():
+	payment_doclist=frappe.db.sql("""SELECT trx.name as name,
+			tly.name as tally_company,
+			c.abbr as abbr,
+			trx.posting_date,
+			trx.company,
+			trx.remarks,
+			trx.owner,
+			trx.payment_type,
+			trx.party_name,
+			trx.paid_to,
+			trx.paid_from,
+			trx.payment_type,
+			trx.paid_amount,
+			trx.creation,
+			trx.base_received_amount,
+			trx.base_paid_amount
+		FROM `tabPayment Entry` trx
+		INNER JOIN `tabCompany` c ON trx.company = c.name
+		INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company
+		WHERE (tally_remoteid IS NULL or tally_remoteid = '')
+			AND trx.docstatus = 1
+			and posting_date > '2020-01-01'
+		GROUP BY
+			name
+		ORDER BY
+			tly.name,
+			trx.name DESC
+				""", as_dict=1)	
+	return payment_doclist
+
+@frappe.whitelist()
+def tally_pending_sales():
+	sales_doclist=frappe.db.sql("""SELECT trx.name as name,
+			tly.name as tally_company,
+			c.abbr as abbr,
+			trx.posting_date,
+			trx.company,
+			trx.remarks,
+			trx.owner,
+			trx.customer,
+			trx.against_income_account,
+			trx.base_net_total,
+			trx.is_return,
+			CONCAT(
+				'[',
+				GROUP_CONCAT(
+					JSON_OBJECT(
+						'base_amount', trxdtl.base_amount,
+						'item_code', trxdtl.item_code,
+						'base_net_rate', trxdtl.base_net_rate,
+						'qty', trxdtl.qty,
+						'warehouse', trxdtl.warehouse
+					)
+				),
+				']'
+			) as items
+		FROM `tabSales Invoice` trx
+		INNER JOIN `tabSales Invoice Item` trxdtl
+		INNER JOIN `tabCompany` c ON trx.company = c.name
+		INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company
+		WHERE (tally_remoteid IS NULL or tally_remoteid = '')
+			AND trx.docstatus = 1
+			and posting_date > '2020-01-01'
+		GROUP BY
+			name
+		ORDER BY
+			tly.name,
+			trx.name DESC""", as_dict=1)
+	return sales_doclist
+
+@frappe.whitelist()
+def tally_pending_purchase():
+	purchase_doclist=frappe.db.sql("""SELECT trx.name as name,
+			tly.name as tally_company,
+			c.abbr as abbr,
+			trx.posting_date,
+			trx.company,
+			trx.remarks,
+			trx.owner,
+			trx.against_expense_account,
+			trx.supplier,
+			trx.base_total,
+			trx.is_return,
+			CONCAT(
+				'[',
+				GROUP_CONCAT(
+					JSON_OBJECT(
+						'amount', trxdtl.amount,
+						'item_name', trxdtl.item_name,
+						'rate', trxdtl.rate,
+						'qty', trxdtl.qty,
+						'warehouse', trxdtl.warehouse,
+						'base_amount', trxdtl.base_amount
+					)
+				),
+				']'
+			) as items
+		FROM `tabPurchase Invoice` trx
+		INNER JOIN `tabPurchase Invoice Item` trxdtl
+		INNER JOIN `tabCompany` c ON trx.company = c.name
+		INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company
+		WHERE (tally_remoteid IS NULL or tally_remoteid = '')
+			AND trx.docstatus = 1
+			and posting_date > '2020-01-01'
+		GROUP BY
+			name
+		ORDER BY
+			tly.name,
+			trx.name DESC""", as_dict=1)
+	return purchase_doclist
+
+@frappe.whitelist()
+def tally_pending_stockentry():
+	stockentry_doclist=frappe.db.sql("""SELECT trx.name as name,
+			tly.name as tally_company,
+			c.abbr as abbr,
+			trx.posting_date,
+			trx.company,
+			trx.remarks,
+			trx.owner,
+			CONCAT(
+				'[',
+				GROUP_CONCAT(
+					JSON_OBJECT(
+						't_warehouse', trxdtl.t_warehouse,
+						's_warehouse', trxdtl.s_warehouse,
+						'item_code', trxdtl.item_code,
+						'qty', trxdtl.qty,
+						'base_net_rate', trxdtl.basic_rate,
+						'base_amount', trxdtl.basic_amount
+					)
+				),
+				']'
+			) as items
+		FROM `tabStock Entry` trx
+		INNER JOIN `tabStock Entry Detail` trxdtl
+		INNER JOIN `tabCompany` c ON trx.company = c.name
+		INNER JOIN `tabTally Integration Company` tly ON c.name = tly.company
+		WHERE (tally_remoteid IS NULL or tally_remoteid = '')
+			AND trx.docstatus = 1
+			and posting_date > '2020-01-01'
+		GROUP BY
+			name
+		ORDER BY
+			tly.name,
+			trx.name DESC""", as_dict=1)
+	return stockentry_doclist
+
+@frappe.whitelist()
 def update_journal(**kwargs):
 	kwargs=frappe._dict(kwargs)
 	# frappe.log_error(str(kwargs))
@@ -371,23 +568,62 @@ def get_linked_docs_info(doctype,docname):
 		for key, value in linked_doc.items() :
 			if key != "Activity Log":
 				for val in value:
-					if val.docstatus == 1:
-						dco_info = {
-							"doctype" : key,
-							"docname" : val.name,
-						}
-						linked_doc_list.append(dco_info)
+					dco_info = {
+						"doctype" : key,
+						"docname" : val.name,
+						"docstatus": val.docstatus,
+					}
+					linked_doc_list.append(dco_info)
 	return linked_doc_list
 
 
-def delete_linked_docs(doc_list):
+def cancle_linked_docs(doc_list):
 	for doc_info in doc_list:
+		if doc_info["docstatus"] == 1:
+			linked_doc_list = get_linked_docs_info(doc_info["doctype"], doc_info["docname"])
+			if len(linked_doc_list)>0 :
+				cancle_linked_docs(linked_doc_list)
+			cancel_doc(doc_info["doctype"],doc_info["docname"])
+
+
+
+def delete_linked_docs(doc_list):
+	for doc_info in doc_list:	
 		linked_doc_list = get_linked_docs_info(doc_info["doctype"], doc_info["docname"])
 		if len(linked_doc_list)>0 :
 			delete_linked_docs(linked_doc_list)
-		
-		doc	= frappe.get_doc(doc_info["doctype"], doc_info["docname"])
-		if doc.docstatus != 0:
+		delete_doc(doc_info["doctype"],doc_info["docname"])
+
+
+def cancel_doc(doctype,docname):
+	doc = frappe.get_doc(doctype,docname)
+	if doc.docstatus == 1:
+		doc.flags.ignore_permissions=True
+		doc.cancel()
+		doc = frappe.get_doc(doctype,docname)
+		if doc.docstatus == 2:
+			frappe.msgprint(_("{0} {1} is Canceled").format("Stock Entry",doc.name))
+		else:
+			frappe.msgprint(_("{0} {1} is Not Canceled").format("Stock Entry",doc.name))
+
+
+def delete_doc(doctype,docname):
+	doc = frappe.get_doc(doctype,docname)
+	if doc.docstatus == 1:
+		doc.flags.ignore_permissions=True
+		doc.cancel()
+		doc = frappe.get_doc(doctype,docname)
+		if doc.docstatus == 2:
+			frappe.msgprint(_("{0} {1} is Canceled").format("Stock Entry",doc.name))
 			doc.flags.ignore_permissions=True
-			doc.cancel()
-			frappe.msgprint(_("{0} {1} is Canceled").format(doc.doctype,doc.name))
+			doc.delete()
+			frappe.db.commit()
+			frappe.msgprint(_("{0} {1} is Deleted").format("Stock Entry",doc.name))
+		else:
+			frappe.msgprint(_("{0} {1} is Not Canceled").format("Stock Entry",doc.name))
+	elif doc.docstatus == 0 or doc.docstatus == 2:
+		doc.flags.ignore_permissions=True
+		doc.delete()
+		frappe.db.commit()
+		frappe.msgprint(_("{0} {1} is Deleted").format("Stock Entry",doc.name))
+		

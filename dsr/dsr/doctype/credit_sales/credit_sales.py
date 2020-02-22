@@ -8,7 +8,7 @@ from frappe.model.document import Document
 from erpnext.accounts.doctype.pricing_rule.pricing_rule import get_pricing_rule_for_item
 from frappe.utils import cint,flt,fmt_money
 from frappe import _
-from dsr.custom_api import make_sales_invoice,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_company_from_fuel_station,get_pump_warehouse,get_mera_wholesale_rate,get_oil_company_from_fuel_station,get_linked_docs_info,delete_linked_docs
+from dsr.custom_api import make_sales_invoice,get_cost_center_from_fuel_station,get_item_from_fuel_item,get_company_from_fuel_station,get_pump_warehouse,get_mera_wholesale_rate,get_oil_company_from_fuel_station,get_linked_docs_info,cancle_linked_docs,delete_linked_docs
 
 class CreditSales(Document):
 	def on_submit(self):
@@ -35,8 +35,12 @@ class CreditSales(Document):
 
 	def on_cancel(self):
 		linked_doc_list = get_linked_docs_info(self.doctype,self.name)
+		cancle_linked_docs(linked_doc_list)
+	
+	def on_trash(self):
+		linked_doc_list = get_linked_docs_info(self.doctype,self.name)
 		delete_linked_docs(linked_doc_list)
-		
+	
 
 @frappe.whitelist()
 def calculate_total(qty,item):
