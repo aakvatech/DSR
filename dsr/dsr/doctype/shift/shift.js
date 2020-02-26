@@ -63,6 +63,8 @@ frappe.ui.form.on('Shift', {
 			frappe.meta.get_docfield("Dip Reading", "opening_liters", frm.doc.name).read_only = 0;
 		}
 		refresh_field("shift_fuel_item_totals");
+		
+		validate_difference_in_liters_reading(frm);
 	},
 
 	get_last_shift_details:function(frm){
@@ -180,6 +182,27 @@ frappe.ui.form.on('Shift', {
 		});
 	}
 });
+
+
+function validate_difference_in_liters_reading(frm){
+
+		frappe.db.get_value('Fuel Station', {'name': frm.doc.fuel_station}, 'allow_change_of_dip_balance', (r) => {
+			var message = r.allow_change_of_dip_balance;
+			if (message == 1){
+				frappe.meta.get_docfield("Dip Reading", "difference_in_liters", frm.doc.name).read_only = 0;
+				frappe.meta.get_docfield("Dip Reading", "opening_mm", frm.doc.name).read_only = 1;
+				frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).read_only = 1;
+			}
+			else {
+				frappe.meta.get_docfield("Dip Reading", "difference_in_liters", frm.doc.name).read_only = 1;
+				frappe.meta.get_docfield("Dip Reading", "opening_mm", frm.doc.name).read_only = 0;
+				frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).read_only = 0;
+			}
+			refresh_field("dip_reading");
+		});
+	
+}
+
 
 function get_last_shift_data(frm){
 	frm.set_value("pump_meter_reading", [])
@@ -334,9 +357,14 @@ function validate_attendant_pump(frm) {
 }
 
 function validate_dip_reading(frm) {
-	frm.doc.dip_reading.forEach((d, index) => {
-		if (!d.closing_mm || d.closing_mm == 0) {
-			frappe.throw(__("Row {0}: Closing MM Mandatory In Dip Reading Table for {1}", [d.idx, d.fuel_tank]))
+	frappe.db.get_value('Fuel Station', {'name': frm.doc.fuel_station}, 'allow_change_of_dip_balance', (r) => {
+		var message = r.allow_change_of_dip_balance;
+		if (message == 0){
+			frm.doc.dip_reading.forEach((d, index) => {
+				if (!d.closing_mm || d.closing_mm == 0) {	
+					frappe.throw(__("Row {0}: Closing MM Mandatory In Dip Reading Table for {1}", [d.idx, d.fuel_tank]))
+				}
+			});
 		}
 	});
 }
@@ -522,7 +550,12 @@ frappe.ui.form.on('Dip Reading', {
 					}
 					else {
 						frappe.model.set_value(cdt, cdn, "closing_mm", '');
-						frappe.throw(__("Reading Not In Calibration Chart"))
+						frappe.db.get_value('Fuel Station', {'name': frm.doc.fuel_station}, 'allow_change_of_dip_balance', (r) => {
+							var message = r.allow_change_of_dip_balance;
+							if (message == 0){
+								frappe.throw(__("Reading Not In Calibration Chart"))
+							}
+						});
 					}
 				}
 			});
@@ -530,7 +563,13 @@ frappe.ui.form.on('Dip Reading', {
 	},
 	closing_liters:function(frm,cdt,cdn){
 		var doc = locals[cdt][cdn]
-		frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters)-parseFloat(doc.opening_liters))
+		frappe.db.get_value('Fuel Station', {'name': frm.doc.fuel_station}, 'allow_change_of_dip_balance', (r) => {
+			var message = r.allow_change_of_dip_balance;
+			if (message == 0){
+				frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters)-parseFloat(doc.opening_liters))
+			}
+		});
+		
 	},
 
 	

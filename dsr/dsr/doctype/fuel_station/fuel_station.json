@@ -33,6 +33,7 @@
   "cash_customer_pos_profile",
   "section_break_27",
   "allowable_difference",
+  "allow_change_of_dip_balance",
   "column_break_30",
   "monthly_target",
   "section_break_32",
@@ -252,9 +253,15 @@
   {
    "fieldname": "section_break_32",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_change_of_dip_balance",
+   "fieldtype": "Check",
+   "label": "Allow change of dip balance"
   }
  ],
- "modified": "2020-02-14 15:23:13.615447",
+ "modified": "2020-02-25 17:01:29.904604",
  "modified_by": "Administrator",
  "module": "Dsr",
  "name": "Fuel Station",

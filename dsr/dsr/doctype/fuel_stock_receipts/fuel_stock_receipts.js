@@ -23,6 +23,11 @@ frappe.ui.form.on('Fuel Stock Receipts', {
 			auto_shift_selection(frm,cdt,cdn)
         }
 	},
+	refresh: function(frm,cdt,cdn) {
+        if(frm.doc.fuel_station){
+			validate_actual_quantity_reading(frm)
+        }
+	},
 	fuel_station:function(frm,cdt,cdn) {
 	    if(frm.doc.fuel_station){
 			get_fuel_tank(frm,cdt,cdn)
@@ -45,6 +50,21 @@ frappe.ui.form.on('Fuel Stock Receipts', {
 		}
 	}
 });
+
+function validate_actual_quantity_reading(frm){
+
+	frappe.db.get_value('Fuel Station', {'name': frm.doc.fuel_station}, 'allow_change_of_dip_balance', (r) => {
+		var message = r.allow_change_of_dip_balance;
+		if (message == 1){
+			frm.set_df_property("actual_quantity", "read_only", false);
+		}
+		else {
+			frm.set_df_property("actual_quantity", "read_only", true);
+		}
+		refresh_field("actual_quantity");
+	});
+
+}
 
 //get fuel tank item and fuel station
 function get_fuel_tank(frm,cdt,cdn){
