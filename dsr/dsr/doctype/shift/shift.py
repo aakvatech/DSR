@@ -20,17 +20,19 @@ class Shift(Document):
 
 	def on_cancel(self):
 		enable_shift_cancellation = frappe.db.get_value("DSR Settings", None, "enable_shift_cancellation")
-		if int(enable_shift_cancellation) == 1:
-			linked_doc_list = get_linked_docs_info(self.doctype,self.name)
-			cancle_linked_docs(linked_doc_list)
+		if enable_shift_cancellation:
+			if int(enable_shift_cancellation) == 1:
+				linked_doc_list = get_linked_docs_info(self.doctype,self.name)
+				cancle_linked_docs(linked_doc_list)
 		else:
 			frappe.throw(_("Shift Cancellation is Disabled"))
 
 	def on_trash(self):
-		enable_shift_cancellation = frappe.db.get_value("DSR Settings", None, "enable_shift_deletion")
-		if int(enable_shift_cancellation) == 1:
-			linked_doc_list = get_linked_docs_info(self.doctype,self.name)
-			delete_linked_docs(linked_doc_list)
+		enable_shift_deletion = frappe.db.get_value("DSR Settings", None, "enable_shift_deletion")
+		if enable_shift_deletion:
+			if int(enable_shift_deletion) == 1:
+				linked_doc_list = get_linked_docs_info(self.doctype,self.name)
+				delete_linked_docs(linked_doc_list)
 		else:
 			frappe.throw(_("Shift Deletion is Disabled"))
 
