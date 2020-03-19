@@ -80,17 +80,19 @@ function validate_difference_ltrs_reading(frm){
 			var message = r.message.allow_change_of_dip_balance;
 			if (message == 1){
 			frappe.meta.get_docfield("Fuel Stock Receipt Tanks","difference_ltrs",frm.doc.name).in_list_view = 1;
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_mm", frm.doc.name).in_list_view = 0
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_mm", frm.doc.name).in_list_view = 0
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "difference_ltrs", frm.doc.name).read_only = 0;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_ltrs", frm.doc.name).in_list_view = 1;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_ltrs", frm.doc.name).in_list_view = 1;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_mm", frm.doc.name).in_list_view = 0;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_mm", frm.doc.name).in_list_view = 0;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "difference_ltrs", frm.doc.name).read_only = 1;
 			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_mm", frm.doc.name).read_only = 1;
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_ltrs", frm.doc.name).read_only = 1;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_ltrs", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_mm", frm.doc.name).read_only = 1;
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_ltrs", frm.doc.name).read_only = 1;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_ltrs", frm.doc.name).read_only = 0;
 			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_mm", frm.doc.name).hidden = 1;
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_ltrs", frm.doc.name).hidden = 1;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "before_ltrs", frm.doc.name).hidden = 0;
 			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_mm", frm.doc.name).hidden = 1;
-			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_ltrs", frm.doc.name).hidden = 1;
+			frappe.meta.get_docfield("Fuel Stock Receipt Tanks", "after_ltrs", frm.doc.name).hidden = 0;
 			refresh_field("fuel_stock_receipt_tanks");
 			}
 		}
