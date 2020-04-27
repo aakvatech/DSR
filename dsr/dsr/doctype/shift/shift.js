@@ -201,15 +201,17 @@ function validate_difference_in_liters_reading(frm){
 			if (message == 1){
 				frappe.meta.get_docfield("Dip Reading", "difference_in_liters", frm.doc.name).in_list_view = 1;
 				frappe.meta.get_docfield("Dip Reading", "opening_mm", frm.doc.name).in_list_view = 0;
-				frappe.meta.get_docfield("Dip Reading", "opening_liters", frm.doc.name).in_list_view = 0;
+				frappe.meta.get_docfield("Dip Reading", "opening_liters", frm.doc.name).in_list_view = 1;
+				frappe.meta.get_docfield("Dip Reading", "closing_liters", frm.doc.name).in_list_view = 1;
+				frappe.meta.get_docfield("Dip Reading", "closing_liters", frm.doc.name).read_only = 0;
 				frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).in_list_view = 0;
-				frappe.meta.get_docfield("Dip Reading", "difference_in_liters", frm.doc.name).read_only = 0;
+				frappe.meta.get_docfield("Dip Reading", "difference_in_liters", frm.doc.name).read_only = 1;
 				frappe.meta.get_docfield("Dip Reading", "opening_mm", frm.doc.name).read_only = 1;
 				frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).read_only = 1;
 				frappe.meta.get_docfield("Dip Reading", "opening_mm", frm.doc.name).hidden = 1;
-				frappe.meta.get_docfield("Dip Reading", "opening_liters", frm.doc.name).hidden = 1;
+				frappe.meta.get_docfield("Dip Reading", "opening_liters", frm.doc.name).hidden = 0;
 				frappe.meta.get_docfield("Dip Reading", "closing_mm", frm.doc.name).hidden = 1;
-				frappe.meta.get_docfield("Dip Reading", "closing_liters", frm.doc.name).hidden = 1;
+				frappe.meta.get_docfield("Dip Reading", "closing_liters", frm.doc.name).hidden = 0;
 				refresh_field("dip_reading");
 			}
 		}
@@ -576,12 +578,7 @@ frappe.ui.form.on('Dip Reading', {
 	},
 	closing_liters:function(frm,cdt,cdn){
 		var doc = locals[cdt][cdn]
-		frappe.db.get_value('Fuel Station', {'name': frm.doc.fuel_station}, 'allow_change_of_dip_balance', (r) => {
-			var message = r.allow_change_of_dip_balance;
-			if (message == 0){
-				frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters)-parseFloat(doc.opening_liters))
-			}
-		});
+		frappe.model.set_value(cdt,cdn,"difference_in_liters",parseFloat(doc.closing_liters-doc.opening_liters))
 		
 	},
 
