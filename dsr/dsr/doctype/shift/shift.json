@@ -198,8 +198,7 @@
    "fieldname": "shift_fuel_item_totals",
    "fieldtype": "Table",
    "label": "Shift Fuel Item Totals",
-   "options": "Shift Fuel Item Total",
-   "read_only": 1
+   "options": "Shift Fuel Item Total"
   },
   {
    "fieldname": "section_break_25",
@@ -323,8 +322,8 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-18 15:51:59.617040",
- "modified_by": "Administrator",
+ "modified": "2020-03-11 15:27:11.870206",
+ "modified_by": "bijal@icafe.co.tz",
  "module": "Dsr",
  "name": "Shift",
  "owner": "Administrator",
